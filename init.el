@@ -107,7 +107,8 @@
 
 (use-package crux
              :config
-	     :bind (("C-c d" . crux-duplicate-current-line-or-region)))
+	     :bind (("C-c d" . crux-duplicate-current-line-or-region)
+		    ("C-a" . crux-move-beginning-of-line)))
 
 (use-package smartscan
              :diminish global-smartscan-mode
