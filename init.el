@@ -143,25 +143,13 @@
 	     :init
 	     (add-hook 'cmake-mode-hook
 		       '(lambda ()
-			  (make-local-variable 'company-backends)
-			  (setq company-backends '(company-cmake company-yasnippet))
+                          (set (make-local-variable 'company-backends)
+			       '((company-cmake company-yasnippet)))
 			  (cmake-font-lock-activate))))
 
 (use-package company
              :ensure t
              :config (global-company-mode +1))
-
-;; (use-package company-irony
-;;              :ensure t
-;; 	     :config
-;; 	     (add-to-list 'company-backends 'company-irony))
-
-;;; Not sure yet
-;; (use-package god-mode
-;;              :ensure t
-;; 	     :config
-;; 	     (god-mode 1)
-;; 	     :bind (("<escape>" . god-mode-all)))
 
 (use-package project-bind
              :ensure nil                ; Local package, don't go stupidly searching for it on melpa
