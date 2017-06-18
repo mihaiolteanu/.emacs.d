@@ -68,13 +68,13 @@
 		   helm-gtags-use-input-at-cursor t
 		   helm-gtags-pulse-at-cursor t
 		   helm-gtags-suggested-key-mapping t)
-	     (defun config-hooks ()
-	       (helm-gtags-mode 1)
-	       (local-set-key (kbd "C-j") 'helm-gtags-select)
-	       (local-set-key (kbd "M-.") 'helm-gtags-find-tag)
-	       (local-set-key (kbd "M-,") 'helm-gtags-pop-stack)
-	       (local-set-key (kbd "C-M-.") 'helm-gtags-find-rtag))
-	     (add-hook 'c-mode-common-hook 'config-hooks))
+	     (add-hook 'c-mode-common-hook
+		       '(lambda ()
+			  (helm-gtags-mode 1)
+			  (local-set-key (kbd "C-j") 'helm-gtags-select)
+			  (local-set-key (kbd "M-.") 'helm-gtags-find-tag)
+			  (local-set-key (kbd "M-,") 'helm-gtags-pop-stack)
+			  (local-set-key (kbd "C-M-.") 'helm-gtags-find-rtag))))
 
 (use-package helm-ls-git
              :bind (("C-c l" . helm-ls-git-ls)))
@@ -100,10 +100,10 @@
 
 (use-package cc-mode
              :config
-             (defun c-hook ()
-               (setq c-default-style "linux"
-                     c-basic-offset 4))
-             (add-hook 'c-mode-common-hook 'c-hook))
+	     (add-hook 'c-mode-common-hook
+		       '(lambda ()
+			  (setq c-default-style "linux"
+				c-basic-offset 4))))
 
 (use-package crux
              :config
@@ -139,18 +139,22 @@
 	     :mode (("\\.cmake\\'" . cmake-mode)
 		    ("CMakeLists.txt" . cmake-mode))
 	     :config
-	     (use-package company)
 	     (use-package cmake-font-lock)
 	     :init
-	     (add-hook 'cmake-mode-hook '(lambda ()
-					   (make-local-variable 'company-backends)
-					   (setq company-backends '(company-cmake company-yasnippet))
-					   (company-mode 1)
-					   (cmake-font-lock-activate))))
+	     (add-hook 'cmake-mode-hook
+		       '(lambda ()
+			  (make-local-variable 'company-backends)
+			  (setq company-backends '(company-cmake company-yasnippet))
+			  (cmake-font-lock-activate))))
 
 (use-package company
              :ensure t
              :config (global-company-mode +1))
+
+;; (use-package company-irony
+;;              :ensure t
+;; 	     :config
+;; 	     (add-to-list 'company-backends 'company-irony))
 
 ;;; Not sure yet
 ;; (use-package god-mode
@@ -204,18 +208,3 @@
 ;; (global-set-key (kbd "C-[") 'backward-delete-char)
 ;; (global-set-key (kbd "M-[") 'backward-kill-word)
 
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(helm-source-names-using-follow (quote ("Occur")))
- '(package-selected-packages
-   (quote
-    (cmake-font-lock company company-cmake cmake-mode smartparens which-key use-package magit helm-ls-git helm-ag git-timemachine color-theme-sanityinc-tomorrow beacon))))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
