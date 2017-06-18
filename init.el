@@ -63,10 +63,18 @@
 (use-package helm-gtags
              :demand t
 	     :config
-	     :bind (("C-j" . helm-gtags-select) ; Search all the tags the project
-                    ("M-." . helm-gtags-find-tag)
-                    ("M-," . helm-gtags-pop-stack)
-                    ("C-M-." . helm-gtags-find-rtag)))
+	     (setq helm-gtags-ignore-case t
+		   helm-gtags-auto-update t
+		   helm-gtags-use-input-at-cursor t
+		   helm-gtags-pulse-at-cursor t
+		   helm-gtags-suggested-key-mapping t)
+	     (defun config-hooks ()
+	       (helm-gtags-mode 1)
+	       (local-set-key (kbd "C-j") 'helm-gtags-select)
+	       (local-set-key (kbd "M-.") 'helm-gtags-find-tag)
+	       (local-set-key (kbd "M-,") 'helm-gtags-pop-stack)
+	       (local-set-key (kbd "C-M-.") 'helm-gtags-find-rtag))
+	     (add-hook 'c-mode-common-hook 'config-hooks))
 
 (use-package helm-ls-git
              :bind (("C-c l" . helm-ls-git-ls)))
@@ -133,6 +141,7 @@
 					   (setq company-backends '(company-cmake company-yasnippet))
 					   (company-mode 1)
 					   (cmake-font-lock-activate))))
+
 (use-package company
              :ensure t
              :config (global-company-mode +1))
