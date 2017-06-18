@@ -120,6 +120,23 @@
 	     (show-smartparens-global-mode +1)
 	     (smartparens-global-strict-mode +1))
 
+(use-package cmake-mode
+             :ensure t
+	     :mode (("\\.cmake\\'" . cmake-mode)
+		    ("CMakeLists.txt" . cmake-mode))
+	     :config
+	     (use-package company)
+	     (use-package cmake-font-lock)
+	     :init
+	     (add-hook 'cmake-mode-hook '(lambda ()
+					   (make-local-variable 'company-backends)
+					   (setq company-backends '(company-cmake company-yasnippet))
+					   (company-mode 1)
+					   (cmake-font-lock-activate))))
+(use-package company
+             :ensure t
+             :config (global-company-mode +1))
+
 ;;; Not sure yet
 ;; (use-package god-mode
 ;;              :ensure t
@@ -180,7 +197,7 @@
  '(helm-source-names-using-follow (quote ("Occur")))
  '(package-selected-packages
    (quote
-    (smartparens which-key use-package magit helm-ls-git helm-ag git-timemachine color-theme-sanityinc-tomorrow beacon))))
+    (cmake-font-lock company company-cmake cmake-mode smartparens which-key use-package magit helm-ls-git helm-ag git-timemachine color-theme-sanityinc-tomorrow beacon))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
