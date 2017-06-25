@@ -129,13 +129,18 @@
 	     :diminish smartparens-mode
 	     :config
 	     (require 'smartparens-config)
+	     (use-package crux)
 	     (setq sp-base-key-bindings 'paredit
 		   sp-autoskip-closing-pair 'always
 		   sp-hybrid-kill-entire-symbol nil)
 	     (sp-use-paredit-bindings)
 	     (smartparens-global-mode +1)
 	     (show-smartparens-global-mode +1)
-	     (smartparens-global-strict-mode +1))
+	     (smartparens-global-strict-mode +1)
+	     (sp-pair "{" nil :post-handlers ; smart curly braces
+		      '(((lambda (&rest _ignored)
+			   (crux-smart-open-line-above)
+			   (indent-according-to-mode)) "RET"))))
 
 (use-package cmake-mode
              :ensure t
