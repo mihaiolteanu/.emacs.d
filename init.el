@@ -74,7 +74,8 @@
 			  (local-set-key (kbd "C-j") 'helm-gtags-select)
 			  (local-set-key (kbd "M-.") 'helm-gtags-find-tag)
 			  (local-set-key (kbd "M-,") 'helm-gtags-pop-stack)
-			  (local-set-key (kbd "C-M-.") 'helm-gtags-find-rtag))))
+			  (local-set-key (kbd "C-M-.") 'helm-gtags-find-rtag)
+			  (local-set-key (kbd "C-c M-s") 'helm-gtags-find-symbol))))
 
 (use-package helm-ls-git
              :bind (("C-c l" . helm-ls-git-ls)))
@@ -103,7 +104,9 @@
 	     (add-hook 'c-mode-common-hook
 		       '(lambda ()
 			  (setq c-default-style "linux"
-				c-basic-offset 4))))
+				c-basic-offset 4)
+			  (local-set-key (kbd "C-c C-c") 'compile)
+			  (which-function-mode +1))))
 
 (use-package crux
              :config
@@ -150,6 +153,12 @@
 (use-package company
              :ensure t
              :config (global-company-mode +1))
+
+(use-package avy
+             :config
+	     (setq avy-keys '(?\; ?l ?k ?j ?h ?u ?i ?o ?p ?m)
+		   avy-all-windows nil)
+	     :bind ("C-;" . avy-goto-word-1))
 
 (use-package project-bind
              :ensure nil                ; Local package, don't go stupidly searching for it on melpa
