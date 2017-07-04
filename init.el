@@ -202,6 +202,12 @@
 ;; enable y/n answers
 (fset 'yes-or-no-p 'y-or-n-p)
 
+;; store all backup and autosave files in the tmp dir
+(setq backup-directory-alist
+      `((".*" . ,temporary-file-directory)))
+(setq auto-save-file-name-transforms
+      `((".*" ,temporary-file-directory t)))
+
 ;; General navigation keys
 (global-set-key (kbd "<C-tab>") 'other-window)
 (global-set-key (kbd "C-,") 'previous-buffer)
@@ -209,4 +215,3 @@
 
 ;; (global-set-key (kbd "C-[") 'backward-delete-char)
 ;; (global-set-key (kbd "M-[") 'backward-kill-word)
-
