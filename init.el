@@ -230,7 +230,9 @@
 ;; enable y/n answers
 (fset 'yes-or-no-p 'y-or-n-p)
 
-;; store all backup and autosave files in the tmp dir
+;; enable dir local variables
+(setq enable-local-eval t)
+
 (setq backup-directory-alist
       `((".*" . ,temporary-file-directory)))
 (setq auto-save-file-name-transforms
