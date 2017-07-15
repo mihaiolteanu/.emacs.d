@@ -186,6 +186,13 @@
 		   avy-all-windows nil)
 	     :bind ("C-;" . avy-goto-word-1))
 
+(use-package dired+
+             :init
+	     (setq dired-guess-shell-alist-user '(("\\.pdf\\'" "zathura")
+						  ("\\.png\\'\\|\\.jpe?g\\'" "feh --scale-down --auto-rotate -B black *")))
+	     :bind ("C-!" . dired-do-shell-command) ;same as !, but easier to type
+	     )
+
 (use-package project-bind
              :ensure nil                ; Local package, don't go stupidly searching for it on melpa
 	     :config
