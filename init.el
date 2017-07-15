@@ -105,6 +105,27 @@
 		       '(lambda ()
 			  (setq c-default-style "linux"
 				c-basic-offset 4)
+			  ;; Don't ask for a compile command every time, useful if compile-command
+			  ;; is taken from .dir-locals.el, for example.
+			  ;; Example for setting the compile-command in .dir-locals.el:
+			  ;;
+			  ;; ((nil . ((eval . (set (make-local-variable 'compile-command)
+			  ;; 			(concat "make -f "
+			  ;; 				(file-name-directory
+			  ;; 				 (let ((d (dir-locals-find-file ".")))
+			  ;; 				   (if (stringp d) d (car d))))
+			  ;; 				"makefile"))))))
+			  (setq compilation-read-command nil) 
+			  ;; Open compilation results in a bottom buffer, similar to helm, identical code.
+			  (add-to-list 'display-buffer-alist
+				       `(,(rx bos "*compilation" (* not-newline) "*" eos)
+					 (display-buffer-in-side-window)
+					 (inhibit-same-window . t)
+					 (window-height . 0.3)))
+                          ;; After compilation, go to the compilation buffer (q key to close it)
+			  (add-hook
+			   'compilation-finish-functions (lambda (buffer result)
+							   (switch-to-buffer-other-window "*compilation*")))
 			  (local-set-key (kbd "C-c C-c") 'compile)
 			  (which-function-mode +1))))
 
