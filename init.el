@@ -129,6 +129,8 @@
 			  (local-set-key (kbd "C-c C-c") 'compile)
 			  (which-function-mode +1))))
 
+(use-package disaster)			; Disassemble C/C++ code under cursor
+
 (use-package crux
              :config
 	     :bind (("C-c d" . crux-duplicate-current-line-or-region)
