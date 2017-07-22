@@ -189,11 +189,24 @@
 	     :bind ("C-;" . avy-goto-word-1))
 
 (use-package dired+
+             :ensure t
              :init
-	     (setq dired-guess-shell-alist-user '(("\\.pdf\\'" "zathura")
-						  ("\\.png\\'\\|\\.jpe?g\\'" "feh --scale-down --auto-rotate -B black *")))
+	     (setq dired-guess-shell-alist-user
+		   '(("\\.pdf\\'" "zathura")
+		     ("\\.png\\'\\|\\.jpe?g\\'" "feh --scale-down --auto-rotate -B black *")))
+	     (load "dired+")
+	     (add-hook 'dired-mode-hook
+	     	       (lambda ()
+			 (local-set-key (kbd "C-l") 'dired-up-directory)))
 	     :bind ("C-!" . dired-do-shell-command) ;same as !, but easier to type
 	     )
+
+(use-package dired-ranger
+             :ensure t
+	     :bind (:map dired-mode-map
+			 ("W" . dired-ranger-copy)
+			 ("X" . dired-ranger-move)
+			 ("Y" . dired-ranger-paste)))
 
 (use-package project-bind
              :ensure nil                ; Local package, don't go stupidly searching for it on melpa
