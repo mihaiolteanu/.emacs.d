@@ -42,7 +42,7 @@
                    helm-ff-search-library-in-sexp        t
                    helm-ff-file-name-history-use-recentf t)
              ;; Enable/disable follow mode with C-c C-f in a helm buffer and keep it afterwards.
-	     (setq helm-follow-mode-persistent t)
+	     ;; (setq helm-follow-mode-persistent t)
 	     (when (executable-find "curl")
 	       (setq helm-google-suggest-use-curl-p t))
              :bind-keymap (("C-c h" . helm-command-map))
@@ -58,7 +58,10 @@
                     ("o" . helm-occur)
                     ("I" . helm-imenu-in-all-buffers)
                     :map isearch-mode-map
-                    ("C-o" . helm-occur-from-isearch)))
+                    ("C-o" . helm-occur-from-isearch)
+		    :map helm-map
+		    ("C-S-P" . helm-follow-action-backward)
+		    ("C-S-n" . helm-follow-action-forward)))
 
 (use-package helm-gtags
              :demand t
@@ -103,8 +106,9 @@
              :config
 	     (add-hook 'c-mode-common-hook
 		       '(lambda ()
-			  (setq c-default-style "linux"
+			  (setq c-default-style "k&r"
 				c-basic-offset 4)
+			  (setq-default fill-column 95)
 			  ;; Don't ask for a compile command every time, useful if compile-command
 			  ;; is taken from .dir-locals.el, for example.
 			  ;; Example for setting the compile-command in .dir-locals.el:
@@ -240,6 +244,9 @@
 ;; highlight the current line
 (global-hl-line-mode +1)
 
+;; Use spaces instead of tabs
+(setq-default indent-tabs-mode nil)
+
 (desktop-save-mode 1)
 
 ;; enable y/n answers
@@ -257,6 +264,3 @@
 (global-set-key (kbd "<C-tab>") 'other-window)
 (global-set-key (kbd "C-,") 'previous-buffer)
 (global-set-key (kbd "C-.") 'next-buffer)
-
-;; (global-set-key (kbd "C-[") 'backward-delete-char)
-;; (global-set-key (kbd "M-[") 'backward-kill-word)
