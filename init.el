@@ -205,6 +205,22 @@
   :bind ("C-!" . dired-do-shell-command) ;same as !, but easier to type
   )
 
+(use-package eshell
+  :ensure t
+  :bind ("C-c e" . eshell)
+  :config
+  (bind-keys*
+   ("M-r" . helm-eshell-history)
+   ("M-p" . eshell-previous-input)
+   ("M-n" . eshell-next-input)
+   )
+  (add-hook 'eshell-mode-hook
+	    (lambda ()
+	      (eshell-cmpl-initialize)
+	      (define-key eshell-mode-map [remap eshell-pcomplete] 'helm-esh-pcomplete))))
+
+
+
 (use-package dired-ranger
   :ensure t
   :bind (:map dired-mode-map
