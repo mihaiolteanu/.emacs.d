@@ -45,6 +45,10 @@
   ;; (setq helm-follow-mode-persistent t)
   (when (executable-find "curl")
     (setq helm-google-suggest-use-curl-p t))
+  (defun helm-find-root ()
+    "Find file in project root."
+    (interactive)
+    (helm-find-1 (vc-root-dir)))
   :bind-keymap (("C-c h" . helm-command-map))
   :bind (("M-x" . helm-M-x)
 	 ("C-z" . helm-mini) 
@@ -52,6 +56,7 @@
 	 ("C-h f" . helm-apropos)
 	 ("C-h C-l" . helm-locate-library)
 	 ("C-x C-f" . helm-find-files)
+         ("C-x C-r" . helm-find-root)
 	 ("C-c g" . helm-google-suggest)
 	 ("C-c i" . helm-semantic-or-imenu)
 	 :map helm-command-map
