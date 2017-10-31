@@ -224,6 +224,17 @@
               (define-key eshell-mode-map (kbd "M-n") 'eshell-next-input)
               )))
 
+(use-package openwith
+  :ensure t
+  :diminish openwith-mode
+  :config
+  (openwith-mode +1)
+  (let (open-app)
+    (setq open-app (cond
+                    ((eq system-type 'cygwin) "cygstart")
+                    (t "")))
+    (setq openwith-associations `(("\\.pdf\\|\\.xls" ,open-app (file))))))
+
 (use-package dired-ranger
   :ensure t
   :bind (:map dired-mode-map
