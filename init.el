@@ -68,6 +68,15 @@
 	 ("C-S-P" . helm-follow-action-backward)
 	 ("C-S-n" . helm-follow-action-forward)))
 
+;; (defun counsel-switch-to-eshell-buffer ()
+;;   "Switch to an eshell buffer, or create one. Copy/pasted from
+;; counsel.el but changed the mode to 'eshell-mode"
+;;   (interactive)
+;;   (ivy-read "Switch to shell buffer: "
+;;             (counsel-list-buffers-with-mode 'eshell-mode)
+;;             :action #'counsel-switch-to-buffer-or-window
+;;             :caller 'counsel-switch-to-shell-buffer))
+
 ;; (use-package ivy
 ;;   :diminish ivy-mode
 ;;   :config
@@ -88,6 +97,30 @@
 ;;    ("C-x C-r" . counsel-git)
 ;;    ("C-c s" . counsel-git-grep)
 ;;    ))
+
+;; (defun counsel-find-file-root ()
+;;     "Find file in project root."
+;;     (interactive)
+;;     (counsel-find-file (vc-root-dir)))
+
+;; (ivy-read "DAI: "
+;;           (directory-files-recursively "/c/work/223eHUD/docs/" "\\.pdf$")
+;;           :action '(1 ;; index (1 based) of the default action
+;;                     ("s" (lambda (x)
+;;                            (find-file x)) "open file")))
+
+;; (defun eshell-here ()
+;;   "Opens up a new shell in the directory associated with the
+;; current buffer's file. The eshell is renamed to match that
+;; directory to make multiple eshell windows easier."
+;;   (interactive)
+;;   (let* ((parent (if (buffer-file-name)
+;;                      (file-name-directory (buffer-file-name))
+;;                    default-directory))
+;;          (name   (car (last (split-string parent "/" t)))))
+;;     (eshell "new")
+;;     (rename-buffer (concat "*" name " - eshell*"))
+;;     ))
 
 (use-package helm-gtags
   :demand t
