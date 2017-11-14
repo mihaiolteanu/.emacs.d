@@ -68,6 +68,27 @@
 	 ("C-S-P" . helm-follow-action-backward)
 	 ("C-S-n" . helm-follow-action-forward)))
 
+;; (use-package ivy
+;;   :diminish ivy-mode
+;;   :config
+;;   (setq ivy-height 15)
+;;   (setq ivy-auto-select-single-candidate t)
+;;   (define-key ivy-minibuffer-map (kbd "C-j") 'ivy-call)
+;;   (define-key counsel-find-file-map (kbd "C-l") 'counsel-up-directory)
+;;   (add-hook 'c-mode-common-hook
+;;             '(lambda ()
+;; 	       (local-set-key (kbd "M-.") 'counsel-gtags-dwim)
+;; 	       (local-set-key (kbd "M-,") 'counsel-gtags-go-backward)
+;; 	       (local-set-key (kbd "C-M-.") 'helm-gtags-find-rtag)
+;; 	       (local-set-key (kbd "C-c M-s") 'helm-gtags-find-symbol)))
+;;   :bind
+;;   (("M-y" . counsel-yank-pop)
+;;    ("M-x" . counsel-M-x)
+;;    ("C-x C-f" . counsel-find-file)
+;;    ("C-x C-r" . counsel-git)
+;;    ("C-c s" . counsel-git-grep)
+;;    ))
+
 (use-package helm-gtags
   :demand t
   :config
