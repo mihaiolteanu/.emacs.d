@@ -272,6 +272,11 @@
                     (t "")))
     (setq openwith-associations `(("\\.pdf\\|\\.png\\|\\.exe\\|\\.docm\\|\\.xls" ,open-app (file))))))
 
+;; (defun counsel-find-file-root ()
+;;     "Find file in project root."
+;;     (interactive)
+;;     (counsel-find-file (vc-root-dir)))
+
 (use-package dired-ranger
   :ensure t
   :bind (:map dired-mode-map
