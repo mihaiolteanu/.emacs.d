@@ -280,6 +280,13 @@
   :bind ("C-!" . dired-do-shell-command) ;same as !, but easier to type
   )
 
+(use-package org
+  ; Force bind these keys, as they are overwriten otherwise by the org-mode
+  :bind (:map org-mode-map
+              ("C-," . previous-buffer)
+              ("<C-tab>" . other-window)
+              ))
+
 (use-package eshell
   :ensure t
   :bind ("C-c e" . eshell)
