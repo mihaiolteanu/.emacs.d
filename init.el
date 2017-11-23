@@ -332,8 +332,8 @@
 	    (lambda ()
 	      (eshell-cmpl-initialize)
               (smartscan-mode -1)
-              (define-key eshell-mode-map [remap eshell-pcomplete] 'helm-esh-pcomplete)
-              (define-key eshell-mode-map (kbd "M-r") 'helm-eshell-history)
+              (define-key eshell-mode-map [remap eshell-pcomplete] 'completion-at-point)
+              (define-key eshell-mode-map (kbd "M-r") 'counsel-esh-history)
               (define-key eshell-mode-map (kbd "M-p") 'eshell-previous-input)
               (define-key eshell-mode-map (kbd "M-n") 'eshell-next-input)
               )))
@@ -348,11 +348,6 @@
                     ((eq system-type 'cygwin) "cygstart")
                     (t "")))
     (setq openwith-associations `(("\\.pdf\\|\\.png\\|\\.exe\\|\\.docm\\|\\.xls" ,open-app (file))))))
-
-;; (defun counsel-find-file-root ()
-;;     "Find file in project root."
-;;     (interactive)
-;;     (counsel-find-file (vc-root-dir)))
 
 (use-package dired-ranger
   :ensure t
