@@ -68,46 +68,80 @@
 	 ("C-S-P" . helm-follow-action-backward)
 	 ("C-S-n" . helm-follow-action-forward)))
 
-;; (defun counsel-switch-to-eshell-buffer ()
-;;   "Switch to an eshell buffer, or create one. Copy/pasted from
-;; counsel.el but changed the mode to 'eshell-mode"
-;;   (interactive)
-;;   (ivy-read "Switch to shell buffer: "
-;;             (counsel-list-buffers-with-mode 'eshell-mode)
-;;             :action #'counsel-switch-to-buffer-or-window
-;;             :caller 'counsel-switch-to-shell-buffer))
+(use-package ivy
+  :diminish ivy-mode
+  :config
+  (setq ivy-height 15
+        ivy-fixed-height-minibuffer t ; Do not autoresize the minibuffer
+        ivy-auto-select-single-candidate t
+        ivy-initial-inputs-alist nil  ; Do not put a ^ in counsel-M-x
+        ivy-use-virtual-buffers t)    ; Helm-mini like behaviour
 
-;; (use-package ivy
-;;   :diminish ivy-mode
-;;   :config
-;;   (setq ivy-height 15)
-;;   (setq ivy-auto-select-single-candidate t)
-;;   (define-key ivy-minibuffer-map (kbd "C-j") 'ivy-call)
-;;   (define-key counsel-find-file-map (kbd "C-l") 'counsel-up-directory)
-;;   (add-hook 'c-mode-common-hook
-;;             '(lambda ()
-;; 	       (local-set-key (kbd "M-.") 'counsel-gtags-dwim)
-;; 	       (local-set-key (kbd "M-,") 'counsel-gtags-go-backward)
-;; 	       (local-set-key (kbd "C-M-.") 'helm-gtags-find-rtag)
-;; 	       (local-set-key (kbd "C-c M-s") 'helm-gtags-find-symbol)))
-;;   :bind
-;;   (("M-y" . counsel-yank-pop)
-;;    ("M-x" . counsel-M-x)
-;;    ("C-x C-f" . counsel-find-file)
-;;    ("C-x C-r" . counsel-git)
-;;    ("C-c s" . counsel-git-grep)
-;;    ))
+  (defun counsel-find-file-return-name (&optional initial-input)
+    "Return the file name path selected by the user. Copy/pasted
+     from counsel-find-file but change the action."
+  (interactive)
+  (ivy-read "Find file: " 'read-file-name-internal
+            :matcher #'counsel--find-file-matcher
+            :initial-input initial-input
+            :action
+            (lambda (x)
+              x)
+            :preselect (when counsel-find-file-at-point
+                         (require 'ffap)
+                         (let ((f (ffap-guesser)))
+                           (when f (expand-file-name f))))
+            :require-match 'confirm-after-completion
+            :history 'file-name-history
+            :keymap counsel-find-file-map
+            :caller 'counsel-find-file))
 
-;; (defun counsel-find-file-root ()
-;;     "Find file in project root."
-;;     (interactive)
-;;     (counsel-find-file (vc-root-dir)))
+  (defun counsel-do-ag ()
+    "Search using ag in a user-selected folder"
+    (interactive)
+    (counsel-ag nil (counsel-find-file-return-name)))
 
-;; (ivy-read "DAI: "
-;;           (directory-files-recursively "/c/work/223eHUD/docs/" "\\.pdf$")
-;;           :action '(1 ;; index (1 based) of the default action
-;;                     ("s" (lambda (x)
-;;                            (find-file x)) "open file")))
+  (defun counsel-find-file-root ()
+    "Find file in project root."
+    (interactive)
+    (counsel-file-jump nil (vc-root-dir)))
+
+  (defun counsel-switch-to-eshell-buffer ()
+    "Switch to a eshell buffer, or create one. Copy/pasted from
+     counsel.el and modified the shell-mode to eshell-mode"
+    (interactive)
+    (ivy-read "Switch to shell buffer: "
+              (counsel-list-buffers-with-mode 'eshell-mode)
+              :action #'counsel-switch-to-buffer-or-window
+              :caller 'counsel-switch-to-shell-buffer))
+
+  ;; defun counsel-ag (&optional initial-input initial-directory extra-ag-args ag-prompt)
+  (defun counsel-ag-root ()
+    "Ag from project root."
+    (interactive)
+    (counsel-ag nil (vc-root-dir)))
+  
+  (add-hook 'c-mode-common-hook
+            '(lambda ()
+	       (local-set-key (kbd "M-.") 'counsel-gtags-dwim)
+	       (local-set-key (kbd "M-,") 'counsel-gtags-go-backward)
+	       (local-set-key (kbd "C-M-.") 'helm-gtags-find-rtag)
+	       (local-set-key (kbd "C-c M-s") 'helm-gtags-find-symbol)))
+  
+  :bind (("M-y" . counsel-yank-pop)
+         ("M-x" . counsel-M-x)
+         ("C-x C-f" . counsel-find-file)
+         ("C-x C-r" . counsel-find-file-root)
+         ("C-c s" . counsel-ag-root)
+         ("C-c S" . counsel-do-ag)
+         ("C-c C-e" . counsel-switch-to-eshell-buffer)
+         ("C-z" . ivy-switch-buffer)
+         :map counsel-find-file-map
+         ("C-l" . counsel-up-directory)
+         ("C-j" . ivy-alt-done)
+         :map ivy-minibuffer-map
+         ("C-j" . ivy-call)
+         ))
 
 ;; (defun eshell-here ()
 ;;   "Opens up a new shell in the directory associated with the
