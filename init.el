@@ -145,6 +145,13 @@
 
 (use-package eshell
   :config
+  (add-hook 'eshell-mode-hook
+	    (lambda ()
+	      (eshell-cmpl-initialize)
+              (smartscan-mode -1)
+              (setenv "GIT_PAGER" "")   ; Make git usable
+              ))
+
   (defun eshell-here ()
     "Opens up a new shell in the directory associated with the
      current buffer's file. The eshell is renamed to match that
@@ -157,7 +164,12 @@
       (eshell "new")
       (rename-buffer (concat "*" name " - eshell*"))))
   
-  :bind (("C-c e" . eshell-here)))
+  :bind (("C-c e" . eshell-here)
+         :map eshell-mode-map
+         ([remap eshell-pcomplete] . completion-at-point)
+         ("M-r" . counsel-esh-history)
+         ("M-p" . eshell-previous-input)
+         ("M-n" . eshell-next-input)))
 
 (use-package helm-gtags
   :demand t
@@ -323,20 +335,6 @@
               ("C-," . previous-buffer)
               ("<C-tab>" . other-window)
               ))
-
-(use-package eshell
-  :ensure t
-  :bind ("C-c e" . eshell)
-  :config
-  (add-hook 'eshell-mode-hook
-	    (lambda ()
-	      (eshell-cmpl-initialize)
-              (smartscan-mode -1)
-              (define-key eshell-mode-map [remap eshell-pcomplete] 'completion-at-point)
-              (define-key eshell-mode-map (kbd "M-r") 'counsel-esh-history)
-              (define-key eshell-mode-map (kbd "M-p") 'eshell-previous-input)
-              (define-key eshell-mode-map (kbd "M-n") 'eshell-next-input)
-              )))
 
 (use-package openwith
   :ensure t
