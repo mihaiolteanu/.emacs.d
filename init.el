@@ -126,7 +126,10 @@
 	       (local-set-key (kbd "M-.") 'counsel-gtags-dwim)
 	       (local-set-key (kbd "M-,") 'counsel-gtags-go-backward)
 	       (local-set-key (kbd "C-M-.") 'helm-gtags-find-rtag)
-	       (local-set-key (kbd "C-c M-s") 'helm-gtags-find-symbol)))
+	       (local-set-key (kbd "C-c M-s") 'helm-gtags-find-symbol)
+               ;; C-c C-e is used by something else by default in cc-mode
+	       (local-set-key (kbd "C-c C-e") 'counsel-switch-to-eshell-buffer)
+               ))
   
   :bind (("M-y" . counsel-yank-pop)
          ("M-x" . counsel-M-x)
