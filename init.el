@@ -153,7 +153,11 @@
 	      (eshell-cmpl-initialize)
               (smartscan-mode -1)
               (setenv "GIT_PAGER" "")   ; Make git usable
-              ))
+              ;; "eshell-mode-map not available" error, if the keys below are put on :bind :map
+              (define-key eshell-mode-map [remap eshell-pcomplete] 'completion-at-point)
+              (define-key eshell-mode-map (kbd "M-r") 'counsel-esh-history)
+              (define-key eshell-mode-map (kbd "M-p") 'eshell-previous-input)
+              (define-key eshell-mode-map (kbd "M-n") 'eshell-next-input)))
 
   (defun eshell-here ()
     "Opens up a new shell in the directory associated with the
@@ -172,12 +176,7 @@
           (eshell "new")
           (rename-buffer name)))))
   
-  :bind (("C-c e" . eshell-here)
-         :map eshell-mode-map
-         ([remap eshell-pcomplete] . completion-at-point)
-         ("M-r" . counsel-esh-history)
-         ("M-p" . eshell-previous-input)
-         ("M-n" . eshell-next-input)))
+  :bind (("C-c e" . eshell-here)))
 
 (use-package helm-gtags
   :demand t
