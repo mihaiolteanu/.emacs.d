@@ -21,53 +21,6 @@
   :config
   (load-theme 'sanityinc-tomorrow-eighties :no-confirm))
 
-(use-package helm
-  :demand t
-  :diminish helm-mode
-  :config
-  (require 'helm-config)
-  (helm-mode)
-  ;;Make Helm window at the bottom WITHOUT using any extra package
-  ;;https://www.reddit.com/r/emacs/comments/345vtl/make_helm_window_at_the_bottom_without_using_any/
-  (add-to-list 'display-buffer-alist
-	       `(,(rx bos "*helm" (* not-newline) "*" eos)
-		 (display-buffer-in-side-window)
-		 (inhibit-same-window . t)
-		 (window-height . 0.3)))
-  ;; See https://github.com/bbatsov/prelude/pull/670 for a detailed
-  ;; discussion of these options. (taken from prelude)
-  (setq helm-split-window-in-side-p           t
-	helm-buffers-fuzzy-matching           t
-	helm-move-to-line-cycle-in-source     nil
-	helm-ff-search-library-in-sexp        t
-	helm-ff-file-name-history-use-recentf t)
-  ;; Enable/disable follow mode with C-c C-f in a helm buffer and keep it afterwards.
-  ;; (setq helm-follow-mode-persistent t)
-  (when (executable-find "curl")
-    (setq helm-google-suggest-use-curl-p t))
-  (defun helm-find-root ()
-    "Find file in project root."
-    (interactive)
-    (helm-find-1 (vc-root-dir)))
-  :bind-keymap (("C-c h" . helm-command-map))
-  :bind (("M-x" . helm-M-x)
-	 ("C-z" . helm-mini) 
-	 ("M-y" . helm-show-kill-ring)
-	 ("C-h f" . helm-apropos)
-	 ("C-h C-l" . helm-locate-library)
-	 ("C-x C-f" . helm-find-files)
-         ("C-x C-r" . helm-find-root)
-	 ("C-c g" . helm-google-suggest)
-	 ("C-c i" . helm-semantic-or-imenu)
-	 :map helm-command-map
-	 ("o" . helm-occur)
-	 ("I" . helm-imenu-in-all-buffers)
-	 :map isearch-mode-map
-	 ("C-o" . helm-occur-from-isearch)
-	 :map helm-map
-	 ("C-S-P" . helm-follow-action-backward)
-	 ("C-S-n" . helm-follow-action-forward)))
-
 (use-package ivy
   :diminish ivy-mode
   :init (ivy-mode t)
@@ -183,30 +136,6 @@
           (rename-buffer name)))))
   
   :bind (("C-c e" . eshell-here)))
-
-(use-package helm-gtags
-  :demand t
-  :config
-  (setq helm-gtags-ignore-case t
-	helm-gtags-auto-update t
-	helm-gtags-use-input-at-cursor t
-	helm-gtags-pulse-at-cursor t
-	helm-gtags-suggested-key-mapping t)
-  (add-hook 'c-mode-common-hook
-	    '(lambda ()
-	       (helm-gtags-mode 1)
-	       (local-set-key (kbd "C-j") 'helm-gtags-select)
-	       (local-set-key (kbd "M-.") 'helm-gtags-find-tag)
-	       (local-set-key (kbd "M-,") 'helm-gtags-pop-stack)
-	       (local-set-key (kbd "C-M-.") 'helm-gtags-find-rtag)
-	       (local-set-key (kbd "C-c M-s") 'helm-gtags-find-symbol))))
-
-(use-package helm-ls-git
-  :bind (("C-c l" . helm-ls-git-ls)))
-
-(use-package helm-ag
-  :bind (("C-c s" . helm-do-ag-project-root)
-	 ("C-c S" . helm-do-ag)))
 
 (use-package magit
   :bind (("C-c m l" . magit-log)
