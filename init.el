@@ -70,7 +70,13 @@
 
 (use-package ivy
   :diminish ivy-mode
+  :init (ivy-mode t)
   :config
+
+  (use-package counsel
+  :diminish counsel-mode
+  :init (counsel-mode t))
+
   (setq ivy-height 15
         ivy-fixed-height-minibuffer t ; Do not autoresize the minibuffer
         ivy-auto-select-single-candidate t
