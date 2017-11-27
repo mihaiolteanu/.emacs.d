@@ -163,9 +163,14 @@
     (let* ((parent (if (buffer-file-name)
                        (file-name-directory (buffer-file-name))
                      default-directory))
-           (name   (car (last (split-string parent "/" t)))))
-      (eshell "new")
-      (rename-buffer (concat "*" name " - eshell*"))))
+           (name   (car (last (split-string parent "/" t))))
+           (name   (concat "*" parent " - eshell*")))
+      ;; Create a new eshell buffer if one doesn't exist and switch to it
+      (if (get-buffer name)
+          (switch-to-buffer (get-buffer name))
+        (progn
+          (eshell "new")
+          (rename-buffer name)))))
   
   :bind (("C-c e" . eshell-here)
          :map eshell-mode-map
