@@ -79,13 +79,26 @@
     "Ag from project root."
     (interactive)
     (counsel-ag nil (vc-root-dir)))
+
+  (defun counsel-gtags-find-reference-at-point ()
+    "By default, counsel-gtags-find-reference takes the symbol at
+    point but still keeps the prompt that asks for a symbol
+    open. On large projects, this takes a lot of time to load and
+    in the meantinme, the promp is basically blocked. So call
+    this function with the symbol at point in the first place, so
+    no promp for symbol completion is displayed."
+    (interactive)
+    (let ((symbol-at-point (thing-at-point 'symbol)))
+      (if symbol-at-point
+          (counsel-gtags-find-reference symbol-at-point)
+        ;; Bring the promp up if nothing is under the point
+        (call-interactively 'counsel-gtags-find-reference))))
   
   (add-hook 'c-mode-common-hook
             '(lambda ()
 	       (local-set-key (kbd "M-.") 'counsel-gtags-dwim)
 	       (local-set-key (kbd "M-,") 'counsel-gtags-go-backward)
-	       (local-set-key (kbd "C-M-.") 'helm-gtags-find-rtag)
-	       (local-set-key (kbd "C-c M-s") 'helm-gtags-find-symbol)
+	       (local-set-key (kbd "C-M-.") 'counsel-gtags-find-reference-at-point)
                ;; C-c C-e is used by something else by default in cc-mode
 	       (local-set-key (kbd "C-c C-e") 'counsel-switch-to-eshell-buffer)
                ))
