@@ -93,7 +93,11 @@
           (counsel-gtags-find-reference symbol-at-point)
         ;; Bring the promp up if nothing is under the point
         (call-interactively 'counsel-gtags-find-reference))))
-  
+
+  (defun swiper-isearch-string ()
+      (interactive)
+    (swiper isearch-string))
+
   (add-hook 'c-mode-common-hook
             '(lambda ()
 	       (local-set-key (kbd "M-.") 'counsel-gtags-dwim)
@@ -116,6 +120,8 @@
          ("C-j" . ivy-alt-done)
          :map ivy-minibuffer-map
          ("C-j" . ivy-call)
+         :map isearch-mode-map
+         ("C-o" . swiper-isearch-string)
          ))
 
 (use-package eshell
