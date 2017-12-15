@@ -119,18 +119,23 @@
                             (ivy-resume))))
 
   :bind (("M-y" . counsel-yank-pop)
-         ("M-x" . counsel-M-x)
          ("C-x C-f" . counsel-find-file)
          ("C-x C-r" . counsel-find-file-root)
          ("C-c s" . counsel-ag-root)
          ("C-c S" . counsel-do-ag)
          ("C-c C-e" . counsel-switch-to-eshell-buffer)
+         ("C-c C-r" . ivy-resume)
          ("C-z" . ivy-switch-buffer)
+         ("C-c i" . counsel-semantic)
+         ("C-S-s" . swiper)
          :map counsel-find-file-map
          ("C-l" . counsel-up-directory)
          ("C-j" . ivy-alt-done)
          :map ivy-minibuffer-map
+         ("C-i" . ivy-insert-current)
          ("C-j" . ivy-call)
+         ("C-w" . ivy-yank-word)
+         ("C-o" . ivy-dispatching-done) ; Select actions
          :map isearch-mode-map
          ("C-o" . swiper-isearch-string)
          :map counsel-describe-map
@@ -412,4 +417,6 @@
 (global-set-key (kbd "<C-tab>") 'other-window)
 (global-set-key (kbd "C-,") 'previous-buffer)
 (global-set-key (kbd "C-.") 'next-buffer)
+(global-set-key (kbd "C-q") 'execute-extended-command)
+
 
