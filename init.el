@@ -106,7 +106,18 @@
                ;; C-c C-e is used by something else by default in cc-mode
 	       (local-set-key (kbd "C-c C-e") 'counsel-switch-to-eshell-buffer)
                ))
-  
+
+  (ivy-set-actions
+   'counsel-M-x
+   '(("d" (lambda (f) (describe-function (intern f))) "describe")
+     ))
+
+  (defun describe-function-from-ivy ()
+    (interactive)
+    (ivy-exit-with-action (lambda (s)
+                            (describe-function (intern s))
+                            (ivy-resume))))
+
   :bind (("M-y" . counsel-yank-pop)
          ("M-x" . counsel-M-x)
          ("C-x C-f" . counsel-find-file)
@@ -122,6 +133,8 @@
          ("C-j" . ivy-call)
          :map isearch-mode-map
          ("C-o" . swiper-isearch-string)
+         :map counsel-describe-map
+         ("C-q" . describe-function-from-ivy)
          ))
 
 (use-package eshell
