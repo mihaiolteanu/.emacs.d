@@ -34,6 +34,7 @@
         ivy-fixed-height-minibuffer t ; Do not autoresize the minibuffer
         ivy-auto-select-single-candidate t
         ivy-initial-inputs-alist nil  ; Do not put a ^ in counsel-M-x
+        enable-recursive-minibuffers t
         ivy-use-virtual-buffers t)    ; Helm-mini like behaviour
 
   (defun counsel-find-file-return-name (&optional initial-input)
