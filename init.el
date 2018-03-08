@@ -299,8 +299,7 @@
 
 (use-package avy
   :config
-  (setq avy-keys '(?\; ?l ?k ?j ?h ?u ?i ?o ?p ?m)
-	avy-all-windows nil)
+  (setq avy-keys '(?\; ?l ?k ?j ?h ?u ?i ?o ?p ?m))
   :bind ("C-;" . avy-goto-symbol-1))
 
 (use-package dired+
