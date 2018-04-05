@@ -204,10 +204,12 @@
   :bind (("C-c m t" . git-timemachine)))
 
 (use-package git-gutter+
-  ;; Fix git-gutter+-commit error "symbol's function definition is void"
-  ;; by adding the following definition in the git-commit.el file:
-  ;; (defun git-commit-mode-font-lock-keywords ()
-  ;;   git-commit-font-lock-keywords-2)
+  :init
+  (if (not (fboundp 'git-commit-mode-font-lock-keywords))
+      ;; This function seems missing or something is wrong with it
+      ;; commit will not work without first defining it, so here goes:
+      (defun git-commit-mode-font-lock-keywords ()
+        git-commit-font-lock-keywords-2))
   :config
   (global-git-gutter+-mode +1)
   (set-face-foreground 'git-gutter+-added "olive drab")
