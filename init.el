@@ -155,14 +155,14 @@
     (insert "exit")
     (eshell-send-input)
     (delete-window))
-  
+  (use-package eshell-fringe-status :ensure t)
+  (use-package eshell-fixed-prompt :ensure t)
   (add-hook 'eshell-mode-hook
 	    (lambda ()
 	      (eshell-cmpl-initialize)
               (smartscan-mode -1)
               (setenv "GIT_PAGER" "")   ; Make git usable
               (eshell-fixed-prompt-mode)
-              (use-package eshell-fringe-status)
               (eshell-fringe-status-mode)
               ;; "eshell-mode-map not available" error, if the keys below are put on :bind :map
               (define-key eshell-mode-map [remap eshell-pcomplete] 'completion-at-point)
