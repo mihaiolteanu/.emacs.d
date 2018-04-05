@@ -339,7 +339,7 @@
     (setq open-app (cond
                     ((eq system-type 'cygwin) "cygstart")
                     (t "")))
-    (setq openwith-associations `(("\\.pdf\\|\\.png\\|\\.exe\\|\\.docm\\|\\.xls" ,open-app (file))))))
+    (setq openwith-associations `(("\\.pdf\\|\\.png\\|\\.docm\\|\\.xls" ,open-app (file))))))
 
 (use-package dired-ranger
   :ensure t
