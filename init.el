@@ -415,12 +415,19 @@
 (global-set-key (kbd "C-.") 'next-buffer)
 (global-set-key (kbd "C-q") 'execute-extended-command)
 
+;; §§§ Work specific stuff
+
+(defun dai-documents ()
+  (interactive)
+  (ivy-read "DAI: "
+          (directory-files-recursively "/c/work/223eHUD/docs/" "")
+          :action (lambda (x) (find-file x))))
 
 (defun useful-documents-and-paths ()
   (interactive)
   (ivy-read
    "Select:"
-   '("Concedii - //phoenix/Backup/05_Delivery-Main/03_Embedded/01_SU1301/08_Planificarea_resurselor/2017/2017_CONTI_DEV_Holiday_plan.xlsx"
+   '("Concedii - //phoenix/Backup/05_Delivery-Main/03_Embedded/01_SU1301/08_Planificarea_resurselor/2018/2017/2018_CONTI_DEV_Holiday_plan.xlsx"
      "OIL - /H/03_Prod_Dev/20_Specifications/80_OpenItems/Customer/OIL_223_HUD_Entry.xlsm"
      "CIL - /H/01_Proj_Org/10_Organization/20_CM_Plan/CIL_MFA2HUD.xlsm"
      "RVL_LIST - /H/02_Quality/90_Reviews/200_Review_List/RVL_MFA2_HUD.xlsm"
@@ -429,7 +436,8 @@
      "223eHUD Root - /C/work/223eHUD"
      "Customer Standards - /H/03_Prod_Dev/20_Specifications/13_CustomerStandards_223eHUD"
      "Customer Requirements - /H/03_Prod_Dev/20_Specifications/10_CustomerRequirements_223eHUD/10_Delivery"
-     "Daimler Mirror - /H/01_Proj_Org/99_ENX_Mirror/Headup_MFA2/05_Software/223HUDe")
+     "Daimler Mirror - /H/01_Proj_Org/99_ENX_Mirror/Headup_MFA2/05_Software/223HUDe"
+     "Downloads Diagnostic Portal - /H/14_SW_223eHUD/01_SW_Proj_Org/90_Downloads_Diagnostic_Portal")
    :action (lambda (x)
              (let ((path (car (last (split-string x)))))
                (if (file-directory-p path)
