@@ -320,11 +320,12 @@
   )
 
 (use-package org
+  :init
+  (setq org-startup-indented t)
   ; Force bind these keys, as they are overwriten otherwise by the org-mode
   :bind (:map org-mode-map
               ("C-," . previous-buffer)
-              ("<C-tab>" . other-window)
-              ))
+              ("<C-tab>" . other-window)))
 
 (use-package openwith
   :ensure t
