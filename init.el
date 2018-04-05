@@ -150,6 +150,9 @@
 	      (eshell-cmpl-initialize)
               (smartscan-mode -1)
               (setenv "GIT_PAGER" "")   ; Make git usable
+              (eshell-fixed-prompt-mode)
+              (use-package eshell-fringe-status)
+              (eshell-fringe-status-mode)
               ;; "eshell-mode-map not available" error, if the keys below are put on :bind :map
               (define-key eshell-mode-map [remap eshell-pcomplete] 'completion-at-point)
               (define-key eshell-mode-map (kbd "M-r") 'counsel-esh-history)
