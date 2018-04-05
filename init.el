@@ -295,7 +295,11 @@
 
 (use-package company
   :ensure t
-  :config (global-company-mode +1))
+  :diminish company-mode
+  :config (global-company-mode +1)
+  :bind (:map company-active-map
+        ("C-n" . company-select-next)
+        ("C-p" . company-select-previous)))
 
 (use-package avy
   :config
