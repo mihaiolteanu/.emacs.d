@@ -70,6 +70,8 @@
     "Switch to a eshell buffer, or create one. Copy/pasted from
      counsel.el and modified the shell-mode to eshell-mode"
     (interactive)
+    (split-window-vertically (- (/ (window-total-height) 3)))
+    (other-window 1)
     (ivy-read "Switch to shell buffer: "
               (counsel-list-buffers-with-mode 'eshell-mode)
               :action #'counsel-switch-to-buffer-or-window
@@ -96,7 +98,7 @@
         (call-interactively 'counsel-gtags-find-reference))))
 
   (defun swiper-isearch-string ()
-      (interactive)
+    (interactive)
     (swiper isearch-string))
 
   (add-hook 'c-mode-common-hook
@@ -145,6 +147,12 @@
 
 (use-package eshell
   :config
+  (defun eshell/x ()
+    (interactive)
+    (insert "exit")
+    (eshell-send-input)
+    (delete-window))
+  
   (add-hook 'eshell-mode-hook
 	    (lambda ()
 	      (eshell-cmpl-initialize)
@@ -157,7 +165,9 @@
               (define-key eshell-mode-map [remap eshell-pcomplete] 'completion-at-point)
               (define-key eshell-mode-map (kbd "M-r") 'counsel-esh-history)
               (define-key eshell-mode-map (kbd "M-p") 'eshell-previous-input)
-              (define-key eshell-mode-map (kbd "M-n") 'eshell-next-input)))
+              (define-key eshell-mode-map (kbd "M-n") 'eshell-next-input)
+              (define-key eshell-mode-map (kbd "<C-tab>") 'eshell/x)
+              (define-key eshell-mode-map (kbd "<C-S-tab>") 'other-window)))
 
   (defun eshell-here ()
     "Opens up a new shell in the directory associated with the
@@ -167,14 +177,19 @@
     (let* ((parent (if (buffer-file-name)
                        (file-name-directory (buffer-file-name))
                      default-directory))
+           (height (/ (window-total-height) 3))
            (name   (car (last (split-string parent "/" t))))
            (name   (concat "*" parent " - eshell*")))
       ;; Create a new eshell buffer if one doesn't exist and switch to it
       (if (get-buffer name)
           (switch-to-buffer (get-buffer name))
         (progn
+          (split-window-vertically (- height))
+          (other-window 1)
           (eshell "new")
-          (rename-buffer name)))))
+          (rename-buffer name)
+          (insert (concat "ls"))
+          (eshell-send-input)))))
   
   :bind (("C-c e" . eshell-here)))
 
@@ -450,3 +465,22 @@
                (if (file-directory-p path)
                    (w32-shell-execute "explore" path) ;Open folders in explorer
                  (find-file (car (last (split-string path)))))))))
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(custom-safe-themes
+   (quote
+    ("06f0b439b62164c6f8f84fdda32b62fb50b6d00e8b01c2208e55543a6337433a" "628278136f88aa1a151bb2d6c8a86bf2b7631fbea5f0f76cba2a0079cd910f7d" "e297f54d0dc0575a9271bb0b64dad2c05cff50b510a518f5144925f627bb5832" default)))
+ '(package-selected-packages
+   (quote
+    (eshell-fringe-status eshell-prompt-extras eshell-fixed-prompt ranger rust-mode org-babel-eval-in-repl org-beautify-theme slime yasnippet wrap-region which-key vc-msg use-package smex smartscan smartparens request pdf-tools openwith multiple-cursors magit imenu+ god-mode git-timemachine git-gutter+ git geiser eshell-z eshell-git-prompt disaster dired-ranger dired-k dired+ crux counsel-gtags company color-theme-sanityinc-tomorrow cmake-font-lock beacon avy ag)))
+ '(reb-re-syntax (quote string))
+ '(semantic-mode t))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
