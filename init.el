@@ -457,6 +457,7 @@
      "CIL - /H/01_Proj_Org/10_Organization/20_CM_Plan/CIL_MFA2HUD.xlsm"
      "RVL_LIST - /H/02_Quality/90_Reviews/200_Review_List/RVL_MFA2_HUD.xlsm"
      "SwProjectPlan - H:/14_SW_223eHUD/01_SW_Proj_Org/10_SW_Organization/10_Project_Plan/SPRP_223eHUD.docm"
+     "SSTS - H:/14_SW_223eHUD/90_SW_Quality/70_Document_Status/SSTS_Status_223eHUD.xls"
      "DiagORG - /H/14_SW_223eHUD/01_SW_Proj_Org/40_DIAG_ORG"
      "223eHUD Root - /C/work/223eHUD"
      "Customer Standards - /H/03_Prod_Dev/20_Specifications/13_CustomerStandards_223eHUD"
