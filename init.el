@@ -146,6 +146,9 @@
          ))
 
 (use-package eshell
+  :init
+  (setq eshell-hist-ignoredups t
+        eshell-save-history-on-exit t)
   :config
   (defun eshell/x ()
     (interactive)
