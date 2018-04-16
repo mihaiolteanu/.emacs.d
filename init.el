@@ -166,8 +166,8 @@
               (define-key eshell-mode-map (kbd "M-r") 'counsel-esh-history)
               (define-key eshell-mode-map (kbd "M-p") 'eshell-previous-input)
               (define-key eshell-mode-map (kbd "M-n") 'eshell-next-input)
-              (define-key eshell-mode-map (kbd "<C-tab>") 'eshell/x)
-              (define-key eshell-mode-map (kbd "<C-S-tab>") 'other-window)))
+              (define-key eshell-mode-map (kbd "C-g") 'eshell/x)
+              (eshell/alias "l" "ls -lah")))
 
   (defun eshell-here ()
     "Opens up a new shell in the directory associated with the
