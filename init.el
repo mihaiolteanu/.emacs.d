@@ -437,10 +437,13 @@
       `((".*" ,temporary-file-directory t)))
 
 ;; General navigation keys
+(defun revert-buffer-no-confirm ()
+   (interactive) (revert-buffer t t))
 (global-set-key (kbd "<C-tab>") 'other-window)
 (global-set-key (kbd "C-,") 'previous-buffer)
 (global-set-key (kbd "C-.") 'next-buffer)
 (global-set-key (kbd "C-q") 'execute-extended-command)
+(global-set-key (kbd "C-S-r") 'revert-buffer-no-confirm)
 
 ;; §§§ Work specific stuff
 
