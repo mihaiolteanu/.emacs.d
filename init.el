@@ -29,6 +29,8 @@
   (use-package counsel
   :diminish counsel-mode
   :init (counsel-mode t))
+  
+  (use-package counsel-gtags :ensure t)
 
   (setq ivy-height 15
         ivy-fixed-height-minibuffer t ; Do not autoresize the minibuffer
