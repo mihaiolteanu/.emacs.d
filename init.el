@@ -252,18 +252,7 @@
 	       ;; 				 (let ((d (dir-locals-find-file ".")))
 	       ;; 				   (if (stringp d) d (car d))))
 	       ;; 				"makefile"))))))
-	       (setq compilation-read-command nil) 
-	       ;; Open compilation results in a bottom buffer, similar to helm, identical code.
-	       (add-to-list 'display-buffer-alist
-			    `(,(rx bos "*compilation" (* not-newline) "*" eos)
-			      (display-buffer-in-side-window)
-			      (inhibit-same-window . t)
-			      (window-height . 0.3)))
-	       ;; After compilation, go to the compilation buffer (q key to close it)
-	       (add-hook
-		'compilation-finish-functions (lambda (buffer result)
-						(switch-to-buffer-other-window "*compilation*")))
-	       (local-set-key (kbd "C-c C-c") 'compile)
+               (local-set-key (kbd "C-c C-c") 'compile)
 	       (which-function-mode +1))))
 
 (use-package disaster)			; Disassemble C/C++ code under cursor
@@ -396,6 +385,21 @@
   :config
   (progn
     (slime-setup)))
+
+;; Open compilation results in a bottom buffer, similar to helm, identical code.
+(setq compilation-read-command nil) 
+(add-to-list 'display-buffer-alist
+	     `(,(rx bos "*compilation" (* not-newline) "*" eos)
+	       (display-buffer-in-side-window)
+	       (inhibit-same-window . t)
+	       (window-height . 0.3)))
+;; After compilation, go to the compilation buffer (q key to close it)
+(add-hook
+ 'compilation-finish-functions (lambda (buffer result)
+				 (switch-to-buffer-other-window "*compilation*")))
+(global-set-key (kbd "C-c C-c") 'compile)
+
+(set-fringe-mode 0)
 
 ;; §§§ Other stuff
 ;; https://www.emacswiki.org/emacs/EshellEnhancedLS
