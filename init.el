@@ -381,6 +381,22 @@
 	 ("C-x C-]" . insert-section)
 	 ("C-x C-[" . search-sections)))
 
+(use-package slime
+  :commands (slime-mode)
+  :init
+  (use-package slime-company
+    :init (setq slime-company-completion 'fuzzy)
+    :config (add-to-list 'company-backends 'company-slime))
+  (progn
+    (setq slime-contribs '(slime-fancy
+                           slime-indentation
+                           slime-sbcl-exts
+                           slime-company)
+          inferior-lisp-program "sbcl"))
+  :config
+  (progn
+    (slime-setup)))
+
 ;; §§§ Other stuff
 ;; https://www.emacswiki.org/emacs/EshellEnhancedLS
 (eval-after-load "em-ls"
