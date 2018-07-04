@@ -402,6 +402,12 @@
   :init
   (add-hook 'flycheck-mode-hook #'flycheck-rust-setup))
 
+(use-package elpy
+  :config
+  (elpy-enable)
+  (setq elpy-rpc-backend "jedi")
+  (setq elpy-rpc-python-command "python3"))
+
 ;; Open compilation results in a bottom buffer, similar to helm, identical code.
 (setq compilation-read-command nil) 
 (add-to-list 'display-buffer-alist
