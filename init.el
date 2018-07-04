@@ -489,7 +489,11 @@
 (global-set-key (kbd "C-q") 'execute-extended-command)
 (global-set-key (kbd "C-S-r") 'revert-buffer-no-confirm)
 
-;; §§§ Work specific stuff
+(define-key comint-mode-map (kbd "C-n") #'comint-next-input)
+(define-key comint-mode-map (kbd "C-p") #'comint-previous-input)
+(define-key comint-mode-map (kbd "C-r") #'comint-history-isearch-backward)
+(setf comint-prompt-read-only t
+      comint-history-isearch t)
 
 (defun dai-documents ()
   (interactive)
