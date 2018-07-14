@@ -298,6 +298,11 @@
      (if (use-region-p) 'sp-kill-region 'sp-backward-kill-word)))
   :bind ("C-w" . sp-kill-region-or-backward-word))
 
+(use-package geiser
+  :ensure t
+  :bind (:map geiser-mode-map
+              ("C-." . next-buffer)))
+
 (use-package cmake-mode
   :ensure t
   :mode (("\\.cmake\\'" . cmake-mode)
