@@ -493,13 +493,13 @@
 (global-set-key (kbd "C-.") 'next-buffer)
 (global-set-key (kbd "C-q") 'execute-extended-command)
 (global-set-key (kbd "C-S-r") 'revert-buffer-no-confirm)
-
 (define-key comint-mode-map (kbd "C-n") #'comint-next-input)
 (define-key comint-mode-map (kbd "C-p") #'comint-previous-input)
 (define-key comint-mode-map (kbd "C-r") #'comint-history-isearch-backward)
 (setf comint-prompt-read-only t
       comint-history-isearch t)
 
+;; §§§ Work specific stuff
 (defun dai-documents ()
   (interactive)
   (ivy-read "DAI: "
@@ -510,7 +510,7 @@
   (interactive)
   (ivy-read
    "Select:"
-   '("Concedii - //phoenix/Backup/05_Delivery-Main/03_Embedded/01_SU1301/08_Planificarea_resurselor/2018/2017/2018_CONTI_DEV_Holiday_plan.xlsx"
+   '("Concedii - //phoenix/Backup/05_Delivery-Main/03_Embedded/01_SU1301/08_Planificarea_resurselor/2018/2018_CONTI_DEV_Holiday_plan.xlsx"
      "OIL - /H/03_Prod_Dev/20_Specifications/80_OpenItems/Customer/OIL_223_HUD_Entry.xlsm"
      "CIL - /H/01_Proj_Org/10_Organization/20_CM_Plan/CIL_MFA2HUD.xlsm"
      "RVL_LIST - /H/02_Quality/90_Reviews/200_Review_List/RVL_MFA2_HUD.xlsm"
@@ -527,22 +527,4 @@
                (if (file-directory-p path)
                    (w32-shell-execute "explore" path) ;Open folders in explorer
                  (find-file (car (last (split-string path)))))))))
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(custom-safe-themes
-   (quote
-    ("06f0b439b62164c6f8f84fdda32b62fb50b6d00e8b01c2208e55543a6337433a" "628278136f88aa1a151bb2d6c8a86bf2b7631fbea5f0f76cba2a0079cd910f7d" "e297f54d0dc0575a9271bb0b64dad2c05cff50b510a518f5144925f627bb5832" default)))
- '(package-selected-packages
-   (quote
-    (eshell-fringe-status eshell-prompt-extras eshell-fixed-prompt ranger rust-mode org-babel-eval-in-repl org-beautify-theme slime yasnippet wrap-region which-key vc-msg use-package smex smartscan smartparens request pdf-tools openwith multiple-cursors magit imenu+ god-mode git-timemachine git-gutter+ git geiser eshell-z eshell-git-prompt disaster dired-ranger dired-k dired+ crux counsel-gtags company color-theme-sanityinc-tomorrow cmake-font-lock beacon avy ag)))
- '(reb-re-syntax (quote string))
- '(semantic-mode t))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
+
