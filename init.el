@@ -25,6 +25,7 @@
   :diminish ivy-mode
   :init (ivy-mode t)
   :config
+  (ivy-toggle-case-fold)
 
   (use-package counsel
   :diminish counsel-mode
@@ -80,10 +81,10 @@
               :caller 'counsel-switch-to-shell-buffer))
 
   ;; defun counsel-ag (&optional initial-input initial-directory extra-ag-args ag-prompt)
-  (defun counsel-ag-root ()
+  (defun counsel-ag-root (&optional args)
     "Ag from project root."
     (interactive)
-    (counsel-ag nil (vc-root-dir)))
+    (counsel-ag nil (vc-root-dir) args))
 
   (defun counsel-gtags-find-reference-at-point ()
     "By default, counsel-gtags-find-reference takes the symbol at
@@ -500,6 +501,7 @@
 (setf comint-prompt-read-only t
       comint-history-isearch t)
 
+;; §§§ Work specific stuff
 (defun dai-documents ()
   (interactive)
   (ivy-read "DAI: "
@@ -510,7 +512,7 @@
   (interactive)
   (ivy-read
    "Select:"
-   '("Concedii - //phoenix/Backup/05_Delivery-Main/03_Embedded/01_SU1301/08_Planificarea_resurselor/2018/2017/2018_CONTI_DEV_Holiday_plan.xlsx"
+   '("Concedii - //phoenix/Backup/05_Delivery-Main/03_Embedded/01_SU1301/08_Planificarea_resurselor/2018/2018_CONTI_DEV_Holiday_plan.xlsx"
      "OIL - /H/03_Prod_Dev/20_Specifications/80_OpenItems/Customer/OIL_223_HUD_Entry.xlsm"
      "CIL - /H/01_Proj_Org/10_Organization/20_CM_Plan/CIL_MFA2HUD.xlsm"
      "RVL_LIST - /H/02_Quality/90_Reviews/200_Review_List/RVL_MFA2_HUD.xlsm"
@@ -527,6 +529,7 @@
                (if (file-directory-p path)
                    (w32-shell-execute "explore" path) ;Open folders in explorer
                  (find-file (car (last (split-string path)))))))))
+
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
