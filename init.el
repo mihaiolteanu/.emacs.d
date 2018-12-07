@@ -26,6 +26,7 @@
   :init (ivy-mode t)
   :config
   (ivy-toggle-case-fold)
+  (setq ivy-extra-directories nil)      ; remove ./ and ../ during filename completion
 
   (use-package counsel
   :diminish counsel-mode
