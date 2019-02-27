@@ -345,6 +345,17 @@
 (use-package org
   :init
   (setq org-startup-indented t)
+  :config
+  (use-package org-bullets)
+  (add-hook 'org-mode-hook
+            (lambda ()
+              ;; Emacs is very slow with org-bullets-mode on without this inhibiting
+              (setq inhibit-compacting-font-caches t)
+              (org-bullets-mode 1)))
+  ;; Make headers same size and bold
+  (mapc (lambda (level)
+          (set-face-attribute level nil :height 1.3 :weight 'bold))
+        '(org-level-1 org-level-2 org-level-3 org-level-4 org-level-5))
   ; Force bind these keys, as they are overwriten otherwise by the org-mode
   :bind (:map org-mode-map
               ("C-," . previous-buffer)
