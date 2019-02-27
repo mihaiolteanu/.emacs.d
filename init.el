@@ -388,38 +388,6 @@
 	 ("C-x C-]" . insert-section)
 	 ("C-x C-[" . search-sections)))
 
-(use-package slime
-  :commands (slime-mode)
-  :init
-  (use-package slime-company
-    :init (setq slime-company-completion 'fuzzy)
-    :config (add-to-list 'company-backends 'company-slime))
-  (progn
-    (setq slime-contribs '(slime-fancy
-                           slime-indentation
-                           slime-sbcl-exts
-                           slime-company)
-          inferior-lisp-program "sbcl"))
-  :config
-  (progn
-    (slime-setup)))
-
-(use-package rust-mode
-  :config
-  (add-hook 'rust-mode-hook
-            '(lambda ()
-               (setq compilation-read-command nil)))
-  :init
-  (use-package racer
-    :init
-    (add-hook 'rust-mode-hook #'racer-mode)
-    (setq racer-rust-src-path "~/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/src"))
-  :mode ("\\.rs\\'" . rust-mode))
-
-(use-package flycheck-rust
-  :init
-  (add-hook 'flycheck-mode-hook #'flycheck-rust-setup))
-
 (use-package elpy
   :config
   (elpy-enable)
