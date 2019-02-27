@@ -25,6 +25,8 @@
   :diminish ivy-mode
   :init (ivy-mode t)
   :config
+  (ivy-toggle-case-fold)
+  (setq ivy-extra-directories nil)      ; remove ./ and ../ during filename completion
 
   (use-package counsel
   :diminish counsel-mode
@@ -80,10 +82,10 @@
               :caller 'counsel-switch-to-shell-buffer))
 
   ;; defun counsel-ag (&optional initial-input initial-directory extra-ag-args ag-prompt)
-  (defun counsel-ag-root ()
+  (defun counsel-ag-root (&optional args)
     "Ag from project root."
     (interactive)
-    (counsel-ag nil (vc-root-dir)))
+    (counsel-ag nil (vc-root-dir) args))
 
   (defun counsel-gtags-find-reference-at-point ()
     "By default, counsel-gtags-find-reference takes the symbol at
