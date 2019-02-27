@@ -358,6 +358,11 @@
   (mapc (lambda (level)
           (set-face-attribute level nil :height 1.3 :weight 'bold))
         '(org-level-1 org-level-2 org-level-3 org-level-4 org-level-5))
+  ;; source code in org files
+  (setq org-src-fontify-natively t
+        org-src-tab-acts-natively t
+        org-src-ask-before-returning-to-edit-buffer nil
+        org-confirm-babel-evaluate nil) ; Just C-c C-c to evaluate src block, no questions asked
   ; Force bind these keys, as they are overwriten otherwise by the org-mode
   :bind (:map org-mode-map
               ("C-," . previous-buffer)
