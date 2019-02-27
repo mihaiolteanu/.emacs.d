@@ -523,18 +523,7 @@
   (interactive)
   (ivy-read
    "Select:"
-   '("Concedii - //phoenix/Backup/05_Delivery-Main/03_Embedded/01_SU1301/08_Planificarea_resurselor/2018/2018_CONTI_DEV_Holiday_plan.xlsx"
-     "OIL - /H/03_Prod_Dev/20_Specifications/80_OpenItems/Customer/OIL_223_HUD_Entry.xlsm"
-     "CIL - /H/01_Proj_Org/10_Organization/20_CM_Plan/CIL_MFA2HUD.xlsm"
-     "RVL_LIST - /H/02_Quality/90_Reviews/200_Review_List/RVL_MFA2_HUD.xlsm"
-     "SwProjectPlan - H:/14_SW_223eHUD/01_SW_Proj_Org/10_SW_Organization/10_Project_Plan/SPRP_223eHUD.docm"
-     "SSTS - H:/14_SW_223eHUD/90_SW_Quality/70_Document_Status/SSTS_Status_223eHUD.xls"
-     "DiagORG - /H/14_SW_223eHUD/01_SW_Proj_Org/40_DIAG_ORG"
-     "223eHUD Root - /C/work/223eHUD"
-     "Customer Standards - /H/03_Prod_Dev/20_Specifications/13_CustomerStandards_223eHUD"
-     "Customer Requirements - /H/03_Prod_Dev/20_Specifications/10_CustomerRequirements_223eHUD/10_Delivery"
-     "Daimler Mirror - /H/01_Proj_Org/99_ENX_Mirror/Headup_MFA2/05_Software/223HUDe"
-     "Downloads Diagnostic Portal - /H/14_SW_223eHUD/01_SW_Proj_Org/90_Downloads_Diagnostic_Portal")
+   '("Concedii - //phoenix/Backup/05_Delivery-Main/03_Embedded/13_SU1313/08_Planificarea_resurselor/03_Planificare_concedii/2019/2019_CONTI_DEV_Holiday_plan.xlsx")
    :action (lambda (x)
              (let ((path (car (last (split-string x)))))
                (if (file-directory-p path)
