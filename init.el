@@ -383,6 +383,11 @@
 	      ("X" . dired-ranger-move)
 	      ("Y" . dired-ranger-paste)))
 
+(use-package ivy-dired-history :after (dired savehist)
+  :init
+  (add-to-list 'savehist-additional-variables
+               'ivy-dired-history-variable))
+
 (use-package buffer-sections
   :ensure nil
   :bind (("C-x ]" . forward-section)
