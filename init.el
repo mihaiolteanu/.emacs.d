@@ -330,19 +330,6 @@
   (setq avy-keys '(?\; ?l ?k ?j ?h ?u ?i ?o ?p ?m))
   :bind ("C-;" . avy-goto-symbol-1))
 
-(use-package dired+
-  :ensure t
-  :init
-  (setq dired-guess-shell-alist-user
-	'(("\\.pdf\\'" "zathura")
-	  ("\\.png\\'\\|\\.jpe?g\\'" "feh --scale-down --auto-rotate -B black *")))
-  (load "dired+")
-  (add-hook 'dired-mode-hook
-	    (lambda ()
-	      (local-set-key (kbd "C-l") 'dired-up-directory)))
-  :bind ("C-!" . dired-do-shell-command) ;same as !, but easier to type
-  )
-
 (use-package org
   :init
   (setq org-startup-indented t)
@@ -378,12 +365,16 @@
                     (t "")))
     (setq openwith-associations `(("\\.pdf\\|\\.png\\|\\.docm\\|\\.xls" ,open-app (file))))))
 
-(use-package dired-ranger
-  :ensure t
+(use-package dired
+  :ensure nil
+  :config
+  (setq dired-listing-switches "-lah")
+  (custom-set-faces
+   '(dired-directory ((t (:foreground "DodgerBlue1" :weight bold))))
+   '(dired-marked ((t (:foreground "orange red" :weight extra-bold)))))
+  :hook (dired-mode . dired-hide-details-mode)
   :bind (:map dired-mode-map
-	      ("W" . dired-ranger-copy)
-	      ("X" . dired-ranger-move)
-	      ("Y" . dired-ranger-paste)))
+              ("C-l" . 'dired-up-directory)))
 
 (use-package buffer-sections
   :ensure nil
