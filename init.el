@@ -376,6 +376,13 @@
   :bind (:map dired-mode-map
               ("C-l" . 'dired-up-directory)))
 
+(use-package dired-ranger
+  :ensure t
+  :bind (:map dired-mode-map
+	      ("W" . dired-ranger-copy)
+	      ("X" . dired-ranger-move)
+	      ("Y" . dired-ranger-paste)))
+
 (use-package buffer-sections
   :ensure nil
   :bind (("C-x ]" . forward-section)
