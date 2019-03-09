@@ -73,7 +73,6 @@
     "Switch to a eshell buffer, or create one. Copy/pasted from
      counsel.el and modified the shell-mode to eshell-mode"
     (interactive)
-    (split-window-vertically (- (/ (window-total-height) 3)))
     (other-window 1)
     (ivy-read "Switch to shell buffer: "
               (counsel-list-buffers-with-mode 'eshell-mode)
@@ -156,8 +155,8 @@
   (defun eshell/x ()
     (interactive)
     (insert "exit")
-    (eshell-send-input)
-    (delete-window))
+    (eshell-send-input))
+  
   (use-package eshell-fringe-status :ensure t)
   (use-package eshell-fixed-prompt :ensure t)
   (add-hook 'eshell-mode-hook
@@ -183,15 +182,13 @@
     (let* ((parent (if (buffer-file-name)
                        (file-name-directory (buffer-file-name))
                      default-directory))
-           (height (/ (window-total-height) 3))
            (name   (car (last (split-string parent "/" t))))
            (name   (concat "*" parent " - eshell*")))
       ;; Create a new eshell buffer if one doesn't exist and switch to it
       (if (get-buffer name)
-          (switch-to-buffer (get-buffer name))
+          (switch-to-buffer-other-window (get-buffer name))
         (progn
-          (split-window-vertically (- height))
-          (other-window 1)
+          (switch-to-buffer-other-window (current-buffer))
           (eshell "new")
           (rename-buffer name)
           (insert (concat "ls"))
