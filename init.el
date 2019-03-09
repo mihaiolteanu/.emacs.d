@@ -349,6 +349,7 @@
         org-src-tab-acts-natively t
         org-src-ask-before-returning-to-edit-buffer nil
         org-confirm-babel-evaluate nil) ; Just C-c C-c to evaluate src block, no questions asked
+  (setq org-babel-lisp-eval-fn 'sly-eval) ; Use sly instead of the default slime
   ; Force bind these keys, as they are overwriten otherwise by the org-mode
   :bind (:map org-mode-map
               ("C-," . previous-buffer)
