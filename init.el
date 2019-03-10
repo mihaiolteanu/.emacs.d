@@ -155,7 +155,8 @@
   (defun eshell/x ()
     (interactive)
     (insert "exit")
-    (eshell-send-input))
+    (eshell-send-input)
+    (other-window 1))
   
   (use-package eshell-fringe-status :ensure t)
   (use-package eshell-fixed-prompt :ensure t)
