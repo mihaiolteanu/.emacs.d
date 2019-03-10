@@ -192,7 +192,7 @@
           (switch-to-buffer-other-window (current-buffer))
           (eshell "new")
           (rename-buffer name)
-          (insert (concat "ls"))
+          (insert (concat "l"))
           (eshell-send-input)))))
   
   :bind (("C-c e" . eshell-here)))
