@@ -367,13 +367,22 @@
 (use-package dired
   :ensure nil
   :config
+  (use-package dired-x
+    :ensure nil
+    :hook (dired-mode . dired-omit-mode))
+  (use-package dired-subtree
+    :ensure t)
   (setq dired-listing-switches "-lah")
+  (put 'dired-find-alternate-file 'disabled nil) ;enable 'a' command in dired
   (custom-set-faces
    '(dired-directory ((t (:foreground "DodgerBlue1" :weight bold))))
    '(dired-marked ((t (:foreground "orange red" :weight extra-bold)))))
   :hook (dired-mode . dired-hide-details-mode)
   :bind (:map dired-mode-map
-              ("C-l" . 'dired-up-directory)))
+              ("C-l" . 'dired-up-directory)
+              ("I" . 'dired-kill-subdir)
+              ("<tab>" . 'dired-hide-subdir)
+              ("C-i" . 'dired-subtree-cycle)))
 
 (use-package dired-ranger
   :ensure t
@@ -492,6 +501,20 @@
   (ivy-read "DAI: "
           (directory-files-recursively "/c/work/223eHUD/docs/" "")
           :action (lambda (x) (find-file x))))
+
+(defun mydir ()
+  "Can be used in dired buffer to search files recursively.
+If point is on a folder, search in that folder, otherwise, search
+in the current folder dired is opened in."
+  (interactive)
+  (ivy-read "Blaaa: "
+            (directory-files-recursively
+             (if (and (derived-mode-p 'dired-mode)
+                      (file-directory-p (dired-get-filename)))
+                 (dired-get-filename)
+               default-directory)
+             "")
+            :action #'find-file))
 
 (defun useful-documents-and-paths ()
   (interactive)
