@@ -21,7 +21,10 @@
   :config
   (load-theme 'sanityinc-tomorrow-eighties :no-confirm))
 
-(use-package diminish)
+(use-package diminish
+  :config
+  (diminish 'auto-revert-mode)
+  (diminish 'eldoc-mode))
 
 (use-package ivy
   :diminish ivy-mode
@@ -230,10 +233,12 @@
    ))
 
 (use-package beacon
+  :diminish
   :config
   (beacon-mode +1))
 
 (use-package which-key
+  :diminish
   :config
   (which-key-mode +1))
 
