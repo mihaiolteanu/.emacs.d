@@ -21,6 +21,8 @@
   :config
   (load-theme 'sanityinc-tomorrow-eighties :no-confirm))
 
+(use-package diminish)
+
 (use-package ivy
   :diminish ivy-mode
   :init (ivy-mode t)
@@ -30,8 +32,9 @@
   (use-package counsel
   :diminish counsel-mode
   :init (counsel-mode t))
-  
-  (use-package counsel-gtags :ensure t)
+
+  (use-package smex)          ; show most recently used commands in counsel-M-x
+  (use-package counsel-gtags)
 
   (setq ivy-height 15
         ivy-fixed-height-minibuffer t ; Do not autoresize the minibuffer
@@ -157,8 +160,8 @@
     (eshell-send-input)
     (other-window 1))
   
-  (use-package eshell-fringe-status :ensure t)
-  (use-package eshell-fixed-prompt :ensure t)
+  (use-package eshell-fringe-status)
+  (use-package eshell-fixed-prompt)
   (add-hook 'eshell-mode-hook
 	    (lambda ()
 	      (eshell-cmpl-initialize)
@@ -204,6 +207,7 @@
   :bind (("C-c m t" . git-timemachine)))
 
 (use-package git-gutter+
+  :diminish
   :init
   (if (not (fboundp 'git-commit-mode-font-lock-keywords))
       ;; This function seems missing or something is wrong with it
@@ -261,19 +265,17 @@
 	 ("C-a" . crux-move-beginning-of-line)))
 
 (use-package smartscan
-  :diminish global-smartscan-mode
+  :diminish
   :config
   (global-smartscan-mode 1))
 
 (use-package wrap-region
-  :ensure t
-  :diminish wrap-region-mode
+  :diminish
   :config
   (wrap-region-mode 1))
 
 (use-package smartparens
-  :ensure t
-  :diminish smartparens-mode
+  :diminish
   :config
   (require 'smartparens-config)
   (use-package crux)
@@ -297,12 +299,10 @@
   :bind ("C-w" . sp-kill-region-or-backward-word))
 
 (use-package geiser
-  :ensure t
   :bind (:map geiser-mode-map
               ("C-." . next-buffer)))
 
 (use-package cmake-mode
-  :ensure t
   :mode (("\\.cmake\\'" . cmake-mode)
 	 ("CMakeLists.txt" . cmake-mode))
   :config
@@ -315,8 +315,7 @@
 	       (cmake-font-lock-activate))))
 
 (use-package company
-  :ensure t
-  :diminish company-mode
+  :diminish
   :config (global-company-mode +1)
   :bind (:map company-active-map
         ("C-n" . company-select-next)
@@ -353,8 +352,7 @@
               ("<C-tab>" . other-window)))
 
 (use-package openwith
-  :ensure t
-  :diminish openwith-mode
+  :diminish
   :config
   (openwith-mode +1)
   (let (open-app)
