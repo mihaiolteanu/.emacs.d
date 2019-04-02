@@ -489,13 +489,6 @@
 (setf comint-prompt-read-only t
       comint-history-isearch t)
 
-;; §§§ Work specific stuff
-(defun dai-documents ()
-  (interactive)
-  (ivy-read "DAI: "
-          (directory-files-recursively "/c/work/223eHUD/docs/" "")
-          :action (lambda (x) (find-file x))))
-
 (defun mydir ()
   "Can be used in dired buffer to search files recursively.
 If point is on a folder, search in that folder, otherwise, search
@@ -509,15 +502,4 @@ in the current folder dired is opened in."
                default-directory)
              "")
             :action #'find-file))
-
-(defun useful-documents-and-paths ()
-  (interactive)
-  (ivy-read
-   "Select:"
-   '("Concedii - //phoenix/Backup/05_Delivery-Main/03_Embedded/13_SU1313/08_Planificarea_resurselor/03_Planificare_concedii/2019/2019_CONTI_DEV_Holiday_plan.xlsx")
-   :action (lambda (x)
-             (let ((path (car (last (split-string x)))))
-               (if (file-directory-p path)
-                   (w32-shell-execute "explore" path) ;Open folders in explorer
-                 (find-file (car (last (split-string path)))))))))
 
