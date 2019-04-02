@@ -376,17 +376,10 @@
    '(dired-marked ((t (:foreground "orange red" :weight extra-bold)))))
   :hook (dired-mode . dired-hide-details-mode)
   :bind (:map dired-mode-map
-              ("C-l" . 'dired-up-directory)
+              ("C-l" . 'dired-up-directory)              
               ("I" . 'dired-kill-subdir)
               ("<tab>" . 'dired-hide-subdir)
               ("C-i" . 'dired-subtree-cycle)))
-
-(use-package dired-ranger
-  :ensure t
-  :bind (:map dired-mode-map
-	      ("W" . dired-ranger-copy)
-	      ("X" . dired-ranger-move)
-	      ("Y" . dired-ranger-paste)))
 
 (use-package ivy-dired-history :after (dired savehist)
   :init
