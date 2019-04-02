@@ -438,13 +438,11 @@
          (define-key map (kbd "<return>") 'ted-eshell-ls-find-file-at-point)
          (defvar ted-eshell-ls-keymap map))))
 
-
 ;; Disable bars and the blinking cursor
-(mapc
- (lambda (mode)
-   (when (fboundp mode)
-     (funcall mode -1)))
- '(menu-bar-mode tool-bar-mode scroll-bar-mode blink-cursor-mode))
+(mapc (lambda (mode)
+        (when (fboundp mode)
+          (funcall mode -1)))
+      '(menu-bar-mode tool-bar-mode scroll-bar-mode blink-cursor-mode))
 
 ;; highlight the current line
 (global-hl-line-mode +1)
