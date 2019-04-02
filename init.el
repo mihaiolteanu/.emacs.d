@@ -400,13 +400,6 @@
               ("C-x C-e" . alchemist-iex-send-current-line)
               ("C-j" . alchemist-iex-send-region)))
 
-(use-package buffer-sections
-  :ensure nil
-  :bind (("C-x ]" . forward-section)
-	 ("C-x [" . backward-section)
-	 ("C-x C-]" . insert-section)
-	 ("C-x C-[" . search-sections)))
-
 (use-package elpy
   :config
   (elpy-enable)
