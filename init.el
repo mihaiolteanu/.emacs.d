@@ -395,6 +395,11 @@
   (add-to-list 'savehist-additional-variables
                'ivy-dired-history-variable))
 
+(use-package alchemist
+  :bind (:map alchemist-mode-map
+              ("C-x C-e" . alchemist-iex-send-current-line)
+              ("C-j" . alchemist-iex-send-region)))
+
 (use-package buffer-sections
   :ensure nil
   :bind (("C-x ]" . forward-section)
