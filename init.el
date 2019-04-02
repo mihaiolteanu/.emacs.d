@@ -475,8 +475,10 @@
 
 ;; General navigation keys
 (defun revert-buffer-no-confirm ()
-   (interactive) (revert-buffer t t))
+  (interactive) (revert-buffer t t))
+
 (global-set-key (kbd "<C-tab>") 'other-window)
+(global-set-key (kbd "<C-M-tab>") 'windmove-left)
 (global-set-key (kbd "C-,") 'previous-buffer)
 (global-set-key (kbd "C-.") 'next-buffer)
 (global-set-key (kbd "C-q") 'execute-extended-command)
