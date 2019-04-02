@@ -386,6 +386,11 @@
   (add-to-list 'savehist-additional-variables
                'ivy-dired-history-variable))
 
+(use-package smart-mode-line
+  :config
+  (setq sml/theme 'respectful)
+  (sml/setup))
+
 (use-package sly
   :config
   (setq inferior-lisp-program "/usr/bin/sbcl")
