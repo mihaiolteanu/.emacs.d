@@ -467,6 +467,12 @@
 (setq auto-save-file-name-transforms
       `((".*" ,temporary-file-directory t)))
 
+(set-face-attribute 'default nil
+                    :family "Source Code Pro"
+                    :height 112
+                    :weight 'normal
+                    :width 'normal)
+
 ;; General navigation keys
 (defun revert-buffer-no-confirm ()
    (interactive) (revert-buffer t t))
