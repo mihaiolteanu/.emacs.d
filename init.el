@@ -486,6 +486,13 @@
 (set-fringe-mode 0)
 
 ;; §§§ Other stuff
+
+;; Kill the current buffer instantly
+(global-set-key (kbd "C-x k")
+                (lambda ()
+                  (interactive)
+                  (kill-buffer (current-buffer))))
+
 ;; https://www.emacswiki.org/emacs/EshellEnhancedLS
 (eval-after-load "em-ls"
     '(progn
