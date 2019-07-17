@@ -259,8 +259,7 @@
 	       ;; 				 (let ((d (dir-locals-find-file ".")))
 	       ;; 				   (if (stringp d) d (car d))))
 	       ;; 				"makefile"))))))
-               (local-set-key (kbd "C-c C-c") 'compile)
-	       (which-function-mode +1))))
+               (local-set-key (kbd "C-c C-c") 'compile))))
 
 (use-package disaster)			; Disassemble C/C++ code under cursor
 
