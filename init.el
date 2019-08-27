@@ -393,7 +393,8 @@
 (use-package smart-mode-line
   :config
   (setq sml/theme 'respectful)
-  (sml/setup))
+  ;; Get rid of loading lisp code warning on emacs startup
+  (add-hook 'after-init-hook 'sml/setup))
 
 (use-package sly
   :config
