@@ -465,11 +465,6 @@
     (define-key sly-mrepl-mode-map (kbd ",r") 'sly-restart-inferior-lisp))
   )
 
-(use-package alchemist
-  :bind (:map alchemist-mode-map
-              ("C-x C-e" . alchemist-iex-send-current-line)
-              ("C-j" . alchemist-iex-send-region)))
-
 ;; Open compilation results in a bottom buffer, similar to helm, identical code.
 (setq compilation-read-command nil) 
 (add-to-list 'display-buffer-alist
