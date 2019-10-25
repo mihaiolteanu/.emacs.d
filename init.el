@@ -78,12 +78,6 @@
     (interactive)
     (swiper isearch-string))
 
-  (add-hook 'c-mode-common-hook
-            '(lambda ()
-	       (local-set-key (kbd "M-.") 'counsel-gtags-dwim)
-	       (local-set-key (kbd "M-,") 'counsel-gtags-go-backward)
-	       (local-set-key (kbd "C-M-.") 'counsel-gtags-find-reference-at-point)))
-
   (ivy-set-actions
    'counsel-M-x
    '(("d" (lambda (f) (describe-function (intern f))) "describe")
@@ -224,7 +218,15 @@
 	       ;; 				 (let ((d (dir-locals-find-file ".")))
 	       ;; 				   (if (stringp d) d (car d))))
 	       ;; 				"makefile"))))))
-               (local-set-key (kbd "C-c C-c") 'compile))))
+               (local-set-key (kbd "C-c C-c") 'compile)))
+  :bind ((:map c-mode-map
+               ("M-." . counsel-gtags-dwim)
+               ("M-," . counsel-gtags-go-backward)
+               ("C-M-." . counsel-gtags-find-reference-at-point))
+         (:map c++-mode-map
+               ("M-." . counsel-gtags-dwim)
+               ("M-," . counsel-gtags-go-backward)
+               ("C-M-." . counsel-gtags-find-reference-at-point))))
 
 (use-package disaster)			; Disassemble C/C++ code under cursor
 
