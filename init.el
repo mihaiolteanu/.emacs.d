@@ -207,17 +207,7 @@
 	    '(lambda ()
 	       (setq c-default-style "k&r"
 		     c-basic-offset 4)
-	       (setq-default fill-column 80)
-	       ;; Don't ask for a compile command every time, useful if compile-command
-	       ;; is taken from .dir-locals.el, for example.
-	       ;; Example for setting the compile-command in .dir-locals.el:
-	       ;;
-	       ;; ((nil . ((eval . (set (make-local-variable 'compile-command)
-	       ;; 			(concat "make -f "
-	       ;; 				(file-name-directory
-	       ;; 				 (let ((d (dir-locals-find-file ".")))
-	       ;; 				   (if (stringp d) d (car d))))
-	       ;; 				"makefile"))))))
+	       (setq-default fill-column 80)	       
                (local-set-key (kbd "C-c C-c") 'compile)))
   :bind ((:map c-mode-map
                ("M-." . counsel-gtags-dwim)
