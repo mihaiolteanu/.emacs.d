@@ -26,6 +26,16 @@
   (diminish 'auto-revert-mode)
   (diminish 'eldoc-mode))
 
+(defun github-code-search ()
+  "Search code on github for a given language."
+  (interactive)
+  (let ((language (completing-read
+                   "Language: "'("Common Lisp" "Emacs Lisp")))
+        (code (read-string "Code: ")))
+    (browse-url
+     (concat "https://github.com/search?l=" language
+             "&type=code&q=" code))))
+
 (use-package ivy
   :diminish ivy-mode
   :init (ivy-mode t)
