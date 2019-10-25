@@ -1,21 +1,22 @@
 (setq inhibit-startup-message t)
 
 (require 'package)
-(setq package-enable-at-startup nil)
-(add-to-list 'package-archives
-	     '("melpa" . "http://melpa.org/packages/") t)
 (package-initialize)
 
-(add-to-list 'load-path "~/.emacs.d/lisp/")
+(add-to-list 'package-archives
+	     '("melpa" . "http://melpa.org/packages/") t)
+(add-to-list 'load-path
+             "~/.emacs.d/lisp/")
 
 ;; Bootstrap 'use-package'
 (unless (package-installed-p 'use-package)
   (package-refresh-contents)
   (package-install 'use-package))
 
-;; §§§ Use package configs
-;; Don't need to type :ensure t to every use-package instance
-(setq use-package-always-ensure t)
+;; Global configs.
+(setq use-package-always-ensure t
+      inhibit-startup-message t
+      package-enable-at-startup nil)
 
 (use-package color-theme-sanityinc-tomorrow
   :config
