@@ -60,16 +60,6 @@
     (interactive)
     (counsel-file-jump nil (vc-root-dir)))
 
-  (defun counsel-switch-to-eshell-buffer ()
-    "Switch to a eshell buffer, or create one. Copy/pasted from
-     counsel.el and modified the shell-mode to eshell-mode"
-    (interactive)
-    (other-window 1)
-    (ivy-read "Switch to shell buffer: "
-              (counsel-list-buffers-with-mode 'eshell-mode)
-              :action #'counsel-switch-to-buffer-or-window
-              :caller 'counsel-switch-to-shell-buffer))
-
   (defun counsel-gtags-find-reference-at-point ()
     "By default, counsel-gtags-find-reference takes the symbol at
     point but still keeps the prompt that asks for a symbol
@@ -92,10 +82,7 @@
             '(lambda ()
 	       (local-set-key (kbd "M-.") 'counsel-gtags-dwim)
 	       (local-set-key (kbd "M-,") 'counsel-gtags-go-backward)
-	       (local-set-key (kbd "C-M-.") 'counsel-gtags-find-reference-at-point)
-               ;; C-c C-e is used by something else by default in cc-mode
-	       (local-set-key (kbd "C-c C-e") 'counsel-switch-to-eshell-buffer)
-               ))
+	       (local-set-key (kbd "C-M-.") 'counsel-gtags-find-reference-at-point)))
 
   (ivy-set-actions
    'counsel-M-x
@@ -112,7 +99,6 @@
          ("C-x C-f" . counsel-find-file)
          ("C-x C-r" . counsel-find-file-root)
          ("C-c s" . counsel-ag)
-         ("C-c C-e" . counsel-switch-to-eshell-buffer)
          ("C-c C-r" . ivy-resume)
          ("C-z" . ivy-switch-buffer)
          ("C-c i" . counsel-semantic)
