@@ -535,9 +535,9 @@
 (fset 'yes-or-no-p 'y-or-n-p)
 
 (setq-default fill-column 80)
-
-;; enable dir local variables
-(setq enable-local-eval t)
+(setq enable-local-eval t               ;enable dir local variables
+      debugger-stack-frame-as-list t    ;show calls as lists in the debugger
+      )
 
 (setq backup-directory-alist
       `((".*" . ,temporary-file-directory)))
