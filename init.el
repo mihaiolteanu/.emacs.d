@@ -55,30 +55,6 @@
         enable-recursive-minibuffers t
         ivy-use-virtual-buffers t)    ; Helm-mini like behaviour
 
-  (defun counsel-find-file-return-name (&optional initial-input)
-    "Return the file name path selected by the user. Copy/pasted
-     from counsel-find-file but change the action."
-  (interactive)
-  (ivy-read "Find file: " 'read-file-name-internal
-            :matcher #'counsel--find-file-matcher
-            :initial-input initial-input
-            :action
-            (lambda (x)
-              x)
-            :preselect (when counsel-find-file-at-point
-                         (require 'ffap)
-                         (let ((f (ffap-guesser)))
-                           (when f (expand-file-name f))))
-            :require-match 'confirm-after-completion
-            :history 'file-name-history
-            :keymap counsel-find-file-map
-            :caller 'counsel-find-file))
-
-  (defun counsel-do-ag ()
-    "Search using ag in a user-selected folder"
-    (interactive)
-    (counsel-ag nil (counsel-find-file-return-name)))
-
   (defun counsel-find-file-root ()
     "Find file in project root."
     (interactive)
@@ -136,7 +112,6 @@
          ("C-x C-f" . counsel-find-file)
          ("C-x C-r" . counsel-find-file-root)
          ("C-c s" . counsel-ag)
-         ("C-c S" . counsel-do-ag)
          ("C-c C-e" . counsel-switch-to-eshell-buffer)
          ("C-c C-r" . ivy-resume)
          ("C-z" . ivy-switch-buffer)
