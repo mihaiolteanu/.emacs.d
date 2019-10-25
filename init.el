@@ -248,7 +248,7 @@
 	    '(lambda ()
 	       (setq c-default-style "k&r"
 		     c-basic-offset 4)
-	       (setq-default fill-column 95)
+	       (setq-default fill-column 80)
 	       ;; Don't ask for a compile command every time, useful if compile-command
 	       ;; is taken from .dir-locals.el, for example.
 	       ;; Example for setting the compile-command in .dir-locals.el:
@@ -320,10 +320,13 @@
 
 (use-package company
   :diminish
-  :config (global-company-mode +1)
+  :config
+  (global-company-mode +1)
+  ;; (use-package company-quickhelp)
   :bind (:map company-active-map
         ("C-n" . company-select-next)
-        ("C-p" . company-select-previous)))
+        ("C-p" . company-select-previous)
+        ("C-j" . company-show-doc-buffer)))
 
 (use-package avy
   :config
@@ -383,7 +386,8 @@
               ("C-l" . 'dired-up-directory)              
               ("I" . 'dired-kill-subdir)
               ("<tab>" . 'dired-hide-subdir)
-              ("C-i" . 'dired-subtree-cycle)))
+              ("C-i" . 'dired-subtree-toggle)
+              ("q" . kill-this-buffer)))
 
 (use-package ivy-dired-history :after (dired savehist)
   :init
@@ -393,6 +397,7 @@
 (use-package smart-mode-line
   :config
   (setq sml/theme 'respectful)
+  (setq sml/no-confirm-load-theme t)
   ;; Get rid of loading lisp code warning on emacs startup
   (add-hook 'after-init-hook 'sml/setup))
 
@@ -448,7 +453,7 @@
 
   (defun counsel-sly-package-internal-symbols ()
     (interactive)
-    (counsel-sly-eval "(my-internal-symbols \*package\*)"
+    (counsel-sly-eval "(common-lisp-user::package-internal-symbols \*package\*)"
                       `(1 ("o" ,#'insert "insert")
                           ("f" ,(lambda (candidate)
                                   (send-input (format "(find-symbol \"%s\")" candidate)))
@@ -529,6 +534,8 @@
 ;; enable y/n answers
 (fset 'yes-or-no-p 'y-or-n-p)
 
+(setq-default fill-column 80)
+
 ;; enable dir local variables
 (setq enable-local-eval t)
 
@@ -549,6 +556,7 @@
 
 (global-set-key (kbd "<C-tab>") 'other-window)
 (global-set-key (kbd "<C-M-tab>") 'windmove-left)
+(global-set-key (kbd "<C-S-iso-lefttab>") 'outline-toggle-children)
 (global-set-key (kbd "C-,") 'previous-buffer)
 (global-set-key (kbd "C-.") 'next-buffer)
 (global-set-key (kbd "C-q") 'execute-extended-command)
@@ -572,4 +580,22 @@ in the current folder dired is opened in."
                default-directory)
              "")
             :action #'find-file))
+
+(org-babel-do-load-languages
+ 'org-babel-load-languages
+ '((lisp . t)))
+
+(defun my-html-filter-src-blocks (text backend info)
+  "Remove source blocks from html export."
+  (when (org-export-derived-backend-p backend 'html)
+    "[removed source block]"))
+
+(setq org-src-fontify-natively t
+    org-src-tab-acts-natively t
+    org-confirm-babel-evaluate nil
+    org-edit-src-content-indentation 0)
+
+(add-to-list 'org-export-filter-src-block-functions
+             'my-html-filter-src-blocks)
+
 
