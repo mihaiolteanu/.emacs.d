@@ -94,12 +94,6 @@
               :action #'counsel-switch-to-buffer-or-window
               :caller 'counsel-switch-to-shell-buffer))
 
-  ;; defun counsel-ag (&optional initial-input initial-directory extra-ag-args ag-prompt)
-  (defun counsel-ag-root (&optional args)
-    "Ag from project root."
-    (interactive)
-    (counsel-ag nil (vc-root-dir) args))
-
   (defun counsel-gtags-find-reference-at-point ()
     "By default, counsel-gtags-find-reference takes the symbol at
     point but still keeps the prompt that asks for a symbol
@@ -141,7 +135,7 @@
   :bind (("M-y" . counsel-yank-pop)
          ("C-x C-f" . counsel-find-file)
          ("C-x C-r" . counsel-find-file-root)
-         ("C-c s" . counsel-ag-root)
+         ("C-c s" . counsel-ag)
          ("C-c S" . counsel-do-ag)
          ("C-c C-e" . counsel-switch-to-eshell-buffer)
          ("C-c C-r" . ivy-resume)
