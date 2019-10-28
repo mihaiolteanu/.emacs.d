@@ -115,12 +115,6 @@
   (setq eshell-hist-ignoredups t
         eshell-save-history-on-exit t)
   :config
-  (defun eshell/x ()
-    (interactive)
-    (insert "exit")
-    (eshell-send-input)
-    (other-window 1))
-  
   (use-package eshell-fringe-status)
   (use-package eshell-fixed-prompt)
   (add-hook 'eshell-mode-hook
@@ -130,35 +124,11 @@
               (setenv "GIT_PAGER" "")   ; Make git usable
               (eshell-fixed-prompt-mode)
               (eshell-fringe-status-mode)
-              ;; "eshell-mode-map not available" error, if the keys below are put on :bind :map
-              (define-key eshell-mode-map [remap eshell-pcomplete] 'completion-at-point)
-              (define-key eshell-mode-map (kbd "M-r") 'counsel-esh-history)
-              (define-key eshell-mode-map (kbd "M-p") 'eshell-previous-input)
-              (define-key eshell-mode-map (kbd "M-n") 'eshell-next-input)
-              (define-key eshell-mode-map (kbd "C-g") 'eshell/x)
-              (eshell/alias "l" "ls -lah")))
-
-  (defun eshell-here ()
-    "Opens up a new shell in the directory associated with the
-     current buffer's file. The eshell is renamed to match that
-     directory to make multiple eshell windows easier."
-    (interactive)
-    (let* ((parent (if (buffer-file-name)
-                       (file-name-directory (buffer-file-name))
-                     default-directory))
-           (name   (car (last (split-string parent "/" t))))
-           (name   (concat "*" parent " - eshell*")))
-      ;; Create a new eshell buffer if one doesn't exist and switch to it
-      (if (get-buffer name)
-          (switch-to-buffer-other-window (get-buffer name))
-        (progn
-          (switch-to-buffer-other-window (current-buffer))
-          (eshell "new")
-          (rename-buffer name)
-          (insert (concat "l"))
-          (eshell-send-input)))))
-  
-  :bind (("C-c e" . eshell-here)))
+              (bind-keys :map eshell-mode-map
+                         ("C-r" . counsel-esh-history)
+                         ("M-p" . eshell-previous-input)
+                         ("M-n" . eshell-next-input))))
+  :bind (("C-c e" . eshell)))
 
 (use-package magit
   :bind (("C-c m l" . magit-log)
