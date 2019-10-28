@@ -173,7 +173,8 @@
 (use-package crux
   :config
   :bind (("C-c d" . crux-duplicate-current-line-or-region)
-	 ("C-a" . crux-move-beginning-of-line)))
+	 ("C-a" . crux-move-beginning-of-line)
+         ("C-o" . crux-smart-open-line-above)))
 
 (use-package smartscan
   :diminish
