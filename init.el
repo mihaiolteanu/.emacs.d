@@ -180,11 +180,6 @@
   :config
   (global-smartscan-mode 1))
 
-(use-package wrap-region
-  :diminish
-  :config
-  (wrap-region-mode 1))
-
 (use-package smartparens
   :diminish
   :config
