@@ -130,13 +130,7 @@
                          ("M-n" . eshell-next-input))))
   :bind (("C-c e" . eshell)))
 
-(use-package magit
-  :bind (("C-c m l" . magit-log)
-	 ("C-c m b" . magit-blame)))
-
-(use-package git-timemachine
-  :bind (("C-c m t" . git-timemachine)))
-
+(use-package git-timemachine)
 (use-package git-gutter+
   :diminish
   :init
@@ -147,18 +141,17 @@
         git-commit-font-lock-keywords-2))
   :config
   (global-git-gutter+-mode +1)
-  (set-face-foreground 'git-gutter+-added "olive drab")
-  (set-face-foreground 'git-gutter+-deleted "firebrick")
+  (set-face-foreground 'git-gutter+-added    "olive drab")
+  (set-face-foreground 'git-gutter+-deleted  "firebrick")
   (set-face-foreground 'git-gutter+-modified "dark magenta")
   :bind
-  (("C-x v n" . git-gutter+-next-hunk)
-   ("C-x v p" . git-gutter+-previous-hunk)
+  (("C-x v n"   . git-gutter+-next-hunk)
+   ("C-x v p"   . git-gutter+-previous-hunk)
    ("C-x v C-s" . git-gutter+-show-hunk)
-   ("C-x v s" . git-gutter+-stage-hunks)
-   ("C-x v u" . git-gutter+-unstage-whole-buffer)
-   ("C-x v c" . git-gutter+-commit)
-   ("C-x v C-c" . git-gutter+-stage-and-commit)
-   ))
+   ("C-x v s"   . git-gutter+-stage-hunks)
+   ("C-x v u"   . git-gutter+-unstage-whole-buffer)
+   ("C-x v c"   . git-gutter+-commit)
+   ("C-x v C-c" . git-gutter+-stage-and-commit)))
 
 (use-package beacon
   :diminish
