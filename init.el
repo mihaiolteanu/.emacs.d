@@ -44,8 +44,8 @@
   (ivy-toggle-case-fold)
 
   (use-package counsel
-  :diminish counsel-mode
-  :init (counsel-mode t))
+    :diminish counsel-mode
+    :init (counsel-mode t))
 
   (use-package smex)          ; show most recently used commands in counsel-M-x
   (use-package counsel-gtags)
@@ -90,27 +90,25 @@
                             (describe-function (intern s))
                             (ivy-resume))))
 
-  :bind (("M-y" . counsel-yank-pop)
+  :bind (("M-y"     . counsel-yank-pop)
          ("C-x C-f" . counsel-find-file)
          ("C-x C-r" . counsel-find-file-root)
-         ("C-c s" . counsel-ag)
+         ("C-c s"   . counsel-ag)
          ("C-c C-r" . ivy-resume)
-         ("C-z" . ivy-switch-buffer)
-         ("C-c i" . counsel-semantic)
-         ("C-S-s" . swiper)
+         ("C-z"     . ivy-switch-buffer)
+         ("C-c i"   . counsel-semantic)
+         ("C-S-s"   . swiper)
          :map counsel-find-file-map
-         ("C-l" . counsel-up-directory)
-         ("C-j" . ivy-alt-done)
+         ("C-l"     . counsel-up-directory)
+         ("C-j"     . ivy-alt-done)
          :map ivy-minibuffer-map
-         ("C-i" . ivy-insert-current)
-         ("C-j" . ivy-call)
-         ("C-w" . ivy-yank-word)
-         ("C-o" . ivy-dispatching-done) ; Select actions
+         ("C-j"     . ivy-call)
+         ("C-w"     . ivy-yank-word)
+         ("C-o"     . ivy-dispatching-done) ; Select actions
          :map isearch-mode-map
-         ("C-o" . swiper-isearch-string)
+         ("C-o"     . swiper-isearch-string)
          :map counsel-describe-map
-         ("C-q" . describe-function-from-ivy)
-         ))
+         ("C-q"     . describe-function-from-ivy)))
 
 (use-package eshell
   :init
