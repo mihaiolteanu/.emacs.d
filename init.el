@@ -153,11 +153,6 @@
    ("C-x v c"   . git-gutter+-commit)
    ("C-x v C-c" . git-gutter+-stage-and-commit)))
 
-(use-package beacon
-  :diminish
-  :config
-  (beacon-mode +1))
-
 (use-package which-key
   :diminish
   :config
