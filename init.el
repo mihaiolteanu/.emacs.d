@@ -159,18 +159,16 @@
   (which-key-mode +1))
 
 (use-package cc-mode
-  :config                               ; Disassemble C/C++ code under cursor
-  (use-package disaster)
+  :config
   (add-hook
    'c-mode-common-hook
    '(lambda ()
       (setq c-default-style "k&r"
             c-basic-offset 4)
-      ;; (setq-default fill-column 80)
       (local-set-key (kbd "C-c C-c") 'compile)
-      (local-set-key (kbd "M-.") 'counsel-gtags-dwim)
-      (local-set-key (kbd "M-,") 'counsel-gtags-go-backward)
-      (local-set-key (kbd "C-M-.") 'counsel-gtags-find-reference-at-point))))
+      (local-set-key (kbd "M-.")     'counsel-gtags-dwim)
+      (local-set-key (kbd "M-,")     'counsel-gtags-go-backward)
+      (local-set-key (kbd "C-M-.")   'counsel-gtags-find-reference-at-point))))
 
 (use-package crux
   :config
