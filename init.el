@@ -407,20 +407,6 @@
 (setf comint-prompt-read-only t
       comint-history-isearch t)
 
-(defun mydir ()
-  "Can be used in dired buffer to search files recursively.
-If point is on a folder, search in that folder, otherwise, search
-in the current folder dired is opened in."
-  (interactive)
-  (ivy-read "Blaaa: "
-            (directory-files-recursively
-             (if (and (derived-mode-p 'dired-mode)
-                      (file-directory-p (dired-get-filename)))
-                 (dired-get-filename)
-               default-directory)
-             "")
-            :action #'find-file))
-
 (org-babel-do-load-languages
  'org-babel-load-languages
  '((lisp . t)))
