@@ -230,7 +230,9 @@
 (use-package avy
   :config
   (setq avy-keys '(?\; ?l ?k ?j ?h ?u ?i ?o ?p ?m))
-  :bind ("C-;" . avy-goto-symbol-1))
+  (setq avy-timeout-seconds 0.2
+        avy-all-windows nil)
+  :bind ("C-;" . avy-goto-char-timer))
 
 (use-package org
   :config
