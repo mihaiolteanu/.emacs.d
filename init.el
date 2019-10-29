@@ -411,17 +411,9 @@
  'org-babel-load-languages
  '((lisp . t)))
 
-(defun my-html-filter-src-blocks (text backend info)
-  "Remove source blocks from html export."
-  (when (org-export-derived-backend-p backend 'html)
-    "[removed source block]"))
-
 (setq org-src-fontify-natively t
     org-src-tab-acts-natively t
     org-confirm-babel-evaluate nil
     org-edit-src-content-indentation 0)
-
-(add-to-list 'org-export-filter-src-block-functions
-             'my-html-filter-src-blocks)
 
 
