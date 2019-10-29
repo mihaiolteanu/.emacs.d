@@ -269,25 +269,23 @@
     (setq openwith-associations `(("\\.pdf\\|\\.png\\|\\.docm\\|\\.xls" ,open-app (file))))))
 
 (use-package dired
-  :ensure nil
   :config
   (use-package dired-x
-    :ensure nil
     :hook (dired-mode . dired-omit-mode))
-  (use-package dired-subtree
-    :ensure t)
+  (use-package dired-subtree)
   (setq dired-listing-switches "-lah")
   (put 'dired-find-alternate-file 'disabled nil) ;enable 'a' command in dired
   (custom-set-faces
-   '(dired-directory ((t (:foreground "DodgerBlue1" :weight bold))))
-   '(dired-marked ((t (:foreground "orange red" :weight extra-bold)))))
+   '(dired-directory ((t (:foreground "deepskyblue" :weight bold))))
+   '(dired-marked    ((t (:foreground "orange red" :weight extra-bold))))
+   '(dired-header    ((t (:foreground "blanchedalmond" :weight bold :height 165)))))
   :hook (dired-mode . dired-hide-details-mode)
   :bind (:map dired-mode-map
-              ("C-l" . 'dired-up-directory)              
-              ("I" . 'dired-kill-subdir)
+              ("C-l"   . 'dired-up-directory)              
+              ("I"     . 'dired-kill-subdir)
               ("<tab>" . 'dired-hide-subdir)
-              ("C-i" . 'dired-subtree-toggle)
-              ("q" . kill-this-buffer)))
+              ("C-i"   . 'dired-subtree-toggle)
+              ("q"     . kill-this-buffer)))
 
 (use-package ivy-dired-history :after (dired savehist)
   :init
