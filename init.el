@@ -1,5 +1,6 @@
 (setq inhibit-startup-message t)
 
+;;; Global package setup.
 (require 'package)
 (package-initialize)
 
@@ -13,11 +14,72 @@
   (package-refresh-contents)
   (package-install 'use-package))
 
-;; Global configs.
-(setq use-package-always-ensure t
-      inhibit-startup-message t
-      package-enable-at-startup nil)
+;;; Looks and feels, global keys and global settings.
+;; enable y/n answers
+(fset 'yes-or-no-p 'y-or-n-p)
 
+;; Disable bars and the blinking cursor
+(mapc (lambda (mode)
+        (when (fboundp mode)
+          (funcall mode -1)))
+      '(menu-bar-mode tool-bar-mode scroll-bar-mode blink-cursor-mode))
+
+(global-hl-line-mode +1)                ; highlight the current line
+(desktop-save-mode 1)
+(set-fringe-mode 0)
+
+(setq-default
+ fill-column 80
+ indent-tabs-mode nil) ; Use spaces instead of tabs
+
+(setq org-src-fontify-natively t
+      org-src-tab-acts-natively t
+      org-confirm-babel-evaluate nil
+      org-edit-src-content-indentation 0
+      compilation-read-command nil
+      use-package-always-ensure t
+      inhibit-startup-message t
+      package-enable-at-startup nil
+      enable-local-eval t
+      debugger-stack-frame-as-list t    ; Show calls as lists in the debugger
+      backup-directory-alist
+          `((".*" . ,temporary-file-directory))
+      auto-save-file-name-transforms
+          `((".*" ,temporary-file-directory t)))
+
+(set-face-attribute 'default nil
+                    :family "Source Code Pro"
+                    :height 120
+                    :weight 'normal
+                    :width 'normal)
+
+;; Open compilation results in a bottom buffer, similar to helm, identical code.
+(add-to-list 'display-buffer-alist
+	     `(,(rx bos "*compilation" (* not-newline) "*" eos)
+	       (display-buffer-in-side-window)
+	       (inhibit-same-window . t)
+	       (window-height . 0.3)))
+;; After compilation, go to the compilation buffer (q key to close it)
+(add-hook 'compilation-finish-functions
+          (lambda (buffer result)
+            (switch-to-buffer-other-window "*compilation*")))
+
+(defun revert-buffer-no-confirm ()
+  (interactive)
+  (revert-buffer t t))
+
+(mapc (lambda (entry)
+        (global-set-key (kbd (car entry)) (cdr entry)))
+      '(("C-c C-c" . compile)
+        ("C-x k"   . kill-current-buffer)
+        ("<C-tab>" . other-window)
+        ("C-,"     . previous-buffer)
+        ("C-."     . next-buffer)
+        ("C-q"     . execute-extended-command)
+        ("C-S-r"   . revert-buffer-no-confirm)))
+
+
+;;; Use-Packages for extra functionality.
 (use-package color-theme-sanityinc-tomorrow
   :config
   (load-theme 'sanityinc-tomorrow-eighties :no-confirm))
@@ -333,82 +395,3 @@
   ;; Remove M-n and M-p from sly-editing-mode-map in sly.el. Don't know how else
   ;; to enable smartscan in lisp buffers since sly overrides them.
   )
-
-;; Open compilation results in a bottom buffer, similar to helm, identical code.
-(setq compilation-read-command nil) 
-(add-to-list 'display-buffer-alist
-	     `(,(rx bos "*compilation" (* not-newline) "*" eos)
-	       (display-buffer-in-side-window)
-	       (inhibit-same-window . t)
-	       (window-height . 0.3)))
-;; After compilation, go to the compilation buffer (q key to close it)
-(add-hook
- 'compilation-finish-functions (lambda (buffer result)
-				 (switch-to-buffer-other-window "*compilation*")))
-(global-set-key (kbd "C-c C-c") 'compile)
-
-(set-fringe-mode 0)
-
-;; §§§ Other stuff
-
-;; Kill the current buffer instantly
-(global-set-key (kbd "C-x k")
-                (lambda ()
-                  (interactive)
-                  (kill-buffer (current-buffer))))
-
-;; Disable bars and the blinking cursor
-(mapc (lambda (mode)
-        (when (fboundp mode)
-          (funcall mode -1)))
-      '(menu-bar-mode tool-bar-mode scroll-bar-mode blink-cursor-mode))
-
-;; highlight the current line
-(global-hl-line-mode +1)
-
-;; Use spaces instead of tabs
-(setq-default indent-tabs-mode nil)
-
-(desktop-save-mode 1)
-
-;; enable y/n answers
-(fset 'yes-or-no-p 'y-or-n-p)
-
-(setq-default fill-column 80)
-(setq enable-local-eval t               ;enable dir local variables
-      debugger-stack-frame-as-list t    ;show calls as lists in the debugger
-      )
-
-(setq backup-directory-alist
-      `((".*" . ,temporary-file-directory)))
-(setq auto-save-file-name-transforms
-      `((".*" ,temporary-file-directory t)))
-
-(set-face-attribute 'default nil
-                    :family "Source Code Pro"
-                    :height 120
-                    :weight 'normal
-                    :width 'normal)
-
-;; General navigation keys
-(defun revert-buffer-no-confirm ()
-  (interactive) (revert-buffer t t))
-
-(global-set-key (kbd "<C-tab>") 'other-window)
-(global-set-key (kbd "<C-M-tab>") 'windmove-left)
-(global-set-key (kbd "<C-S-iso-lefttab>") 'outline-toggle-children)
-(global-set-key (kbd "C-,") 'previous-buffer)
-(global-set-key (kbd "C-.") 'next-buffer)
-(global-set-key (kbd "C-q") 'execute-extended-command)
-(global-set-key (kbd "C-S-r") 'revert-buffer-no-confirm)
-
-(org-babel-do-load-languages
- 'org-babel-load-languages
- '((lisp . t)))
-
-(setq org-src-fontify-natively t
-    org-src-tab-acts-natively t
-    org-confirm-babel-evaluate nil
-    org-edit-src-content-indentation 0)
-
-
