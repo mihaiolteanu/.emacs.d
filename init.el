@@ -315,6 +315,7 @@
                  (call-interactively command)))))
 
   (defun counsel-sly-mrepl-history ()
+    "Use counsel to search through mrepl history."
     (interactive)
     (ivy-read
      "History: "
@@ -324,10 +325,11 @@
 
   (add-hook 'sly-mrepl-mode-hook
             (lambda ()
-              (local-set-key [remap isearch-backward] 'counsel-sly-mrepl-history)
-              (local-set-key (kbd ",,") 'counsel-sly-mrepl-shortcut)
-              (local-set-key (kbd ",p") 'sly-mrepl-set-package)
-              (local-set-key (kbd ",r") 'sly-restart-inferior-lisp)))
+              (bind-keys :map sly-mrepl-mode-map
+                  ([remap isearch-backward] . counsel-sly-mrepl-history)
+                  (",," . counsel-sly-mrepl-shortcut)
+                  (",p" . sly-mrepl-set-package)
+                  (",r" . sly-restart-inferior-lisp))))
   ;; Remove M-n and M-p from sly-editing-mode-map in sly.el. Don't know how else
   ;; to enable smartscan in lisp buffers since sly overrides them.
   )
