@@ -1,4 +1,4 @@
-(setq inhibit-startup-message t)
+;;; init.el --- Config file form Emacs -*- lexical-binding: t -*-
 
 ;;; Global package setup.
 (require 'package)
