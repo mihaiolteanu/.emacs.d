@@ -357,30 +357,6 @@
                   (interactive)
                   (kill-buffer (current-buffer))))
 
-;; https://www.emacswiki.org/emacs/EshellEnhancedLS
-(eval-after-load "em-ls"
-    '(progn
-       (defun ted-eshell-ls-find-file-at-point (point)
-         "RET on Eshell's `ls' output to open files."
-         (interactive "d")
-         (find-file (buffer-substring-no-properties
-                     (previous-single-property-change point 'help-echo)
-                     (next-single-property-change point 'help-echo))))
-
-       (defadvice eshell-ls-decorated-name (after ted-electrify-ls activate)
-         "Eshell's `ls' now lets you click or RET on file names to open them."
-         (add-text-properties 0 (length ad-return-value)
-                              (list 'help-echo "RET, mouse-2: visit this file"
-                                    'mouse-face 'highlight
-                                    'keymap ted-eshell-ls-keymap)
-                              ad-return-value)
-         ad-return-value)
-       
-       (let ((map (make-sparse-keymap)))
-         (define-key map (kbd "RET")      'ted-eshell-ls-find-file-at-point)
-         (define-key map (kbd "<return>") 'ted-eshell-ls-find-file-at-point)
-         (defvar ted-eshell-ls-keymap map))))
-
 ;; Disable bars and the blinking cursor
 (mapc (lambda (mode)
         (when (fboundp mode)
