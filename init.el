@@ -247,7 +247,6 @@
   :diminish
   :config
   (require 'smartparens-config)
-  (use-package crux)
   (setq sp-base-key-bindings 'paredit
 	sp-autoskip-closing-pair 'always
 	sp-hybrid-kill-entire-symbol nil)
@@ -255,10 +254,6 @@
   (smartparens-global-mode +1)
   (show-smartparens-global-mode +1)
   (smartparens-global-strict-mode +1)
-  (sp-pair "{" nil :post-handlers ; smart curly braces
-	   '(((lambda (&rest _ignored)
-		(crux-smart-open-line-above)
-		(indent-according-to-mode)) "RET")))
   (defun sp-kill-region-or-backward-word ()
     "If the region is active and non-empty, kill the region
     otherwise kill the word as in bash (from stackoverflow)"
