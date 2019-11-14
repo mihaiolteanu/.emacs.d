@@ -27,6 +27,7 @@
 (global-hl-line-mode +1)                ; highlight the current line
 (desktop-save-mode 1)
 (set-fringe-mode 0)
+(put 'compile-command 'safe-local-variable #'stringp)
 
 (setq-default
  fill-column 80
