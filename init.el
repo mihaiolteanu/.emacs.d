@@ -69,16 +69,14 @@
   (interactive)
   (revert-buffer t t))
 
-(mapc (lambda (entry)
-        (global-set-key (kbd (car entry)) (cdr entry)))
-      '(("C-c C-c" . compile)
-        ("C-x k"   . kill-current-buffer)
-        ("<C-tab>" . other-window)
-        ("C-,"     . previous-buffer)
-        ("C-."     . next-buffer)
-        ("C-q"     . execute-extended-command)
-        ("C-S-r"   . revert-buffer-no-confirm)))
-
+(bind-keys
+ ("C-c C-c" . compile)
+ ("C-x k"   . kill-current-buffer)
+ ("<C-tab>" . other-window)
+ ("C-,"     . previous-buffer)
+ ("C-."     . next-buffer)
+ ("C-q"     . execute-extended-command)
+ ("C-S-r"   . revert-buffer-no-confirm))
 
 ;;; Use-Packages for extra functionality.
 (use-package color-theme-sanityinc-tomorrow
