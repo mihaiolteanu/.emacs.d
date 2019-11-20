@@ -160,7 +160,7 @@
          ("C-c s"   . counsel-ag)
          ("C-c C-r" . ivy-resume)
          ("C-z"     . ivy-switch-buffer)
-         ("C-c i"   . counsel-semantic)
+         ("C-c i"   . counsel-imenu)
          ("C-S-s"   . swiper)
          :map counsel-find-file-map
          ("C-l"     . counsel-up-directory)
