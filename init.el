@@ -392,3 +392,11 @@
   ;; Remove M-n and M-p from sly-editing-mode-map in sly.el. Don't know how else
   ;; to enable smartscan in lisp buffers since sly overrides them.
   )
+
+(use-package yasnippet
+  :diminish t
+  :config
+  (yas-global-mode 1)
+  (define-key yas-minor-mode-map (kbd "SPC") yas-maybe-expand)
+  (yas-reload-all))
+
