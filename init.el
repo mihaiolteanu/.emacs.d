@@ -66,6 +66,13 @@
           (lambda (buffer result)
             (switch-to-buffer-other-window "*compilation*")))
 
+(mapc (lambda (hook)
+        (add-hook hook (lambda ()
+                         (setq lisp-prettify-symbols-alist nil)
+                         (push '("lambda" . "☩") lisp-prettify-symbols-alist)
+                         (prettify-symbols-mode 1))))
+      '(lisp-mode-hook emacs-lisp-mode-hook))
+
 (defun revert-buffer-no-confirm ()
   (interactive)
   (revert-buffer t t))
