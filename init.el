@@ -43,6 +43,7 @@
       package-enable-at-startup nil
       enable-local-eval t
       debugger-stack-frame-as-list t    ; Show calls as lists in the debugger
+      scroll-preserve-screen-position 2 ; Keep point fixed when C-v scrolling
       backup-directory-alist
           `((".*" . ,temporary-file-directory))
       auto-save-file-name-transforms
@@ -157,7 +158,7 @@
          ("C-c s"   . counsel-ag)
          ("C-c C-r" . ivy-resume)
          ("C-z"     . ivy-switch-buffer)
-         ("C-c i"   . counsel-semantic)
+         ("C-c i"   . counsel-imenu)
          ("C-S-s"   . swiper)
          :map counsel-find-file-map
          ("C-l"     . counsel-up-directory)
@@ -389,3 +390,11 @@
   ;; Remove M-n and M-p from sly-editing-mode-map in sly.el. Don't know how else
   ;; to enable smartscan in lisp buffers since sly overrides them.
   )
+
+(use-package yasnippet
+  :diminish t
+  :config
+  (yas-global-mode 1)
+  (define-key yas-minor-mode-map (kbd "SPC") yas-maybe-expand)
+  (yas-reload-all))
+
