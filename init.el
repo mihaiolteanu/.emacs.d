@@ -70,15 +70,6 @@
   (interactive)
   (revert-buffer t t))
 
-(bind-keys
- ("C-c C-c" . compile)
- ("C-x k"   . kill-current-buffer)
- ("<C-tab>" . other-window)
- ("C-,"     . previous-buffer)
- ("C-."     . next-buffer)
- ("C-q"     . execute-extended-command)
- ("C-S-r"   . revert-buffer-no-confirm))
-
 ;;; Use-Packages for extra functionality.
 (use-package color-theme-sanityinc-tomorrow
   :config
@@ -150,27 +141,7 @@
     (interactive)
     (ivy-exit-with-action (lambda (s)
                             (describe-function (intern s))
-                            (ivy-resume))))
-
-  :bind (("M-y"     . counsel-yank-pop)
-         ("C-x C-f" . counsel-find-file)
-         ("C-x C-r" . counsel-find-file-root)
-         ("C-c s"   . counsel-ag)
-         ("C-c C-r" . ivy-resume)
-         ("C-z"     . ivy-switch-buffer)
-         ("C-c i"   . counsel-imenu)
-         ("C-S-s"   . swiper)
-         :map counsel-find-file-map
-         ("C-l"     . counsel-up-directory)
-         ("C-j"     . ivy-alt-done)
-         :map ivy-minibuffer-map
-         ("C-j"     . ivy-call)
-         ("C-w"     . ivy-yank-word)
-         ("C-o"     . ivy-dispatching-done) ; Select actions
-         :map isearch-mode-map
-         ("C-o"     . swiper-isearch-string)
-         :map counsel-describe-map
-         ("C-q"     . describe-function-from-ivy)))
+                            (ivy-resume)))))
 
 (use-package eshell
   :init
@@ -250,7 +221,7 @@
   (setq sp-base-key-bindings 'paredit
 	sp-autoskip-closing-pair 'always
 	sp-hybrid-kill-entire-symbol nil)
-  (sp-use-paredit-bindings)
+  ;; (sp-use-paredit-bindings)
   (smartparens-global-mode +1)
   (show-smartparens-global-mode +1)
   (smartparens-global-strict-mode +1)
@@ -259,8 +230,7 @@
     otherwise kill the word as in bash (from stackoverflow)"
     (interactive)
     (call-interactively
-     (if (use-region-p) 'sp-kill-region 'sp-backward-kill-word)))
-  :bind ("C-w" . sp-kill-region-or-backward-word))
+     (if (use-region-p) 'sp-kill-region 'sp-backward-kill-word))))
 
 (use-package cmake-mode
   :mode (("\\.cmake\\'" . cmake-mode)
@@ -398,3 +368,97 @@
   (define-key yas-minor-mode-map (kbd "SPC") yas-maybe-expand)
   (yas-reload-all))
 
+(defun change-to-insert-mode ()
+  (interactive)
+  (set-cursor-color "LightGrey"))
+
+(defun change-to-movement-mode ()
+  (interactive)
+  (set-cursor-color "DarkOliveGreen4"))
+
+(defun kill-word-under-cursor ()
+  (interactive)
+  (sp-kill-sexp))
+
+(defun yank-word-under-cursor ()
+  (interactive)
+  (let ((prev-point (point)))
+    (sp-kill-sexp)
+    (yank)
+    (goto-char prev-point)))
+
+(defun replace-word-under-cursor ()
+  (interactive)
+  (sp-backward-sexp)
+  (yank)
+  (mark-sexp)
+  (sp-kill-region-or-backward-word))
+
+(defun kill-outermost-expression ()
+  (interactive)
+  (beginning-of-defun)
+  (sp-kill-sexp))
+
+(bind-keys
+ ("C-c C-c" . compile)
+ ("C-x k"   . kill-current-buffer)
+ ("<C-tab>" . other-window)
+ ("C-,"     . previous-buffer)
+ ("C-."     . next-buffer)
+ ("C-q"     . execute-extended-command)
+ ("C-S-r"   . revert-buffer-no-confirm)
+ ("s-k"     . sp-kill-sexp)
+ ("C-S-M-m" . change-to-movement-mode)
+ ("C-S-M-i" . change-to-insert-mode)
+
+ ;; Smartscan
+ ("C-M-p" . smartscan-symbol-go-backward)
+ ("C-M-n" . smartscan-symbol-go-forward)
+
+ ;; Smartparens
+ ("C-w"       . sp-kill-region-or-backward-word)
+ ;; ("C-s-f" . sp-forward-parallel-sexp)
+ ;; ("C-s-b" . sp-backward-parallel-sexp)
+ ("C-M-f" . sp-forward-sexp)
+ ("C-M-b" . sp-backward-sexp)
+ ("C-s-p" . sp-backward-up-sexp)
+ ("C-s-n" . sp-down-sexp)
+
+  ;; Counsel
+ ("M-y"     . counsel-yank-pop)
+ ("C-x C-f" . counsel-find-file)
+ ("C-x C-r" . counsel-find-file-root)
+ ("C-c s"   . counsel-ag)
+ ("C-c C-r" . ivy-resume)
+ ("C-z"     . ivy-switch-buffer)
+ ("C-c i"   . counsel-semantic)
+ ("C-S-s"   . swiper)
+   :map counsel-find-file-map
+ ("C-l"     . counsel-up-directory)
+ ("C-j"     . ivy-alt-done)
+   :map ivy-minibuffer-map
+ ("C-j"     . ivy-call)
+ ("C-w"     . ivy-yank-word)
+ ("C-o"     . ivy-dispatching-done) ; Select actions
+   :map isearch-mode-map
+ ("C-o"     . swiper-isearch-string)
+   :map counsel-describe-map
+ ("C-q"     . describe-function-from-ivy))
+
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(package-selected-packages
+   (quote
+    (anaphora yaml-mode wrap-region which-key wgrep utop use-package smex smartscan smartparens smart-mode-line sly-repl-ansi-color racer package-lint-flymake org2web org-bullets openwith o-blog nov markdown-preview-mode magit macrostep lastfm ivy-youtube ivy-dired-history inf-ruby html-to-markdown haskell-mode git-timemachine git-gutter-fringe git-gutter-fringe+ geiser flycheck-rust flycheck-package eshell-fringe-status eshell-fixed-prompt elpy elixir-yasnippets ediprolog disaster dired-subtree dired-ranger diminish crux counsel-gtags counsel-dash company-quickhelp company-c-headers color-theme-sanityinc-tomorrow cmake-font-lock circe caml camcorder beacon auto-complete-c-headers alchemist ace-flyspell)))
+ '(safe-local-variable-values (quote ((mangle-whitespace . t)))))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(dired-directory ((t (:foreground "deepskyblue" :weight bold))))
+ '(dired-header ((t (:foreground "blanchedalmond" :weight bold :height 165))))
+ '(dired-marked ((t (:foreground "orange red" :weight extra-bold)))))
