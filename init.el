@@ -68,9 +68,10 @@
 
 (mapc (lambda (hook)
         (add-hook hook (lambda ()
+                         (prettify-symbols-mode 1)
                          (setq lisp-prettify-symbols-alist nil)
                          (push '("lambda" . "☩") lisp-prettify-symbols-alist)
-                         (prettify-symbols-mode 1))))
+                         (push '("mapcar" . "→") lisp-prettify-symbols-alist))))
       '(lisp-mode-hook emacs-lisp-mode-hook))
 
 (defun revert-buffer-no-confirm ()
@@ -237,7 +238,10 @@
     otherwise kill the word as in bash (from stackoverflow)"
     (interactive)
     (call-interactively
-     (if (use-region-p) 'sp-kill-region 'sp-backward-kill-word))))
+     (if (use-region-p) 'sp-kill-region 'sp-backward-kill-word)))
+  :bind
+  ("C-w" . sp-kill-region-or-backward-word)
+  ("M-b" . sp-backward-symbol))
 
 (use-package cmake-mode
   :mode (("\\.cmake\\'" . cmake-mode)
@@ -452,20 +456,6 @@
    :map counsel-describe-map
  ("C-q"     . describe-function-from-ivy))
 
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(package-selected-packages
-   (quote
-    (anaphora yaml-mode wrap-region which-key wgrep utop use-package smex smartscan smartparens smart-mode-line sly-repl-ansi-color racer package-lint-flymake org2web org-bullets openwith o-blog nov markdown-preview-mode magit macrostep lastfm ivy-youtube ivy-dired-history inf-ruby html-to-markdown haskell-mode git-timemachine git-gutter-fringe git-gutter-fringe+ geiser flycheck-rust flycheck-package eshell-fringe-status eshell-fixed-prompt elpy elixir-yasnippets ediprolog disaster dired-subtree dired-ranger diminish crux counsel-gtags counsel-dash company-quickhelp company-c-headers color-theme-sanityinc-tomorrow cmake-font-lock circe caml camcorder beacon auto-complete-c-headers alchemist ace-flyspell)))
- '(safe-local-variable-values (quote ((mangle-whitespace . t)))))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(dired-directory ((t (:foreground "deepskyblue" :weight bold))))
- '(dired-header ((t (:foreground "blanchedalmond" :weight bold :height 165))))
- '(dired-marked ((t (:foreground "orange red" :weight extra-bold)))))
+(defun signed-of-by-me ()
+  (interactive)
+  (insert "Signed-off-by: Mihai.Olteanu <Mihai.Olteanu@analog.com>"))

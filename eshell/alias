@@ -1,4 +1,4 @@
 alias l ls -lah
-alias gloga git log --oneline --decorate --graph --all -15
-alias gst git status
 alias gco git checkout
+alias gst git status
+alias gloga git log --oneline --decorate --graph --all -25
