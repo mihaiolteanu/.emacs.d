@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: &rest args
+# key: rrgs
+# --
+&rest args
