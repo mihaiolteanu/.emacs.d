@@ -70,8 +70,10 @@
         (add-hook hook (lambda ()
                          (prettify-symbols-mode 1)
                          (setq lisp-prettify-symbols-alist nil)
-                         (push '("lambda" . "☩") lisp-prettify-symbols-alist)
-                         (push '("mapcar" . "→") lisp-prettify-symbols-alist))))
+                         (push '("lambda" . "λλ") lisp-prettify-symbols-alist)
+                         (push '("defun" . "ƒƒ") lisp-prettify-symbols-alist)
+                         (push '("defmacro" . "𝑴") lisp-prettify-symbols-alist)
+                         (push '("mapcar" . "↷↷") lisp-prettify-symbols-alist))))
       '(lisp-mode-hook emacs-lisp-mode-hook))
 
 (defun revert-buffer-no-confirm ()
