@@ -100,6 +100,16 @@
      (concat "https://github.com/search?l=" language
              "&type=code&q=" code))))
 
+(defun google-search ()
+  "Google search region, if active, or ask for search string."
+  (interactive)
+  (browse-url
+   (concat "https://www.google.com/search?q="
+           (if (region-active-p)
+               (buffer-substring-no-properties (region-beginning)
+                                               (region-end))
+             (read-string "Google: ")))))
+
 (use-package ivy
   :diminish ivy-mode
   :init (ivy-mode t)
