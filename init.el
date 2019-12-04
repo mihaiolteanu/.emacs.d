@@ -72,7 +72,7 @@
                          (setq lisp-prettify-symbols-alist nil)
                          (push '("lambda" . "λλ") lisp-prettify-symbols-alist)
                          (push '("defun" . "ƒƒ") lisp-prettify-symbols-alist)
-                         (push '("defmacro" . "𝑴") lisp-prettify-symbols-alist)
+                         (push '("defmacro" . "mm") lisp-prettify-symbols-alist)
                          (push '("mapcar" . "↷↷") lisp-prettify-symbols-alist))))
       '(lisp-mode-hook emacs-lisp-mode-hook))
 
