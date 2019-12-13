@@ -44,6 +44,7 @@
       enable-local-eval t
       debugger-stack-frame-as-list t    ; Show calls as lists in the debugger
       scroll-preserve-screen-position 2 ; Keep point fixed when C-v scrolling
+      confirm-kill-processes nil
       backup-directory-alist
           `((".*" . ,temporary-file-directory))
       auto-save-file-name-transforms
