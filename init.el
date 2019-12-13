@@ -226,8 +226,7 @@
 (use-package crux
   :config
   :bind (("C-c d" . crux-duplicate-current-line-or-region)
-	 ("C-a" . crux-move-beginning-of-line)
-         ("C-o" . crux-smart-open-line-above)))
+	 ("C-a" . crux-move-beginning-of-line)))
 
 (use-package smartscan
   :diminish
