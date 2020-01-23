@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: mapcar with lambda
+# key: mcr
+# --
+(mapcar (lambda ($0)))

@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: mapcar with function
+# key: mcar
+# --
+(mapcar #'$0)

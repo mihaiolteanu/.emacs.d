@@ -1,5 +1,5 @@
 # -*- mode: snippet -*-
 # name: defmacro
-# key: dd
+# key: dm
 # --
 (defmacro $0)

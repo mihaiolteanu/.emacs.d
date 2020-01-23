@@ -1,5 +1,5 @@
 # -*- mode: snippet -*-
 # name: labels
-# key: lbls
+# key: lbl
 # --
 (labels (($0)))
