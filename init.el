@@ -33,6 +33,13 @@
  fill-column 80
  indent-tabs-mode nil) ; Use spaces instead of tabs
 
+;; Use ESC for 'keyboard-quit, instead of C-g
+(define-key key-translation-map [escape] (kbd "C-g"))
+;; Don't treat C-i as identical to TAB (i.e. rebinding C-i will not rebind TAB
+;; at the same time). This means C-i will need to be specified as <C-i> when
+;; binding it
+(define-key input-decode-map [?\C-i] [C-i])
+
 (setq org-src-fontify-natively t
       org-src-tab-acts-natively t
       org-confirm-babel-evaluate nil
@@ -72,9 +79,9 @@
                          (prettify-symbols-mode 1)
                          (setq lisp-prettify-symbols-alist nil)
                          (push '("lambda" . "λλ") lisp-prettify-symbols-alist)
+                         (push '("mapcar" . "˫˫") lisp-prettify-symbols-alist)
                          (push '("defun" . "ƒƒ") lisp-prettify-symbols-alist)
-                         (push '("defmacro" . "mm") lisp-prettify-symbols-alist)
-                         (push '("mapcar" . "↷↷") lisp-prettify-symbols-alist))))
+                         (push '("defmacro" . "𝒎𝒎") lisp-prettify-symbols-alist))))
       '(lisp-mode-hook emacs-lisp-mode-hook))
 
 (defun revert-buffer-no-confirm ()
@@ -224,6 +231,20 @@
       (local-set-key (kbd "M-,")     'counsel-gtags-go-backward)
       (local-set-key (kbd "C-M-.")   'counsel-gtags-find-reference-at-point))))
 
+(use-package python
+  :config
+  (use-package company-anaconda)
+  (use-package anaconda-mode
+    :defer t
+    :after (company-anaconda)
+    :init
+    (add-to-list 'company-backends 'company-anaconda)
+    (add-hook 'python-mode-hook 'anaconda-mode))
+  (use-package elpy
+    :config
+    (add-hook 'elpy-mode-hook
+              (lambda () (highlight-indentation-mode -1)))))
+
 (use-package crux
   :config
   :bind (("C-c d" . crux-duplicate-current-line-or-region)
@@ -271,7 +292,7 @@
   :diminish
   :config
   (global-company-mode +1)
-  ;; (use-package company-quickhelp)
+  (use-package company-quickhelp)
   :bind (:map company-active-map
         ("C-n" . company-select-next)
         ("C-p" . company-select-previous)
@@ -391,36 +412,14 @@
   (define-key yas-minor-mode-map (kbd "SPC") yas-maybe-expand)
   (yas-reload-all))
 
-(defun change-to-insert-mode ()
+(defun toggle-command-line ()
   (interactive)
-  (set-cursor-color "LightGrey"))
-
-(defun change-to-movement-mode ()
-  (interactive)
-  (set-cursor-color "DarkOliveGreen4"))
-
-(defun kill-word-under-cursor ()
-  (interactive)
-  (sp-kill-sexp))
-
-(defun yank-word-under-cursor ()
-  (interactive)
-  (let ((prev-point (point)))
-    (sp-kill-sexp)
-    (yank)
-    (goto-char prev-point)))
-
-(defun replace-word-under-cursor ()
-  (interactive)
-  (sp-backward-sexp)
-  (yank)
-  (mark-sexp)
-  (sp-kill-region-or-backward-word))
-
-(defun kill-outermost-expression ()
-  (interactive)
-  (beginning-of-defun)
-  (sp-kill-sexp))
+  (if (eq major-mode 'eshell-mode)
+      ;; Jump from shell back to editing.
+      (jump-to-register ?w)
+    ;; Save current window config and jump to shell
+    (window-configuration-to-register ?w)
+    (jump-to-register ?z)))
 
 (bind-keys
  ("C-c C-c" . compile)
@@ -430,9 +429,13 @@
  ("C-."     . next-buffer)
  ("C-q"     . execute-extended-command)
  ("C-S-r"   . revert-buffer-no-confirm)
- ("s-k"     . sp-kill-sexp)
- ("C-S-M-m" . change-to-movement-mode)
- ("C-S-M-i" . change-to-insert-mode)
+ ("s-k"     . sp-kill-sexp) 
+ ("s-t"     . toggle-command-line) 
+
+ ("C-v" . (lambda () (interactive) (scroll-up-command 10)))
+ ("M-v" . (lambda () (interactive) (scroll-down-command 10)))
+ ;; Jump to mark
+ ("C-S-SPC" . (lambda () (interactive) (set-mark-command 0)))
 
  ;; Smartscan
  ("C-M-p" . smartscan-symbol-go-backward)
@@ -463,6 +466,7 @@
  ("C-j"     . ivy-call)
  ("C-w"     . ivy-yank-word)
  ("C-o"     . ivy-dispatching-done) ; Select actions
+ ("<escape>" . minibuffer-keyboard-quit)
    :map isearch-mode-map
  ("C-o"     . swiper-isearch-string)
    :map counsel-describe-map
