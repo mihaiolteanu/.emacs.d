@@ -81,7 +81,10 @@
                          (push '("lambda" . "λλ") lisp-prettify-symbols-alist)
                          (push '("mapcar" . "˫˫") lisp-prettify-symbols-alist)
                          (push '("defun" . "ƒƒ") lisp-prettify-symbols-alist)
-                         (push '("defmacro" . "𝒎𝒎") lisp-prettify-symbols-alist))))
+                         (push '("defmacro" . "mm") lisp-prettify-symbols-alist)
+                         (push '("mapcar" . "»»") lisp-prettify-symbols-alist)
+                         (push '("car" . "11") lisp-prettify-symbols-alist)
+                         (push '("cadr" . "22") lisp-prettify-symbols-alist))))
       '(lisp-mode-hook emacs-lisp-mode-hook))
 
 (defun revert-buffer-no-confirm ()
@@ -307,6 +310,8 @@
 
 (use-package org
   :config
+  (custom-set-faces
+   '(org-link ((t (:foreground "#6699cc" :underline nil)))))
   (use-package org-bullets)
   (add-hook 'org-mode-hook
             (lambda ()
@@ -447,8 +452,8 @@
  ;; ("C-s-b" . sp-backward-parallel-sexp)
  ("C-M-f" . sp-forward-sexp)
  ("C-M-b" . sp-backward-sexp)
- ("C-s-p" . sp-backward-up-sexp)
- ("C-s-n" . sp-down-sexp)
+ ("C-s-b" . sp-backward-up-sexp)
+ ("C-s-f" . sp-down-sexp)
 
   ;; Counsel
  ("M-y"     . counsel-yank-pop)
@@ -458,6 +463,7 @@
  ("C-c C-r" . ivy-resume)
  ("C-z"     . ivy-switch-buffer)
  ("C-c i"   . counsel-semantic)
+ ([remap isearch-forward] . swiper)
  ("C-S-s"   . swiper)
    :map counsel-find-file-map
  ("C-l"     . counsel-up-directory)
