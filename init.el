@@ -478,6 +478,61 @@
    :map counsel-describe-map
  ("C-q"     . describe-function-from-ivy))
 
+
+(add-to-list 'load-path "~/.emacs.d/lisp/mugur")
+(require 'mugur)
+(setf mugur-qmk-path "/home/mihai/projects/qmk_firmware")
+
+(mugur-keymap "elisp" "ergodox_ez"              
+  :combos '((left right escape)
+            (x y (C-x "now")))
+  
+  :with-keys '((mybspace (lt xwindow bspace))
+               (em-split (C-x 3)))
+  
+  :layers
+  '(("base" horizontal
+    ((---)        (---) (---) (---) (---) (---) (---)    (---) (---)   (---)          (---)       (---) (---) (---)
+     (---)        (---)  (w)   (e)   (r)  (t)   (---)    (---)  (y) (lt numeric u) (lt numeric i)  (o)  (---) (---)
+     (---)         (a)  (G t) (M d) (C f) (g)                   (h)    (C j)       (lt symbols k) (M l)  (p)  (---)
+     (osm S)       (z)   (x)   (c)   (v)  (b)   (---)    (---)  (n)     (m)          (comma)      (dot)  (q)  (osm S)
+     (tg xwindow) (---) (---) (---) (---)                              (---)          (---)       (---) (---) (---)
+     
+                                          (---) (---)    (---) (---)
+                                                (M-x)    (C-z)
+                  (mybspace) (lt xwindow space) (tab)    (lt xwindow escape) (lt xwindow enter) (---)))
+
+  ("xwindow" (0 1 1)
+    ((em-split) ( ) ( ) ( ) (x y ) ( ) ( )     (a b c) ( ) ( )   ( )  ( )   ( )  ( )
+          (x y) ( ) ( ) ( ) ( ) ( ) ( )     ( ) ( ) ( )  (G-b) ( )   ( )  ( )
+            ( ) ( ) ( ) ( ) ( ) ( )             ( ) (F4) (F3) (G-t)  (F5) ( )
+            ( ) ( ) ( ) ( ) ( ) ( ) ( )     ( ) ( ) ( )  ( )   ( )   ( )  ( )
+            ( ) ( ) ( ) ( ) ( )                     ( )  ( )   ( )   ( )  ( )
+                                ( ) ( )     ( ) ( )
+                                    ( )     ( )
+                            ( ) ( ) ( )     ( ) ( ) ( )))
+  
+  ("numeric"
+    (( ) ( ) (x y) ( ) ( ) ( ) ( )     ( ) ( ) (a symbols) ( ) ( ) ( ) ( )
+     ( ) ( ) (1) (2) (3) ( ) ( )     ( ) ( ) ( ) ( ) ( ) ( ) ( )
+     ( ) (0) (4) (5) (6) ( )             ( ) ( ) ( ) ( ) ( ) ( )
+     ( ) (0) (7) (8) (9) ( ) ( )     ( ) ( ) ( ) ( ) ( ) ( ) ( )
+     ( ) ( ) ( ) ( ) ( )                     ( ) ( ) ( ) ( ) ( )
+                         ( ) ( )     ( ) ( )
+                             ( )     ( )
+                     ( ) ( ) ( )     ( ) ( ) ( )))
+
+  ("symbols"
+    (( ) ( ) ("[") ("]") ({) (}) ( )     (a b c ) ( ) ( ) ( ) ( ) ( ) (C-x ENT)
+     ( ) ( ) ( )   ( )   ( ) ( ) ( )     ( ) ( ) ( ) ( ) ( ) ( ) ( )
+     ( ) ( ) ( )   ( )   ( ) ( )             ( ) ( ) ( ) ( ) ( ) ( )
+     ( ) ( ) ( )   ( )   ( ) ( ) ( )     ( ) ( ) ( ) ( ) ( ) ( ) ( )
+     ( ) ( ) ( )   ( )   ( )                     ( ) ( ) ( ) ( ) ( )
+                             ( ) ( )     ( ) ( )
+                                 ( )     ( )
+                         ( ) ( ) ( )     ( ) ( ) ( )))))
+
+
 (defun signed-of-by-me ()
   (interactive)
   (insert "Signed-off-by: Mihai.Olteanu <Mihai.Olteanu@analog.com>"))
