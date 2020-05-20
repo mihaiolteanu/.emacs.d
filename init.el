@@ -566,6 +566,7 @@
                                                    ( )     ( )
                          (ms_btn2) (ms_btn1) (ms_btn3)     ( ) ( ) ( )))))
 
+(mugur-load-keybindings)
 
 (defun signed-of-by-me ()
   (interactive)
