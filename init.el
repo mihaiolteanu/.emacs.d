@@ -417,7 +417,12 @@
   (define-key yas-minor-mode-map (kbd "SPC") yas-maybe-expand)
   (yas-reload-all))
 
-(defun toggle-command-line ()
+(defun eshell-toggle ()
+  "Toggle between eshell buffers.
+If you are in a shell buffer, switch the window configuration
+back to your code buffers.  Otherwise, create at least one shell
+buffer if it doesn't exist already, and switch to it.  On every
+toggle, the current window configuration is saved in a register."
   (interactive)
   (if (eq major-mode 'eshell-mode)
       ;; Jump from shell back to editing.
@@ -435,7 +440,8 @@
  ("C-q"     . execute-extended-command)
  ("C-S-r"   . revert-buffer-no-confirm)
  ("s-k"     . sp-kill-sexp) 
- ("s-t"     . toggle-command-line) 
+ ("s-t"     . eshell-toggle)
+ ("s-b"     . buffer-toggle)
 
  ("C-v" . (lambda () (interactive) (scroll-up-command 10)))
  ("M-v" . (lambda () (interactive) (scroll-down-command 10)))
@@ -485,26 +491,27 @@
 (mugur-load-keybindings)
 
 (mugur-keymap
-  :layers
+ :rgblight-enable t
+ :layers
   '(("base"
      ((C-f1)       (vol-down) (vol-up) (---) (---) (---) (reset)    (---) (---)   (---)          (---)       (---) (---) (---)
       (---)          (---)      (w)     (e)   (r)  (t)    (---)     (---)  (y) (lt num_up u)  (lt num i)      (o)  (---) (---)
       (---)           (a)      (G s)   (M d) (C f) (g)                     (h)    (C j)      (lt symbols k)  (M l)  (p)  (---)
       (osm S)         (z)       (x)     (c)   (v)  (b)    (---)     (---)  (n)     (m)          (comma)      (dot)  (q)  (osm S)
       (tg xwindow)   (---)     (---)   (---) (---)                                (---)          (---)       (---) (---) (---)     
-                                                    (---) (---)     (---) (---)
+                                                  (C-t p) (---)     (---) (C-t n)
                                                           (M-x)     (C-z)
                    (lt emacs_r bspace) (lt xwindow space) (tab)     (lt media escape) (lt emacs_l enter) (---)))
 
     ("xwindow" (0 1 1)
-     (( ) ( ) ( ) ( ) ( ) ( ) ( )     ( ) ( ) ( )   ( )  ( )  ( )  ( )
-      ( ) ( ) ( ) ( ) ( ) ( ) ( )     ( ) ( ) ( )  (G-b) ( )  ( )  ( )
-      ( ) ( ) ( ) ( ) ( ) ( )             ( ) (f4) (f3) (G-t) (f5) ( )
-      ( ) ( ) ( ) ( ) ( ) ( ) ( )     ( ) ( ) ( )  ( )   ( )  ( )  ( )
-      ( ) ( ) ( ) ( ) ( )                     ( )  ( )   ( )  ( )  ( )
+     (( ) ( ) ( ) ( ) ( ) ( ) ( )     ( ) ( )   ( )     ( )    ( )    ( )    ( )
+      ( ) ( ) ( ) ( ) ( ) ( ) ( )     ( ) ( )   ( )    (G-b)   ( )    ( )    ( )
+      ( ) ( ) ( ) ( ) ( ) ( )             ( ) (C-t f) (C-t e) (G-t) (C-t z) ( )
+      ( ) ( ) ( ) ( ) ( ) ( ) ( )     ( ) ( )   ( )     ( )    ( )    ( )    ( )
+      ( ) ( ) ( ) ( ) ( )                       ( )     ( )    ( )    ( )    ( )
                           ( ) ( )     ( ) ( )
                               ( )     ( )
-                      ( ) ( ) ( )     ( ) (f1) (f2)))
+                      ( ) ( ) ( )     ( ) (C-t C-t) (C-t !)))
   
     ("num"
      (( ) ( ) ( ) ( ) ( ) ( ) ( )     ( ) ( ) ( ) ( ) ( ) ( ) ( )
@@ -527,14 +534,14 @@
                            ( ) ( ) ( )     ( ) ( ) ( )))
   
     ("emacs_l"
-     (( )  (C-{ a)    (C-x })     (C-x 3)     (C-x {)       ( )   ( )     ( ) ( ) ( ) ( ) ( ) ( ) ( )
-      ( )  ( )     (C-u C-space)   (up)   (insert-or-kill) (M-<)  ( )     ( ) ( ) ( ) ( ) ( ) ( ) ( )
-      ( ) (C-a)       (left)      (down)      (right)      (C-e)             ( ) ( ) ( ) ( ) ( ) ( )
-      ( ) (undo)       ( )         (  )         ( )        (M->)  ( )     ( ) ( ) ( ) ( ) ( ) ( ) ( )
-      ( )  ( )         ( )         (  )         ( )                              ( ) ( ) ( ) ( ) ( )
-                                                              ( ) ( )     ( ) ( )
-                                                                  ( )     ( )
-                                  (delete) (other-window) (mark-sexp)     ( ) ( ) ( )))
+     (( )  (C-{ a)    (C-x })     (C-x 3)   (C-x {)   ( )   ( )     ( ) ( ) ( ) ( ) ( ) ( ) ( )
+      ( )  ( )     (C-u C-space)   (up)   (S-insert) (M-<)  ( )     ( ) ( ) ( ) ( ) ( ) ( ) ( )
+      ( ) (C-a)       (left)      (down)    (right)  (C-e)              ( ) ( ) ( ) ( ) ( ) ( )
+      ( ) (undo)       ( )         (  )       ( )    (M->)  ( )     ( ) ( ) ( ) ( ) ( ) ( ) ( )
+      ( )  ( )         ( )         (  )       ( )                           ( ) ( ) ( ) ( ) ( )
+                                                        ( ) ( )     ( ) ( )
+                                                            ( )     ( )
+                                   (delete) (C-tab) (mark-sexp)     ( ) ( ) ( )))
 
     ("emacs_r"
      (( ) ( ) ( ) ( ) ( ) ( ) ( )     ( ) ( ) ( ) (C-x 0) ( ) ( ) ( )
@@ -557,14 +564,14 @@
                                  ( ) ( ) ( )     ( ) ( ) ( )))
 
     ("media"
-     (( ) ( )    ( )       ( )        ( )      ( ) ( )     ( ) ( ) ( ) ( ) ( ) ( ) ( )
-      ( ) ( )    ( )     (ms_up)   (ms_wh_up)  ( ) ( )     ( ) ( ) ( ) ( ) ( ) ( ) ( )
-      ( ) ( ) (ms_left) (ms_down)  (ms_right)  ( )             ( ) ( ) ( ) ( ) ( ) ( )
-      ( ) ( )    ( )       ( )    (ms_wh_down) ( ) ( )     ( ) ( ) ( ) ( ) ( ) ( ) ( )
-      ( ) ( )    ( )       ( )        ( )                     ( ) ( ) ( ) ( ) ( )
-                                               ( ) ( )     ( ) ( )
-                                                   ( )     ( )
-                         (ms_btn2) (ms_btn1) (ms_btn3)     ( ) ( ) ( )))))
+     (   ( )       ( )        ( )       ( )        ( )      ( ) ( )     ( ) ( ) ( ) ( ) ( ) ( ) ( )
+      (rgb_sad) (rgb_sai)     ( )     (ms_up)   (ms_wh_up)  ( ) ( )     ( ) ( ) ( ) ( ) ( ) ( ) ( )
+      (rgb_vad) (rgb_vai ) (ms_left) (ms_down)  (ms_right)  ( )             ( ) ( ) ( ) ( ) ( ) ( )
+      (rgb_hud) (rgb_hui)     ( )       ( )    (ms_wh_down) ( ) ( )     ( ) ( ) ( ) ( ) ( ) ( ) ( )
+      (rgb_tog)    ( )        ( )       ( )        ( )                          ( ) ( ) ( ) ( ) ( )
+                                                            ( ) ( )     ( ) ( )
+                                                                ( )     ( )
+                                      (ms_btn2) (ms_btn1) (ms_btn3)     ( ) ( ) ( )))))
 
 (mugur-load-keybindings)
 
