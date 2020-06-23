@@ -517,14 +517,14 @@ toggle, the current window configuration is saved in a register."
  :rgblight-enable t
  :layers
   '(("base"
-     ((C-f1)       (vol-down) (vol-up) (---) (---) (---) (reset)    (---) (---)   (---)          (---)       (---) (---) (---)
-      (---)          (---)      (w)     (e)   (r)  (t)    (---)     (---)  (y) (lt num_up u)  (lt num i)      (o)  (---) (---)
-      (---)           (a)      (G s)   (M d) (C f) (g)                     (h)    (C j)      (lt symbols k)  (M l)  (p)  (---)
-      (osm S)         (z)       (x)     (c)   (v)  (b)    (---)     (---)  (n)     (m)          (comma)      (dot)  (q)  (osm S)
-      (tg xwindow)   (---)     (---)   (---) (---)                                (---)          (---)       (---) (---) (---)     
-                                                  (C-t p) (---)     (---) (C-t n)
-                                                          (M-x)     (C-z)
-                   (lt emacs_r bspace) (lt xwindow space) (tab)     (lt media escape) (lt emacs_l enter) (---)))
+     ((C-f1)       (vol-down) (vol-up) (vuiet-play-pause) (---) (vuiet-next) (reset)    (---) (---)   (---)          (---)       (---) (---) (---)
+      (---)          (---)      (w)          (e)           (r)      (t)       (---)     (---)  (y) (lt num_up u)  (lt num i)      (o)  (---) (---)
+      (---)           (a)      (G s)        (M d)         (C f)     (g)                        (h)    (C j)      (lt symbols k)  (M l)  (p)  (---)
+      (osm S)         (z)       (x)          (c)           (v)      (b)       (---)     (---)  (n)     (m)          (comma)      (dot)  (q)  (osm S)
+      (tg xwindow)   (---)     (---)   (---) (---)                                                    (---)          (---)       (---) (---) (---)     
+                                                                      (C-t p) (---)     (---) (C-t n)
+                                                                              (M-x)     (C-z)
+                                       (lt emacs_r bspace) (lt xwindow space) (tab)     (lt media escape) (lt emacs_l enter) (---)))
 
     ("xwindow" (0 1 1)
      (( ) ( ) ( ) ( ) ( ) ( ) ( )     ( ) ( )   ( )     ( )    ( )    ( )    ( )
