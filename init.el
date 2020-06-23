@@ -44,6 +44,9 @@
       org-src-tab-acts-natively t
       org-confirm-babel-evaluate nil
       org-edit-src-content-indentation 0
+      org-confirm-elisp-link-function nil
+      browse-url-browser-function 'browse-url-generic
+      browse-url-generic-program "chromium"
       compilation-read-command nil
       use-package-always-ensure t
       inhibit-startup-message t
@@ -78,13 +81,14 @@
         (add-hook hook (lambda ()
                          (prettify-symbols-mode 1)
                          (setq lisp-prettify-symbols-alist nil)
-                         (push '("lambda" . "λλ") lisp-prettify-symbols-alist)
-                         (push '("mapcar" . "˫˫") lisp-prettify-symbols-alist)
+                         (push '("lambda" . "λλ") lisp-prettify-symbols-alist)                         
                          (push '("defun" . "ƒƒ") lisp-prettify-symbols-alist)
                          (push '("defmacro" . "mm") lisp-prettify-symbols-alist)
                          (push '("mapcar" . "»»") lisp-prettify-symbols-alist)
-                         (push '("car" . "11") lisp-prettify-symbols-alist)
-                         (push '("cadr" . "22") lisp-prettify-symbols-alist))))
+                         (push '("car"    . "11") lisp-prettify-symbols-alist)
+                         (push '("cadr"   . "22") lisp-prettify-symbols-alist)
+                         (push '("caddr"  . "33") lisp-prettify-symbols-alist)
+                         (push '("cadddr" . "44") lisp-prettify-symbols-alist))))
       '(lisp-mode-hook emacs-lisp-mode-hook))
 
 (defun revert-buffer-no-confirm ()
@@ -105,7 +109,8 @@
   "Search code on github for a given language."
   (interactive)
   (let ((language (completing-read
-                   "Language: "'("Common Lisp" "Emacs Lisp")))
+                   "Language: "
+                   '(" " "Emacs Lisp" "Common Lisp")))
         (code (read-string "Code: ")))
     (browse-url
      (concat "https://github.com/search?l=" language
@@ -425,11 +430,29 @@ buffer if it doesn't exist already, and switch to it.  On every
 toggle, the current window configuration is saved in a register."
   (interactive)
   (if (eq major-mode 'eshell-mode)
-      ;; Jump from shell back to editing.
-      (jump-to-register ?w)
+      (progn (window-configuration-to-register ?Z)
+             (jump-to-register ?W))
     ;; Save current window config and jump to shell
-    (window-configuration-to-register ?w)
-    (jump-to-register ?z)))
+    (window-configuration-to-register ?W)
+    (condition-case nil
+        (jump-to-register ?Z)
+      (error
+       (eshell)
+       (when (= (length (window-list)) 2)
+         (other-window 1)
+         (eshell 1)
+         (other-window 1))))
+    (window-configuration-to-register ?Z)))
+
+(defun buffer-toggle ()
+  (interactive)
+  (switch-to-buffer (other-buffer)))
+
+(defun insert-or-kill ()
+  (interactive)
+  (if (region-active-p)
+      (sp-kill-region-or-backward-word)
+    (yank)))
 
 (bind-keys
  ("C-c C-c" . compile)
@@ -456,7 +479,7 @@ toggle, the current window configuration is saved in a register."
  ("C-w"       . sp-kill-region-or-backward-word)
  ;; ("C-s-f" . sp-forward-parallel-sexp)
  ;; ("C-s-b" . sp-backward-parallel-sexp)
- ("C-M-f" . sp-forward-sexp)
+ ("C-f"   . sp-forward-sexp)
  ("C-M-b" . sp-backward-sexp)
  ("C-s-b" . sp-backward-up-sexp)
  ("C-s-f" . sp-down-sexp)
