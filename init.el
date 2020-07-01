@@ -116,15 +116,17 @@
      (concat "https://github.com/search?l=" language
              "&type=code&q=" code))))
 
+(defun google-search-str (str)
+  (browse-url
+   (concat "https://www.google.com/search?q=" str)))
+
 (defun google-search ()
   "Google search region, if active, or ask for search string."
   (interactive)
-  (browse-url
-   (concat "https://www.google.com/search?q="
-           (if (region-active-p)
-               (buffer-substring-no-properties (region-beginning)
-                                               (region-end))
-             (read-string "Google: ")))))
+  (counsel-web-suggest
+   (when (region-active-p)
+     (buffer-substring-no-properties (region-beginning)
+                                     (region-end)))))
 
 (use-package ivy
   :diminish ivy-mode
@@ -139,6 +141,11 @@
   (use-package smex)          ; show most recently used commands in counsel-M-x
   (use-package counsel-gtags)
 
+  (use-package counsel-web
+    :config
+    (setf counsel-web-suggest-action 'google-search-str)
+    (setf counsel-web-engine 'google))
+  
   (setq ivy-height 15
         ivy-fixed-height-minibuffer t ; Do not autoresize the minibuffer
         ivy-initial-inputs-alist nil  ; Do not put a ^ in counsel-M-x
