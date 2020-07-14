@@ -514,6 +514,35 @@ toggle, the current window configuration is saved in a register."
    :map counsel-describe-map
  ("C-q"     . describe-function-from-ivy))
 
+(use-package hydra
+  :ensure t)
+
+(defhydra hydra-git (global-map "s-g")
+  ("e" git-gutter+-previous-hunk "previous hunk")
+  ("d" git-gutter+-next-hunk "next hunk")
+  ("s" (git-gutter+-stage-hunks) "next hunk")
+  ("c" git-gutter+-commit "commit" :exit t)
+  ("p" magit-push-current "push")
+  ("q" nil "quit")
+  ("s-g" nil "quit"))
+
+(defhydra hydra-buffer (global-map "s-w")
+  ("d" split-window-horizontally "split h")
+  ("c" split-window-vertically "split v")
+  ("s" enlarge-window-horizontally "left")
+  ("f" shrink-window-horizontally "right")
+  ("k" delete-window "delete")
+  ("q" nil "quit"))
+
+(defhydra hydra-file (global-map "s-f" :exit t)
+  ("s" (lambda () (interactive)
+         (switch-to-buffer "*scratch*")))
+  ("i" (lambda () (interactive)
+         (switch-to-buffer "init.el")))
+  ("m" (lambda () (interactive)
+         (switch-to-buffer "*Messages*")))
+  ("q" nil "quit"))
+
 
 (add-to-list 'load-path "~/.emacs.d/lisp/mugur")
 (require 'mugur)
