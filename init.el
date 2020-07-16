@@ -286,10 +286,7 @@
     otherwise kill the word as in bash (from stackoverflow)"
     (interactive)
     (call-interactively
-     (if (use-region-p) 'sp-kill-region 'sp-backward-kill-word)))
-  :bind
-  ("C-w" . sp-kill-region-or-backward-word)
-  ("M-b" . sp-backward-symbol))
+     (if (use-region-p) 'sp-kill-region 'sp-backward-kill-word))))
 
 (use-package cmake-mode
   :mode (("\\.cmake\\'" . cmake-mode)
@@ -312,13 +309,6 @@
         ("C-n" . company-select-next)
         ("C-p" . company-select-previous)
         ("C-j" . company-show-doc-buffer)))
-
-(use-package avy
-  :config
-  (setq avy-keys '(?\; ?l ?k ?j ?h ?u ?i ?o ?p ?m))
-  (setq avy-timeout-seconds 0.2
-        avy-all-windows nil)
-  :bind ("C-;" . avy-goto-char-timer))
 
 (use-package org
   :config
@@ -461,46 +451,51 @@ toggle, the current window configuration is saved in a register."
       (sp-kill-region-or-backward-word)
     (yank)))
 
+(defun eshell-root ()
+  "Keep an eshell that we can come back to."
+  (interactive)
+  (let ((eshell-buffer-name "root-eshell"))
+    (eshell)))
+
 (bind-keys
+ ("<S-insert>" . insert-or-kill)
  ("C-c C-c" . compile)
  ("C-x k"   . kill-current-buffer)
  ("<C-tab>" . other-window)
  ("C-,"     . previous-buffer)
  ("C-."     . next-buffer)
- ("C-q"     . execute-extended-command)
  ("C-S-r"   . revert-buffer-no-confirm)
- ("s-k"     . sp-kill-sexp) 
  ("s-t"     . eshell-toggle)
  ("s-b"     . buffer-toggle)
+ ("s-e"     . eshell-root)
+ ("s-E"     . eshell)
+ ("C-z"     . undo)
 
  ("C-v" . (lambda () (interactive) (scroll-up-command 10)))
  ("M-v" . (lambda () (interactive) (scroll-down-command 10)))
  ;; Jump to mark
  ("C-S-SPC" . (lambda () (interactive) (set-mark-command 0)))
-
- ;; Smartscan
- ("C-M-p" . smartscan-symbol-go-backward)
- ("C-M-n" . smartscan-symbol-go-forward)
-
+ 
  ;; Smartparens
  ("C-w"       . sp-kill-region-or-backward-word)
- ;; ("C-s-f" . sp-forward-parallel-sexp)
- ;; ("C-s-b" . sp-backward-parallel-sexp)
- ("C-f"   . sp-forward-sexp)
- ("C-M-b" . sp-backward-sexp)
- ("C-s-b" . sp-backward-up-sexp)
- ("C-s-f" . sp-down-sexp)
-
-  ;; Counsel
+ ("C-f" . sp-forward-sexp)
+ ("C-s" . sp-backward-sexp)
+ ("C-e" . sp-backward-up-sexp)
+ ("C-d" . sp-down-sexp)
+ ("C-r" . sp-up-sexp)
+ ("s-u" . sp-unwrap-sexp)
+ ("s-o" . sp-wrap-round)
+ ("s-l" . sp-forward-slurp-sexp)
+ 
+ ;; Counsel
  ("M-y"     . counsel-yank-pop)
- ("C-x C-f" . counsel-find-file)
- ("C-x C-r" . counsel-find-file-root)
- ("C-c s"   . counsel-ag)
+ ("M-f" . counsel-find-file)
+ ("M-r" . counsel-find-file-root)
+ ("M-s"   . counsel-ag)
  ("C-c C-r" . ivy-resume)
- ("C-z"     . ivy-switch-buffer)
  ("C-c i"   . counsel-semantic)
  ([remap isearch-forward] . swiper)
- ("C-S-s"   . swiper)
+ ("s-s"   . swiper)
    :map counsel-find-file-map
  ("C-l"     . counsel-up-directory)
  ("C-j"     . ivy-alt-done)
@@ -549,6 +544,16 @@ toggle, the current window configuration is saved in a register."
 (setf mugur-qmk-path "/home/mihai/projects/qmk_firmware")
 (mugur-load-keybindings)
 
+;; ("template"
+;;     (( ) ( ) ( ) ( ) ( ) ( ) ( )     ( ) ( ) ( ) (C-x 0) ( ) ( ) ( )
+;;      ( ) ( ) ( ) ( ) ( ) ( ) ( )     ( ) ( ) ( )   ( )   ( ) ( ) ( )
+;;      ( ) ( ) ( ) ( ) ( ) ( )             ( ) ( )   ( )   ( ) ( ) ( )
+;;      ( ) ( ) ( ) ( ) ( ) ( ) ( )     ( ) ( ) ( )   ( )   ( ) ( ) ( )
+;;      ( ) ( ) ( ) ( ) ( )                     ( )   ( )   ( ) ( ) ( )
+;;                          ( ) ( )     ( ) ( )
+;;                              ( )     ( )
+;;                      ( ) ( ) ( )     ( ) ( ) ( )))
+
 (mugur-keymap
  :rgblight-enable t
  :layers
@@ -557,29 +562,19 @@ toggle, the current window configuration is saved in a register."
       (---)         (C-x k)     (w)          (e)              (r)       (t)   (---) 
       (---)           (a)      (G s)        (M d)            (C f)      (g) 
       (osm S)         (z)       (x)          (c)              (v)       (b)   (---)
-      (tg xwindow)   (---)     (---)        (---)            (---) 
-                                                                  (pscreen p) (---) 
+      (---)          (---)     (---)        (---)            (---)
+                                                                        (---) (---)
                                                                               (M-x)     
-                                       (lt emacs_r bspace) (lt xwindow space) (tab) 
+                                                             (bspace) (space) (tab) 
 
-      (---) (---)   (---)          (---)       (---) (---)   (---)
-      (---)  (y) (lt num_up u)  (lt num i)      (o)  (---)   (---)
-             (h)    (C j)      (lt symbols k)  (M l)  (p)    (---)
-      (---)  (n)     (m)          (comma)      (dot)  (q)   (osm S)
-                    (---)          (up)       (down) (left) (right)
-                                                 (---)  (pscreen n)
-                                                              (C-z)
-                     (lt media escape) (lt emacs_l enter) (pscreen)))
-
-    ("xwindow" (0 1 1)
-     (( ) ( ) ( ) ( ) ( ) ( ) ( )     ( ) ( )   ( )     ( )    ( )    ( )    ( )
-      ( ) ( ) ( ) ( ) ( ) ( ) ( )     ( ) ( )   ( )    (G-b)   ( )    ( )    ( )
-      ( ) ( ) ( ) ( ) ( ) ( )             ( ) (C-t f) (C-t e) (G-t) (C-t z) ( )
-      ( ) ( ) ( ) ( ) ( ) ( ) ( )     ( ) ( )   ( )     ( )    ( )    ( )    ( )
-      ( ) ( ) ( ) ( ) ( )                       ( )     ( )    ( )    ( )    ( )
-                          ( ) ( )     ( ) ( )
-                              ( )     ( )
-                      ( ) ( ) ( )     ( ) (C-t C-t) (C-t !)))
+      (---) (---)   (---)          (---)    (---)  (---)   (---)
+      (---)  (y)     (u)        (lt num i)   (o)   (---)   (---)
+             (h)    (C j)          (M k)    (G l)   (p)    (---)
+      (---)  (n)     (m)          (comma)   (dot)   (q)   (osm S)
+                    (---)          (up)     (down) (left) (right)
+                                                    (---)  (---)
+                                                         (C-x b)
+      (lt media escape) (lt movement enter) (lt symbols pscreen)))
   
     ("num"
      (( ) ( ) ( ) ( ) ( ) ( ) ( )     ( ) ( ) ( ) ( ) ( ) ( ) ( )
@@ -591,18 +586,8 @@ toggle, the current window configuration is saved in a register."
                               ( )     ( )
                       ( ) ( ) ( )     ( ) ( ) ( )))
    
-    ("num_up"
-     (( )  ( )  ( ) ( )  ( )   ( ) ( )     ( ) ( ) ( ) ( ) ( ) ( ) ( )
-      ( )  ( )  (!) (@) (hash) ( ) ( )     ( ) ( ) ( ) ( ) ( ) ( ) ( )
-      ( ) ("?") ($) (%)  (^)   ( )             ( ) ( ) ( ) ( ) ( ) ( )
-      ( ) ("?") (&) (*)  ( )   ( ) ( )     ( ) ( ) ( ) ( ) ( ) ( ) ( )
-      ( )  ( )  ( ) ( )  ( )                       ( ) ( ) ( ) ( ) ( )
-                               ( ) ( )     ( ) ( )
-                                   ( )     ( )
-                           ( ) ( ) ( )     ( ) ( ) ( )))
-  
-    ("emacs_l"
-     (( )  (C-{ a)    (C-x })     (C-x 3)   (C-x {)   ( )   ( )     ( ) ( ) ( ) ( ) ( ) ( ) ( )
+    ("movement"
+     (( )  ( )         ( )     ( )   ( )   ( )   ( )     ( ) ( ) ( ) ( ) ( ) ( ) ( )
       ( )  ( )     (C-u C-space)   (up)   (S-insert) (M-<)  ( )     ( ) ( ) ( ) ( ) ( ) ( ) ( )
       ( ) (C-a)       (left)      (down)    (right)  (C-e)              ( ) ( ) ( ) ( ) ( ) ( )
       ( ) (undo)       ( )         (  )       ( )    (M->)  ( )     ( ) ( ) ( ) ( ) ( ) ( ) ( )
@@ -610,16 +595,6 @@ toggle, the current window configuration is saved in a register."
                                                         ( ) ( )     ( ) ( )
                                                             ( )     ( )
                                    (delete) (C-tab) (mark-sexp)     ( ) ( ) ( )))
-
-    ("emacs_r"
-     (( ) ( ) ( ) ( ) ( ) ( ) ( )     ( ) ( ) ( ) (C-x 0) ( ) ( ) ( )
-      ( ) ( ) ( ) ( ) ( ) ( ) ( )     ( ) ( ) ( )   ( )   ( ) ( ) ( )
-      ( ) ( ) ( ) ( ) ( ) ( )             ( ) ( )   ( )   ( ) ( ) ( )
-      ( ) ( ) ( ) ( ) ( ) ( ) ( )     ( ) ( ) ( )   ( )   ( ) ( ) ( )
-      ( ) ( ) ( ) ( ) ( )                     ( )   ( )   ( ) ( ) ( )
-                          ( ) ( )     ( ) ( )
-                              ( )     ( )
-                      ( ) ( ) ( )     ( ) ( ) ( )))
 
     ("symbols"
      (( ) ( )   ("[")  ("]")   ({)   (})  ( )     ( ) ( ) ( ) ( ) ( ) ( ) ( )
@@ -629,10 +604,10 @@ toggle, the current window configuration is saved in a register."
       ( ) ( )    (|)    (<)   (>)                     ( ) ( ) ( ) ( ) ( )
                                      ( ) ( )     ( ) ( )
                                          ( )     ( )
-                                 ( ) ( ) ( )     ( ) ( ) ( )))
+                               (!) ("?") ( )     ( ) ( ) ( )))
 
     ("media"
-     (   ( )       ( )        ( )       ( )        ( )      ( ) ( )     ( ) ( ) ( ) ( ) ( ) ( ) ( )
+     (( )       ( )        ( )       ( )        ( )      ( ) ( )     ( ) ( ) ( ) ( ) ( ) ( ) ( )
       (rgb_sad) (rgb_sai)     ( )     (ms_up)   (ms_wh_up)  ( ) ( )     ( ) ( ) ( ) ( ) ( ) ( ) ( )
       (rgb_vad) (rgb_vai ) (ms_left) (ms_down)  (ms_right)  ( )             ( ) ( ) ( ) ( ) ( ) ( )
       (rgb_hud) (rgb_hui)     ( )       ( )    (ms_wh_down) ( ) ( )     ( ) ( ) ( ) ( ) ( ) ( ) ( )
@@ -642,6 +617,18 @@ toggle, the current window configuration is saved in a register."
                                       (ms_btn2) (ms_btn1) (ms_btn3)     ( ) ( ) ( )))))
 
 (mugur-load-keybindings)
+
+(defun yocto-find-var-definition ()
+  (interactive)
+  (let ((var (cl-reduce
+              (lambda (rest word)
+                (if (s-uppercase-p word)
+                    (concat rest "_" word)
+                  rest))
+              (s-split "_" (symbol-name (symbol-at-point)))))
+        (yocto-page "https://www.yoctoproject.org/docs/latest/ref-manual/ref-manual.html#var-%s"))
+    (browse-url
+     (format yocto-page var))))
 
 (defun signed-of-by-me ()
   (interactive)
