@@ -473,6 +473,37 @@ toggle, the current window configuration is saved in a register."
      (let ((file (tramp-file-name-localname (tramp-dissect-file-name file))))
        (replace-regexp-in-string (concat "\\`" dir) "" file))))
 
+
+(use-package hydra
+  :ensure t)
+
+(defhydra hydra-git ()
+  ("e" git-gutter+-previous-hunk "previous hunk")
+  ("d" git-gutter+-next-hunk "next hunk")
+  ("s" git-gutter+-stage-hunks "stage")
+  ("a" vc-diff "diff")
+  ("c" git-gutter+-commit "commit" :exit t)
+  ("p" magit-push-current "push")
+  ("q" nil "quit")
+  ("s-g" nil "quit"))
+
+(defhydra hydra-buffer ()
+  ("d" split-window-horizontally "split h")
+  ("c" split-window-vertically "split v")
+  ("s" enlarge-window-horizontally "left")
+  ("f" shrink-window-horizontally "right")
+  ("k" delete-window "delete" :exit t)
+  ("q" nil "quit"))
+
+(defhydra hydra-file (:exit t)
+  ("s" (lambda () (interactive) (switch-to-buffer "*scratch*"))
+       "*scratch*")
+  ("i" (lambda () (interactive) (switch-to-buffer "init.el"))
+       "init.el")
+  ("m" (lambda () (interactive) (switch-to-buffer "*Messages*"))
+       "*Messages*")
+  ("q" nil "quit"))
+
 (bind-keys
  ("<S-insert>" . insert-or-kill)
  ("C-c C-c" . compile)
@@ -502,6 +533,11 @@ toggle, the current window configuration is saved in a register."
  ("s-u" . sp-unwrap-sexp)
  ("s-o" . sp-wrap-round)
  ("s-l" . sp-forward-slurp-sexp)
+
+ ;; Hydras
+ ("s-g"   . hydra-git/body)
+ ("s-w"   . hydra-buffer/body)
+ ("s-f"   . hydra-file/body)
  
  ;; Counsel
  ("M-y"     . counsel-yank-pop)
