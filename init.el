@@ -590,6 +590,13 @@ toggle, the current window configuration is saved in a register."
          (switch-to-buffer "*Messages*")))
   ("q" nil "quit"))
 
+ :map dired-mode-map
+ ("d"     . dired-next-line)
+ ("e"     . dired-previous-line)
+ ("s"     . dired-up-directory)              
+ ("f"     . dired-find-alternate-file)
+ ("g"     . dired-subtree-toggle)
+ ("q"     . kill-this-buffer))
 
 (add-to-list 'load-path "~/.emacs.d/lisp/mugur")
 (require 'mugur)
