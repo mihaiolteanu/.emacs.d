@@ -405,28 +405,6 @@
   (define-key yas-minor-mode-map (kbd "SPC") yas-maybe-expand)
   (yas-reload-all))
 
-(defun eshell-toggle ()
-  "Toggle between eshell buffers.
-If you are in a shell buffer, switch the window configuration
-back to your code buffers.  Otherwise, create at least one shell
-buffer if it doesn't exist already, and switch to it.  On every
-toggle, the current window configuration is saved in a register."
-  (interactive)
-  (if (eq major-mode 'eshell-mode)
-      (progn (window-configuration-to-register ?Z)
-             (jump-to-register ?W))
-    ;; Save current window config and jump to shell
-    (window-configuration-to-register ?W)
-    (condition-case nil
-        (jump-to-register ?Z)
-      (error
-       (eshell)
-       (when (= (length (window-list)) 2)
-         (other-window 1)
-         (eshell 1)
-         (other-window 1))))
-    (window-configuration-to-register ?Z)))
-
 (defun buffer-toggle ()
   (interactive)
   (switch-to-buffer (other-buffer)))
@@ -498,7 +476,9 @@ toggle, the current window configuration is saved in a register."
  ("C-,"     . previous-buffer)
  ("C-."     . next-buffer)
  ("C-S-r"   . revert-buffer-no-confirm)
- ("s-t"     . eshell-toggle)
+ ("C-f"     . counsel-find-file)
+ ("C-r"     . counsel-find-file-root)
+ ("C-s"     . swiper)
  ("s-b"     . buffer-toggle)
  ("s-e"     . eshell-root)
  ("s-E"     . eshell)
