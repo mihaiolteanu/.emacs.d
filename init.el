@@ -197,14 +197,8 @@
 	    (lambda ()
 	      (eshell-cmpl-initialize)
               (smartscan-mode -1)
-              (setenv "GIT_PAGER" "")   ; Make git usable
-              (eshell-fixed-prompt-mode)
-              (eshell-fringe-status-mode)
-              (bind-keys :map eshell-mode-map
-                         ("C-r" . counsel-esh-history)
-                         ("M-p" . eshell-previous-input)
-                         ("M-n" . eshell-next-input))))
-  :bind (("C-c e" . eshell)))
+              (setenv "GIT_PAGER" "")   ; Make git usable              
+              (eshell-fringe-status-mode))))
 
 (use-package git-timemachine)
 (use-package git-gutter+
@@ -219,15 +213,7 @@
   (global-git-gutter+-mode +1)
   (set-face-foreground 'git-gutter+-added    "olive drab")
   (set-face-foreground 'git-gutter+-deleted  "firebrick")
-  (set-face-foreground 'git-gutter+-modified "dark magenta")
-  :bind
-  (("C-x v n"   . git-gutter+-next-hunk)
-   ("C-x v p"   . git-gutter+-previous-hunk)
-   ("C-x v C-s" . git-gutter+-show-hunk)
-   ("C-x v s"   . git-gutter+-stage-hunks)
-   ("C-x v u"   . git-gutter+-unstage-whole-buffer)
-   ("C-x v c"   . git-gutter+-commit)
-   ("C-x v C-c" . git-gutter+-stage-and-commit)))
+  (set-face-foreground 'git-gutter+-modified "dark magenta"))
 
 (use-package which-key
   :diminish
@@ -596,7 +582,16 @@ toggle, the current window configuration is saved in a register."
  ("s"     . dired-up-directory)              
  ("f"     . dired-find-alternate-file)
  ("g"     . dired-subtree-toggle)
- ("q"     . kill-this-buffer))
+ ("q"     . kill-this-buffer)
+
+ :map eshell-mode-map
+ ([remap eshell-pcomplete] . completion-at-point)
+ ("C-r" . counsel-esh-history)
+ ("<up>" . previous-line)
+ ("<down>" . next-line)
+ ("<left>" . left-char)
+ ("<right>" . right-char))
+
 
 (add-to-list 'load-path "~/.emacs.d/lisp/mugur")
 (require 'mugur)
