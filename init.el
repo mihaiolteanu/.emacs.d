@@ -333,8 +333,10 @@
     (setq openwith-associations `(("\\.pdf\\|\\.png\\|\\.docm\\|\\.xls" ,open-app (file))))))
 
 (use-package dired
+  :ensure nil
   :config
   (use-package dired-x
+    :ensure nil
     :hook (dired-mode . dired-omit-mode))
   (use-package dired-subtree)
   (setq dired-listing-switches "-lah")
@@ -343,13 +345,7 @@
    '(dired-directory ((t (:foreground "deepskyblue" :weight bold))))
    '(dired-marked    ((t (:foreground "orange red" :weight extra-bold))))
    '(dired-header    ((t (:foreground "blanchedalmond" :weight bold :height 165)))))
-  :hook (dired-mode . dired-hide-details-mode)
-  :bind (:map dired-mode-map
-              ("C-l"   . 'dired-up-directory)              
-              ("I"     . 'dired-kill-subdir)
-              ("<tab>" . 'dired-hide-subdir)
-              ("C-i"   . 'dired-subtree-toggle)
-              ("q"     . kill-this-buffer)))
+  :hook (dired-mode . dired-hide-details-mode))
 
 (use-package ivy-dired-history :after (dired savehist)
   :init
@@ -448,6 +444,7 @@
   ("a" vc-diff "diff")
   ("c" git-gutter+-commit "commit" :exit t)
   ("p" magit-push-current "push")
+  ("l" magit-log-all "log-all" :exit t)
   ("q" nil "quit")
   ("s-g" nil "quit"))
 
@@ -482,6 +479,7 @@
  ("s-b"     . buffer-toggle)
  ("s-e"     . eshell-root)
  ("s-E"     . eshell)
+ ("s-d"     . dired)
  ("C-z"     . undo)
 
  ("C-v" . (lambda () (interactive) (scroll-up-command 10)))
@@ -491,11 +489,10 @@
  
  ;; Smartparens
  ("C-w"       . sp-kill-region-or-backward-word)
- ("C-f" . sp-forward-sexp)
- ("C-s" . sp-backward-sexp)
+ ;;("" . sp-forward-sexp)
+ ;;("" . sp-up-sexp)
  ("C-e" . sp-backward-up-sexp)
  ("C-d" . sp-down-sexp)
- ("C-r" . sp-up-sexp)
  ("s-u" . sp-unwrap-sexp)
  ("s-o" . sp-wrap-round)
  ("s-l" . sp-forward-slurp-sexp)
@@ -507,13 +504,10 @@
  
  ;; Counsel
  ("M-y"     . counsel-yank-pop)
- ("M-f" . counsel-find-file)
- ("M-r" . counsel-find-file-root)
- ("M-s"   . counsel-ag)
  ("C-c C-r" . ivy-resume)
  ("C-c i"   . counsel-semantic)
  ([remap isearch-forward] . swiper)
- ("s-s"   . swiper)
+ ("s-s"     . counsel-ag)
    :map counsel-find-file-map
  ("C-l"     . counsel-up-directory)
  ("C-j"     . ivy-alt-done)
@@ -525,36 +519,7 @@
    :map isearch-mode-map
  ("C-o"     . swiper-isearch-string)
    :map counsel-describe-map
- ("C-q"     . describe-function-from-ivy))
-
-(use-package hydra
-  :ensure t)
-
-(defhydra hydra-git (global-map "s-g")
-  ("e" git-gutter+-previous-hunk "previous hunk")
-  ("d" git-gutter+-next-hunk "next hunk")
-  ("s" (git-gutter+-stage-hunks) "next hunk")
-  ("c" git-gutter+-commit "commit" :exit t)
-  ("p" magit-push-current "push")
-  ("q" nil "quit")
-  ("s-g" nil "quit"))
-
-(defhydra hydra-buffer (global-map "s-w")
-  ("d" split-window-horizontally "split h")
-  ("c" split-window-vertically "split v")
-  ("s" enlarge-window-horizontally "left")
-  ("f" shrink-window-horizontally "right")
-  ("k" delete-window "delete")
-  ("q" nil "quit"))
-
-(defhydra hydra-file (global-map "s-f" :exit t)
-  ("s" (lambda () (interactive)
-         (switch-to-buffer "*scratch*")))
-  ("i" (lambda () (interactive)
-         (switch-to-buffer "init.el")))
-  ("m" (lambda () (interactive)
-         (switch-to-buffer "*Messages*")))
-  ("q" nil "quit"))
+ ("C-q"     . describe-function-from-ivy)
 
  :map dired-mode-map
  ("d"     . dired-next-line)
@@ -596,11 +561,11 @@
       (---)         (C-x k)     (w)          (e)              (r)       (t)   (---) 
       (---)           (a)      (G s)        (M d)            (C f)      (g) 
       (osm S)         (z)       (x)          (c)              (v)       (b)   (---)
-      (---)          (---)     (---)        (---)            (---)
-                                                                        (---) (---)
-                                                                              (M-x)     
-                                                             (bspace) (space) (tab) 
-
+      (---)          (---)     (---)        (---)            (tab)
+                                                                        (tab) (---)
+                                                                              (---)     
+                                                             (bspace) (space) (---) 
+                                                             
       (---) (---)   (---)          (---)    (---)  (---)   (---)
       (---)  (y)     (u)        (lt num i)   (o)   (---)   (---)
              (h)    (C j)          (M k)    (G l)   (p)    (---)
@@ -621,14 +586,14 @@
                       ( ) ( ) ( )     ( ) ( ) ( )))
    
     ("movement"
-     (( )  ( )         ( )     ( )   ( )   ( )   ( )     ( ) ( ) ( ) ( ) ( ) ( ) ( )
+     (( )  ( )         ( )         ( )        ( )     ( )   ( )     ( ) ( ) ( ) ( ) ( ) ( ) ( )
       ( )  ( )     (C-u C-space)   (up)   (S-insert) (M-<)  ( )     ( ) ( ) ( ) ( ) ( ) ( ) ( )
       ( ) (C-a)       (left)      (down)    (right)  (C-e)              ( ) ( ) ( ) ( ) ( ) ( )
       ( ) (undo)       ( )         (  )       ( )    (M->)  ( )     ( ) ( ) ( ) ( ) ( ) ( ) ( )
       ( )  ( )         ( )         (  )       ( )                           ( ) ( ) ( ) ( ) ( )
                                                         ( ) ( )     ( ) ( )
                                                             ( )     ( )
-                                   (delete) (C-tab) (mark-sexp)     ( ) ( ) ( )))
+                                           (delete) (C-tab) ( )     ( ) ( ) ( )))
 
     ("symbols"
      (( ) ( )   ("[")  ("]")   ({)   (})  ( )     ( ) ( ) ( ) ( ) ( ) ( ) ( )
