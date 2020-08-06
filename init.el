@@ -123,10 +123,11 @@
 (defun google-search ()
   "Google search region, if active, or ask for search string."
   (interactive)
-  (counsel-web-suggest
-   (when (region-active-p)
-     (buffer-substring-no-properties (region-beginning)
-                                     (region-end)))))
+  (if (region-active-p)
+      (google-search-str
+       (buffer-substring-no-properties (region-beginning)
+                                       (region-end)))
+    (google-search-str (read-from-minibuffer "Search: "))))
 
 (use-package ivy
   :diminish ivy-mode
@@ -488,7 +489,7 @@
  ("C-S-SPC" . (lambda () (interactive) (set-mark-command 0)))
  
  ;; Smartparens
- ("C-w"       . sp-kill-region-or-backward-word)
+ ("C-w"       . google-search)
  ;;("" . sp-forward-sexp)
  ;;("" . sp-up-sexp)
  ("C-e" . sp-backward-up-sexp)
