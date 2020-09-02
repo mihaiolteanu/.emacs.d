@@ -89,7 +89,7 @@
                          (push '("cadr"   . "22") lisp-prettify-symbols-alist)
                          (push '("caddr"  . "33") lisp-prettify-symbols-alist)
                          (push '("cadddr" . "44") lisp-prettify-symbols-alist))))
-      '(lisp-mode-hook emacs-lisp-mode-hook))
+      '(lisp-mode-hook emacs-lisp-mode-hook scheme-mode-hook))
 
 (defun revert-buffer-no-confirm ()
   (interactive)
@@ -129,6 +129,11 @@
                                        (region-end)))
     (google-search-str (read-from-minibuffer "Search: "))))
 
+(use-package avy
+  :ensure t
+  :config
+  (setq avy-timeout-seconds 0.2))
+
 (use-package ivy
   :diminish ivy-mode
   :init (ivy-mode t)
@@ -142,11 +147,6 @@
   (use-package smex)          ; show most recently used commands in counsel-M-x
   (use-package counsel-gtags)
 
-  (use-package counsel-web
-    :config
-    (setf counsel-web-suggest-action 'google-search-str)
-    (setf counsel-web-engine 'google))
-  
   (setq ivy-height 15
         ivy-fixed-height-minibuffer t ; Do not autoresize the minibuffer
         ivy-initial-inputs-alist nil  ; Do not put a ^ in counsel-M-x
@@ -199,7 +199,14 @@
 	      (eshell-cmpl-initialize)
               (smartscan-mode -1)
               (setenv "GIT_PAGER" "")   ; Make git usable              
-              (eshell-fringe-status-mode))))
+              (eshell-fringe-status-mode)
+              (bind-keys :map eshell-mode-map
+                         ([remap eshell-pcomplete] . completion-at-point)
+                         ("C-r" . counsel-esh-history)
+                         ("<up>" . previous-line)
+                         ("<down>" . next-line)
+                         ("<left>" . left-char)
+                         ("<right>" . right-char)))))
 
 (use-package git-timemachine)
 (use-package git-gutter+
@@ -233,19 +240,19 @@
       (local-set-key (kbd "M-,")     'counsel-gtags-go-backward)
       (local-set-key (kbd "C-M-.")   'counsel-gtags-find-reference-at-point))))
 
-(use-package python
-  :config
-  (use-package company-anaconda)
-  (use-package anaconda-mode
-    :defer t
-    :after (company-anaconda)
-    :init
-    (add-to-list 'company-backends 'company-anaconda)
-    (add-hook 'python-mode-hook 'anaconda-mode))
-  (use-package elpy
-    :config
-    (add-hook 'elpy-mode-hook
-              (lambda () (highlight-indentation-mode -1)))))
+;; (use-package python
+;;   :config
+;;   (use-package company-anaconda)
+;;   (use-package anaconda-mode
+;;     :defer t
+;;     :after (company-anaconda)
+;;     :init
+;;     (add-to-list 'company-backends 'company-anaconda)
+;;     (add-hook 'python-mode-hook 'anaconda-mode))
+;;   (use-package elpy
+;;     :config
+;;     (add-hook 'elpy-mode-hook
+;;               (lambda () (highlight-indentation-mode -1)))))
 
 (use-package crux
   :config
@@ -483,8 +490,10 @@
  ("s-d"     . dired)
  ("C-z"     . undo)
 
- ("C-v" . (lambda () (interactive) (scroll-up-command 10)))
- ("M-v" . (lambda () (interactive) (scroll-down-command 10)))
+ ("s-a" . avy-goto-char-timer)
+ 
+ ("C-v" . (lambda () (interactive) (scroll-up-command   15)))
+ ("M-v" . (lambda () (interactive) (scroll-down-command 15)))
  ;; Jump to mark
  ("C-S-SPC" . (lambda () (interactive) (set-mark-command 0)))
  
@@ -492,12 +501,16 @@
  ("C-w"       . google-search)
  ;;("" . sp-forward-sexp)
  ;;("" . sp-up-sexp)
- ("C-e" . sp-backward-up-sexp)
- ("C-d" . sp-down-sexp)
+ ;;("C-e" . sp-backward-up-sexp)
+ ;;("C-d" . sp-down-sexp)
  ("s-u" . sp-unwrap-sexp)
- ("s-o" . sp-wrap-round)
- ("s-l" . sp-forward-slurp-sexp)
-
+ ("M-o" . sp-wrap-round)
+ ("M-l" . sp-forward-slurp-sexp)
+ ("M-c" . sp-copy-sexp)
+ ("M-u" . sp-raise-sexp)
+ ("M-k" . sp-kill-sexp)
+ ("M-i" . sp-indent-defun)
+ 
  ;; Hydras
  ("s-g"   . hydra-git/body)
  ("s-w"   . hydra-buffer/body)
@@ -509,17 +522,21 @@
  ("C-c i"   . counsel-semantic)
  ([remap isearch-forward] . swiper)
  ("s-s"     . counsel-ag)
-   :map counsel-find-file-map
+ 
+ :map counsel-find-file-map
  ("C-l"     . counsel-up-directory)
  ("C-j"     . ivy-alt-done)
-   :map ivy-minibuffer-map
+
+ :map ivy-minibuffer-map
  ("C-j"     . ivy-call)
  ("C-w"     . ivy-yank-word)
  ("C-o"     . ivy-dispatching-done) ; Select actions
  ("<escape>" . minibuffer-keyboard-quit)
-   :map isearch-mode-map
+
+ :map isearch-mode-map
  ("C-o"     . swiper-isearch-string)
-   :map counsel-describe-map
+
+ :map counsel-describe-map
  ("C-q"     . describe-function-from-ivy)
 
  :map dired-mode-map
@@ -530,13 +547,13 @@
  ("g"     . dired-subtree-toggle)
  ("q"     . kill-this-buffer)
 
- :map eshell-mode-map
- ([remap eshell-pcomplete] . completion-at-point)
- ("C-r" . counsel-esh-history)
- ("<up>" . previous-line)
- ("<down>" . next-line)
- ("<left>" . left-char)
- ("<right>" . right-char))
+ :map emacs-lisp-mode-map
+ ("M-e" . eval-defun)
+ 
+ :map scheme-mode-map
+ ("M-e" . geiser-eval-definition)
+ ("M-." . next-buffer) 
+ )
 
 
 (add-to-list 'load-path "~/.emacs.d/lisp/mugur")
@@ -558,11 +575,11 @@
  :rgblight-enable t
  :layers
   '(("base" vertical
-     ((C-f1)       (vol-down) (vol-up) (vuiet-play-pause) (vuiet-next) (---) (reset) 
+     ((C-f1)       (vol-down) (vol-up) ( ) ( ) (---) (reset) 
       (---)         (C-x k)     (w)          (e)              (r)       (t)   (---) 
       (---)           (a)      (G s)        (M d)            (C f)      (g) 
       (osm S)         (z)       (x)          (c)              (v)       (b)   (---)
-      (---)          (---)     (---)        (---)            (tab)
+      (C)          (---)     (---)        (---)            (tab)
                                                                         (tab) (---)
                                                                               (---)     
                                                              (bspace) (space) (---) 
@@ -588,8 +605,8 @@
    
     ("movement"
      (( )  ( )         ( )         ( )        ( )     ( )   ( )     ( ) ( ) ( ) ( ) ( ) ( ) ( )
-      ( )  ( )     (C-u C-space)   (up)   (S-insert) (M-<)  ( )     ( ) ( ) ( ) ( ) ( ) ( ) ( )
-      ( ) (C-a)       (left)      (down)    (right)  (C-e)              ( ) ( ) ( ) ( ) ( ) ( )
+      ( )  ( )     (C-u C-space)   (up)   (S-insert) (M-<)  ( )     ( ) ( ) ( ) (sp-backward-up-sexp) ( ) ( ) ( )
+      ( ) (C-a)       (left)      (down)    (right)  (C-e)              ( ) (sp-backward-sexp) ( ) (sp-forward-sexp) ( ) ( )
       ( ) (undo)       ( )         (  )       ( )    (M->)  ( )     ( ) ( ) ( ) ( ) ( ) ( ) ( )
       ( )  ( )         ( )         (  )       ( )                           ( ) ( ) ( ) ( ) ( )
                                                         ( ) ( )     ( ) ( )
@@ -599,7 +616,7 @@
     ("symbols"
      (( ) ( )   ("[")  ("]")   ({)   (})  ( )     ( ) ( ) ( ) ( ) ( ) ( ) ( )
       ( ) (~)    ( )   ("'") ("\"") ("`") ( )     ( ) ( ) ( ) ( ) ( ) ( ) ( )
-      ( ) (";")  (:)    (-)  ("(")  (")")             ( ) ( ) ( ) ( ) ( ) ( )
+      ( ) (";")  (:)    (-)  ("(")  (")")             ( ) ("'(1 2 3)") ( ) ( ) ( ) ( )
       ( ) ("/") ("\\")  (=)   (+)    (_)  ( )     ( ) ( ) ( ) ( ) ( ) ( ) ( )
       ( ) ( )    (|)    (<)   (>)                     ( ) ( ) ( ) ( ) ( )
                                      ( ) ( )     ( ) ( )
@@ -633,3 +650,23 @@
 (defun signed-of-by-me ()
   (interactive)
   (insert "Signed-off-by: Mihai.Olteanu <Mihai.Olteanu@analog.com>"))
+
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(counsel-ag-base-command "ag --nocolor --nogroup %s --ignore-dir build")
+ '(package-selected-packages
+   (quote
+    (load-relative doom-modeline lastfm counsel-web somafm org-web-tools esqlite mpv yaml-mode wrap-region which-key wgrep utop use-package smex smartscan smartparens smart-mode-line sly-repl-ansi-color racer package-lint-flymake org2web org-bullets openwith o-blog nov markdown-preview-mode magit macrostep ivy-youtube ivy-dired-history inf-ruby html-to-markdown haskell-mode git-timemachine git-gutter-fringe git-gutter-fringe+ geiser flycheck-rust flycheck-package eshell-fringe-status eshell-fixed-prompt elpy elixir-yasnippets ediprolog disaster dired-subtree dired-ranger diminish crux counsel-gtags counsel-dash company-quickhelp company-c-headers color-theme-sanityinc-tomorrow cmake-font-lock circe caml camcorder beacon auto-complete-c-headers alchemist ace-flyspell)))
+ '(safe-local-variable-values (quote ((mangle-whitespace . t)))))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(dired-directory ((t (:foreground "deepskyblue" :weight bold))))
+ '(dired-header ((t (:foreground "blanchedalmond" :weight bold :height 165))))
+ '(dired-marked ((t (:foreground "orange red" :weight extra-bold))))
+ '(org-link ((t (:foreground "#6699cc" :underline nil)))))
