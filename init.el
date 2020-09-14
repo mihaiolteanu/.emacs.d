@@ -95,8 +95,8 @@
   (interactive)
   (revert-buffer t t))
 
-(use-package cl
-  :ensure t)
+(use-package cl :ensure t)
+(use-package anaphora :ensure t)
 
 ;;; Use-Packages for extra functionality.
 (use-package color-theme-sanityinc-tomorrow
