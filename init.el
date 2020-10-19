@@ -456,6 +456,8 @@
   ("e" git-gutter+-previous-hunk "previous hunk")
   ("d" git-gutter+-next-hunk "next hunk")
   ("s" git-gutter+-stage-hunks "stage")
+  ("r" git-gutter+-revert-hunk "revert")
+  ("R" vc-revert-buffer "revert buffer")
   ("a" vc-diff "diff")
   ("c" git-gutter+-commit "commit" :exit t)
   ("p" magit-push-current "push")
