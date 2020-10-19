@@ -98,6 +98,10 @@
 (use-package cl :ensure t)
 (use-package anaphora :ensure t)
 
+;; Common Lisp
+(use-package sly :ensure t)
+(use-package common-lisp-snippets :ensure t)
+
 ;;; Use-Packages for extra functionality.
 (use-package color-theme-sanityinc-tomorrow
   :config
