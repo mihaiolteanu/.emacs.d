@@ -558,6 +558,9 @@
 
  :map emacs-lisp-mode-map
  ("M-e" . eval-defun)
+
+ :map sly-mode-map
+ ("M-e" . sly-eval-defun)
  )
 
 (with-eval-after-load 'scheme
