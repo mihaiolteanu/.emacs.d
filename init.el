@@ -558,12 +558,14 @@
 
  :map emacs-lisp-mode-map
  ("M-e" . eval-defun)
- 
- :map scheme-mode-map
- ("M-e" . geiser-eval-definition)
- ("M-." . next-buffer) 
  )
 
+(with-eval-after-load 'scheme
+  (bind-keys
+   :map scheme-mode-map
+   ("M-e" . geiser-eval-definition)
+   ("C-." . next-buffer) 
+   ("C-," . previous-buffer)))
 
 (add-to-list 'load-path "~/.emacs.d/lisp/mugur")
 (require 'mugur)
