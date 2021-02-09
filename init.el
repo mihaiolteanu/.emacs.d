@@ -84,11 +84,7 @@
                          (push '("lambda" . "λλ") lisp-prettify-symbols-alist)                         
                          (push '("defun" . "ƒƒ") lisp-prettify-symbols-alist)
                          (push '("defmacro" . "mm") lisp-prettify-symbols-alist)
-                         (push '("mapcar" . "»»") lisp-prettify-symbols-alist)
-                         (push '("car"    . "11") lisp-prettify-symbols-alist)
-                         (push '("cadr"   . "22") lisp-prettify-symbols-alist)
-                         (push '("caddr"  . "33") lisp-prettify-symbols-alist)
-                         (push '("cadddr" . "44") lisp-prettify-symbols-alist))))
+                         (push '("mapcar" . "»»") lisp-prettify-symbols-alist))))
       '(lisp-mode-hook emacs-lisp-mode-hook scheme-mode-hook))
 
 (defun revert-buffer-no-confirm ()
@@ -139,7 +135,8 @@
 (use-package avy
   :ensure t
   :config
-  (setq avy-timeout-seconds 0.2))
+  (setq avy-timeout-seconds 0.2)
+  (setq avy-all-windows nil))
 
 (use-package ivy
   :diminish ivy-mode
@@ -246,20 +243,6 @@
       (local-set-key (kbd "M-.")     'counsel-gtags-dwim)
       (local-set-key (kbd "M-,")     'counsel-gtags-go-backward)
       (local-set-key (kbd "C-M-.")   'counsel-gtags-find-reference-at-point))))
-
-;; (use-package python
-;;   :config
-;;   (use-package company-anaconda)
-;;   (use-package anaconda-mode
-;;     :defer t
-;;     :after (company-anaconda)
-;;     :init
-;;     (add-to-list 'company-backends 'company-anaconda)
-;;     (add-hook 'python-mode-hook 'anaconda-mode))
-;;   (use-package elpy
-;;     :config
-;;     (add-hook 'elpy-mode-hook
-;;               (lambda () (highlight-indentation-mode -1)))))
 
 (use-package crux
   :config
@@ -512,12 +495,16 @@
  ;;("" . sp-up-sexp)
  ;;("C-e" . sp-backward-up-sexp)
  ;;("C-d" . sp-down-sexp)
- ("s-u" . sp-unwrap-sexp)
+ ("s-u" . sp-raise-sexp)
  ("M-o" . sp-wrap-round)
  ("M-l" . sp-forward-slurp-sexp)
+ ("s-l" . sp-forward-barf-sexp)
  ("M-c" . sp-copy-sexp)
- ("M-u" . sp-raise-sexp)
- ("M-k" . sp-kill-sexp)
+ ("M-u" . sp-unwrap-sexp)
+ ;; Kill sexp and remove the whole line if there is nothing on it anymore.
+ ("M-d" . sp-kill-sexp)
+ 
+ ("C-<backspace>" . sp-kill-word)
  ("M-i" . sp-indent-defun)
  
  ;; Hydras
