@@ -648,6 +648,113 @@
     (browse-url
      (format yocto-page var))))
 
+(add-to-list 'load-path "~/.emacs.d/lisp/mugur")
+(require 'mugur)
+
+(setf mugur-qmk-path          "/home/mihai/projects/qmk_firmware"
+      mugur-keyboard-name     "ergodox_ez"
+      mugur-layout-name       "LAYOUT_ergodox"
+      mugur-keymap-name       "mugur_test"
+      )
+
+(mugur-mugur
+ '(("base" 
+    C-f1    vol-down  vol-up   -x-   -x-  -x- reset
+    -x-     (C-x k)     w      e     r    t   git-pass 
+    -x-        a      (G s)  (M d) (C f)  g 
+    (OSM S)      z        x      c     v    b   forti-pass
+    (DANCE a ent)       -x-      -x-    -x-    -x-
+    
+    tab   split-window-below
+    -x-
+    bspace space  -x-
+    ;;############################################
+    -x- -x-  -x-     -x-      lead  -x-    -x-
+    -x-  y    u   (LT NUM i)   o   -x-    -x-
+    h  (C j)   (M k)    (G l)  p     -x-
+    -x-  n    m     comma     dot   q   (OSM S)
+    -x-      up     down  left  right
+    
+    -x-               -x-
+    (C-x b)     
+    (LT media escape) (LT movement ent) (LT symbols pscreen))
+
+   ("num"
+    --- --- --- --- --- --- ---
+    --- ---  1   2   3  --- --- 
+    ---  0   4   5   6  --- 
+    ---  0   7   8   9  --- --- 
+    --- --- --- --- --- 
+    --- --- 
+    ---     
+    --- --- ---
+
+    --- --- --- --- --- --- ---
+    --- --- --- --- --- --- ---
+    --- --- --- --- --- ---
+    --- --- --- --- --- --- ---
+    --- --- --- --- ---
+    --- ---
+    ---
+    --- --- ---)  
+
+   ("movement"
+    ---  ---       ---      ---     ---    --- --- 
+    ---  ---  (C-u C-space)  up   S-insert M-< --- 
+    ---  C-a      left      down   right   C-e 
+    ---  undo      ---      ---     ---    M-> ---
+    ---  ---       ---      ---     --- 
+    ---  --- 
+    ---
+    delete C-tab ---
+    ;;############################################
+    --- ---      ---                ---                 ---       --- ---
+    --- ---      ---          sp-backward-up-sexp       ---       --- ---
+    --- sp-backward-sexp            ---           sp-forward-sexp --- ---
+    --- ---      ---                ---                 ---       --- ---
+    --- ---      ---                ---                 ---
+    --- ---
+    ---
+    --- --- ---)
+
+   ("symbols"
+    ---  ---  ?\[  ?\]  ?\{  ?\}  ---
+    ---  ?\~  ---  ?\'  ?\"  ?\`  ---
+    ---  ?\;  ?\:  ?\-  ?\(  ?\) 
+    ---  ?\/  ?\\  ?\=  ?\+  ?\_  ---
+    ---  ---  ?\|  ?\<  ?\> 
+    ---  ---
+    ---
+    ?\! ?\? ---
+    
+    --- --- --- --- --- --- ---
+    --- --- --- --- --- --- ---
+    --- --- --- --- --- ---
+    --- --- --- --- --- --- ---
+    --- --- --- --- ---
+    --- ---
+    ---
+    --- --- ---)
+
+   ("media"
+    ---       ---        ---     ---        ---     --- --- 
+    rgb_sad  rgb_sai     ---    ms_up    ms_wh_up   --- ---
+    rgb_vad  rgb_vai  ms_left  ms_down   ms_right   --- 
+    rgb_hud  rgb_hui     ---     ---    ms_wh_down  --- ---
+    rgb_tog    ---       ---     ---        --- 
+    --- ---
+    --- 
+    ms_btn2  ms_btn1  ms_btn3
+    
+    --- --- --- --- --- --- ---
+    --- --- --- --- --- --- ---
+    --- --- --- --- --- ---
+    --- --- --- --- --- --- ---
+    --- --- --- --- ---
+    --- ---
+    ---
+    --- --- ---)))
+
 (defun signed-of-by-me ()
   (interactive)
   (insert "Signed-off-by: Mihai.Olteanu <Mihai.Olteanu@analog.com>"))
