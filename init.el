@@ -91,7 +91,6 @@
   (interactive)
   (revert-buffer t t))
 
-(use-package cl :ensure t)
 (use-package anaphora :ensure t)
 
 ;; Common Lisp
@@ -557,85 +556,6 @@
    ("M-e" . geiser-eval-definition)
    ("C-." . next-buffer) 
    ("C-," . previous-buffer)))
-
-(add-to-list 'load-path "~/.emacs.d/lisp/mugur")
-(require 'mugur)
-(setf mugur-qmk-path "/home/mihai/projects/qmk_firmware")
-(mugur-load-keybindings)
-
-;; ("template"
-;;     (( ) ( ) ( ) ( ) ( ) ( ) ( )     ( ) ( ) ( ) (C-x 0) ( ) ( ) ( )
-;;      ( ) ( ) ( ) ( ) ( ) ( ) ( )     ( ) ( ) ( )   ( )   ( ) ( ) ( )
-;;      ( ) ( ) ( ) ( ) ( ) ( )             ( ) ( )   ( )   ( ) ( ) ( )
-;;      ( ) ( ) ( ) ( ) ( ) ( ) ( )     ( ) ( ) ( )   ( )   ( ) ( ) ( )
-;;      ( ) ( ) ( ) ( ) ( )                     ( )   ( )   ( ) ( ) ( )
-;;                          ( ) ( )     ( ) ( )
-;;                              ( )     ( )
-;;                      ( ) ( ) ( )     ( ) ( ) ( )))
-
-(mugur-keymap
- :rgblight-enable t
- :layers
-  '(("base" vertical
-     ((C-f1)       (vol-down) (vol-up) ( ) ( ) (---) (reset) 
-      (---)         (C-x k)     (w)          (e)              (r)       (t)   (---) 
-      (---)           (a)      (G s)        (M d)            (C f)      (g) 
-      (osm S)         (z)       (x)          (c)              (v)       (b)   (---)
-      (C)          (---)     (---)        (---)            (tab)
-                                                                        (tab) (---)
-                                                                              (---)     
-                                                             (bspace) (space) (---) 
-                                                             
-      (---) (---)   (---)          (---)    (---)  (---)   (---)
-      (---)  (y)     (u)        (lt num i)   (o)   (---)   (---)
-             (h)    (C j)          (M k)    (G l)   (p)    (---)
-      (---)  (n)     (m)          (comma)   (dot)   (q)   (osm S)
-                    (---)          (up)     (down) (left) (right)
-                                                    (---)  (---)
-                                                         (C-x b)
-      (lt media escape) (lt movement enter) (lt symbols pscreen)))
-  
-    ("num"
-     (( ) ( ) ( ) ( ) ( ) ( ) ( )     ( ) ( ) ( ) ( ) ( ) ( ) ( )
-      ( ) ( ) (1) (2) (3) ( ) ( )     ( ) ( ) ( ) ( ) ( ) ( ) ( )
-      ( ) (0) (4) (5) (6) ( )             ( ) ( ) ( ) ( ) ( ) ( )
-      ( ) (0) (7) (8) (9) ( ) ( )     ( ) ( ) ( ) ( ) ( ) ( ) ( )
-      ( ) ( ) ( ) ( ) ( )                     ( ) ( ) ( ) ( ) ( )
-                          ( ) ( )     ( ) ( )
-                              ( )     ( )
-                      ( ) ( ) ( )     ( ) ( ) ( )))
-   
-    ("movement"
-     (( )  ( )         ( )         ( )        ( )     ( )   ( )     ( ) ( ) ( ) ( ) ( ) ( ) ( )
-      ( )  ( )     (C-u C-space)   (up)   (S-insert) (M-<)  ( )     ( ) ( ) ( ) (sp-backward-up-sexp) ( ) ( ) ( )
-      ( ) (C-a)       (left)      (down)    (right)  (C-e)              ( ) (sp-backward-sexp) ( ) (sp-forward-sexp) ( ) ( )
-      ( ) (undo)       ( )         (  )       ( )    (M->)  ( )     ( ) ( ) ( ) ( ) ( ) ( ) ( )
-      ( )  ( )         ( )         (  )       ( )                           ( ) ( ) ( ) ( ) ( )
-                                                        ( ) ( )     ( ) ( )
-                                                            ( )     ( )
-                                           (delete) (C-tab) ( )     ( ) ( ) ( )))
-
-    ("symbols"
-     (( ) ( )   ("[")  ("]")   ({)   (})  ( )     ( ) ( ) ( ) ( ) ( ) ( ) ( )
-      ( ) (~)    ( )   ("'") ("\"") ("`") ( )     ( ) ( ) ( ) ( ) ( ) ( ) ( )
-      ( ) (";")  (:)    (-)  ("(")  (")")             ( ) ("'(1 2 3)") ( ) ( ) ( ) ( )
-      ( ) ("/") ("\\")  (=)   (+)    (_)  ( )     ( ) ( ) ( ) ( ) ( ) ( ) ( )
-      ( ) ( )    (|)    (<)   (>)                     ( ) ( ) ( ) ( ) ( )
-                                     ( ) ( )     ( ) ( )
-                                         ( )     ( )
-                               (!) ("?") ( )     ( ) ( ) ( )))
-
-    ("media"
-     (( )       ( )        ( )       ( )        ( )      ( ) ( )     ( ) ( ) ( ) ( ) ( ) ( ) ( )
-      (rgb_sad) (rgb_sai)     ( )     (ms_up)   (ms_wh_up)  ( ) ( )     ( ) ( ) ( ) ( ) ( ) ( ) ( )
-      (rgb_vad) (rgb_vai ) (ms_left) (ms_down)  (ms_right)  ( )             ( ) ( ) ( ) ( ) ( ) ( )
-      (rgb_hud) (rgb_hui)     ( )       ( )    (ms_wh_down) ( ) ( )     ( ) ( ) ( ) ( ) ( ) ( ) ( )
-      (rgb_tog)    ( )        ( )       ( )        ( )                          ( ) ( ) ( ) ( ) ( )
-                                                            ( ) ( )     ( ) ( )
-                                                                ( )     ( )
-                                      (ms_btn2) (ms_btn1) (ms_btn3)     ( ) ( ) ( )))))
-
-(mugur-load-keybindings)
 
 (defun yocto-find-var-definition ()
   (interactive)
