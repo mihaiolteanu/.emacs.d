@@ -758,7 +758,7 @@
 
 (defun signed-of-by-me ()
   (interactive)
-  (insert "Signed-off-by: Mihai.Olteanu <Mihai.Olteanu@analog.com>"))
+  (insert "Signed-off-by: Mihai Olteanu <mihai_olteanu@fastmail.fm>"))
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
