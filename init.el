@@ -444,7 +444,8 @@
   ("a" vc-diff "diff")
   ("c" git-gutter+-commit "commit" :exit t)
   ("p" magit-push-current "push")
-  ("l" magit-log-all "log-all" :exit t)
+  ;; ("l" magit-log-all "log-all" :exit t)
+  ("l" vc-print-log "log-all" :exit t)
   ("q" nil "quit")
   ("s-g" nil "quit"))
 
@@ -491,9 +492,10 @@
  
  ;; Smartparens
  ("C-w"       . google-search)
- ;;("" . sp-forward-sexp)
+ ("<C-f5>" . sp-forward-sexp)
  ;;("" . sp-up-sexp)
- ;;("C-e" . sp-backward-up-sexp)
+ ("<C-f4>" . sp-backward-sexp)
+ ("<C-f3>" . sp-backward-up-sexp)
  ;;("C-d" . sp-down-sexp)
  ("s-u" . sp-raise-sexp)
  ("M-o" . sp-wrap-round)
@@ -547,8 +549,7 @@
  ("M-e" . eval-defun)
 
  :map sly-mode-map
- ("M-e" . sly-eval-defun)
- )
+ ("M-e" . sly-eval-defun))
 
 (with-eval-after-load 'scheme
   (bind-keys
